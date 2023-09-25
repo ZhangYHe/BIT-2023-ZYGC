@@ -1,13 +1,28 @@
 # BIT-2023-ZYGC
 
-#### 介绍
+#### 1.介绍
 BIT 2023 卓越工程综合训练 小组作业
 
-#### 软件架构
+#### 2.软件架构
 软件架构说明
 
 
-#### 安装教程
+#### 3.安装教程
+
+##### 3.1 Database Config
+
+- MongoDB
+- MondoDB: Compass
+- Username: admin
+- Password: 12345678
+- Database: Scholar
+- Roles: readWrite
+- 公网uri
+  ```
+  mongodb://64.176.214.218:27017/
+  ```
+
+##### 3.2
 
 1.  xxxx
 2.  xxxx
