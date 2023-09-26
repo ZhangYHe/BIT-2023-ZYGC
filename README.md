@@ -19,14 +19,29 @@ BIT 2023 卓越工程综合训练 小组作业
 - Roles: readWrite
 - 公网uri
   ```
-  mongodb://64.176.214.218:27017/
+  mongodb://admin:202309@64.176.214.218:27017/?authMechanism=DEFAULT
   ```
 
-##### 3.2
+##### 3.2 vue config
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  Project setup
+    ```
+    cd .\code\front_end\vue-system\
+    npm install
+    ```
+
+2.  Compiles and hot-reloads for development
+    ```
+    npm run dev
+    ```
+3.  Compiles and minifies for production
+    ```
+    npm run build
+    ```
+4.  Lints and fixes files
+    ```
+    npm run lint
+    ```
 
 #### 使用说明
 
