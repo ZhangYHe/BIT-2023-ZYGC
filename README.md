@@ -43,6 +43,17 @@ BIT 2023 卓越工程综合训练 小组作业
     npm run lint
     ```
 
+##### 3.3 backend config
+
+1.  Project setup
+    ```
+    cd .\code\back_end\
+    conda create -n scrapy_env python=3.8
+    conda activate scrapy_env
+    pip install -r requirements.txt
+    ```
+
+
 #### 使用说明
 
 1.  xxxx

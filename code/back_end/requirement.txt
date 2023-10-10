@@ -1,0 +1,7 @@
+# python = 3.8
+Scrapy==2.9.0
+pymongo
+pyyaml
+pytube
+pandas
+flask==3.0.0
