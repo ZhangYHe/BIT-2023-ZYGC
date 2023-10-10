@@ -53,6 +53,10 @@ BIT 2023 卓越工程综合训练 小组作业
     pip install -r requirements.txt
     ```
 
+2.  
+    ```
+    flask run
+    ```
 
 #### 使用说明
 
