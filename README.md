@@ -55,7 +55,7 @@ BIT 2023 卓越工程综合训练 小组作业
 
 2.  
     ```
-    flask run
+    python python app.py
     ```
 
 #### 使用说明
