@@ -6,7 +6,7 @@ collection_bp = Blueprint('collection', __name__)
 user_collections_collection = db.get_collection('user_collections')
 clean_papers_collection = db.get_collection('clean_papers')
 authors_collection = db.get_collection('authors')
-
+users_collection = db.get_collection('users')
 '''
 {
   "user_id": "user123",
@@ -45,3 +45,29 @@ def get_user_collections(user_id):
         'authors': authors,
         'papers': papers
     }), 200
+
+
+@collection_bp.route('/user/collect', methods=['GET'])
+def add_collection_to_user():
+    # 获取用户的记录
+    data = request.get_json()
+    username=data['username']
+    collection_id=data['collection_id']
+    user_record = users_collection.find_one({'username': username})
+
+    if user_record:
+        # 获取当前的收藏集合
+        current_collections = user_record.get('collections', [])
+
+        # 将新的 collection_id 添加到收藏集合
+        current_collections.append(collection_id)
+
+        # 更新用户记录中的 collections 列
+        users_collection.update_one(
+            {'username': username},
+            {'$set': {'collections': current_collections}}
+        )
+
+        return jsonify({'message': 'Collection added to user'}), 200
+    else:
+        return jsonify({'message': 'User not found'}), 404
