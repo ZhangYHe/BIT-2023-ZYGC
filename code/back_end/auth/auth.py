@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
 from database import db  # 导入数据库连接
-
 auth_bp = Blueprint('auth', __name__)
 users_collection = db.get_collection('users')
 
