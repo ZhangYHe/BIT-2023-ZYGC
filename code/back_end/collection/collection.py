@@ -13,7 +13,7 @@ authors_collection = db.get_collection('authors')
 users_collection = db.get_collection('users')
 
 # 路由用于获取用户收藏的作者和文献
-@collection_bp.route('/user/collections/<user_id>', methods=['GET'])
+@collection_bp.route('/collections/<user_id>', methods=['GET'])
 def get_user_collections(user_id):
     # 查询 users 集合，找到用户的收藏信息
     user_data = users_collection.find_one({'_id': ObjectId(user_id)})
