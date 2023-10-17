@@ -17,7 +17,7 @@ def register():
     if existing_user:
         return jsonify({'message': 'Username already exists'}), 400
 
-    user = {'username': username, 'password': password}
+    user = {'username': username, 'password': password, 'is_admin': false}
     users_collection.insert_one(user)
 
     return jsonify({'message': 'User registered successfully'}), 200

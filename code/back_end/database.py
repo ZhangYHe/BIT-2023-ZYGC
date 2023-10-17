@@ -8,6 +8,9 @@ class Database:
     def get_collection(self, collection_name):
         return self.db[collection_name]
 
+    def command(self, command):
+        return self.db.command(command)
+
     def close(self):
         self.client.close()
 
