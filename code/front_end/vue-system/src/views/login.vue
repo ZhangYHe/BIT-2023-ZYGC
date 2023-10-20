@@ -111,7 +111,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			//router.push('/');
 			
 			//登陆成功，跳转到主页面
-			router.push('/dashboard');
+				router.push('/dashboard');
 			// 这里可以根据后端返回的数据或逻辑来决定下一步操作
 			// 如果需要跳转到其他页面，使用router.push('/dashboard');
 			})
