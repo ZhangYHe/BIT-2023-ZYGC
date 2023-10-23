@@ -1,16 +1,8 @@
 <template>
 	<div class="login-wrap">
-		<div class="ms-headbar">
-			<!--<div class="headbar-btn-user">
-				<el-button type="primary" @click="submitForm(login)">用户登录</el-button>
-			</div>
-			
-			<div class="headbar-btn-visitor">
-				<el-button type="primary" @click="submitForm(login)">游客登录</el-button>
-			</div>-->
-		</div>
+		<div class="ms-headbar"></div>
 		<div class="ms-login">
-			<div class="ms-title">vclib后台管理系统</div>
+			<div class="ms-title">领域知识调研搜索平台</div>
 			<el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
 				<el-form-item prop="username">
 					<el-input v-model="param.username" placeholder="username">
@@ -31,24 +23,17 @@
 						</template>
 					</el-input>
 				</el-form-item>
+				
 				<div class="login-btn">
 					<el-button type="primary" @click="submitForm(login)">登录</el-button>
 				</div>
-				<div class="login-btn">
-					<el-button type="primary" @click="submitForm(login)">注册</el-button>
-				</div>
-				<!--
-				<div class="login-btn">
-					<el-button type="primary" @click="submitForm(login)">用户登录</el-button>
-				</div>
-				<div class="login-btn">
-					<el-button type="primary" @click="submitForm(login)">游客登录</el-button>
-				</div>
-				-->
-				<!--<p class="login-tips">Tips : 用户名和密码随便填。</p>-->
+				<div class="register-btn">
+        			<el-button type="primary" @click="goToRegistrationPage()">没有账号？点此注册</el-button>
+        		</div>
 			</el-form>
 		</div>
 	</div>
+	<!--<register v-if="isRegistrationPageVisible" @goToLoginPage="goToLoginPage" />-->
 </template>
 
 <script setup lang="ts">
@@ -66,6 +51,7 @@ interface LoginInfo {
 }
 
 const router = useRouter();
+const isRegistrationPageVisible = ref(false);
 const param = reactive<LoginInfo>({
 	username: '',
 	password: ''
@@ -82,9 +68,23 @@ const rules: FormRules = {
 	password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 };
 
+const url = 'http://127.0.0.1:5000';
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
 const register = ref<FormInstance>();
+
+const goToRegistrationPage = () => {
+	//
+	router.push('/register');
+	//router.push('/dashboard');
+	//ElMessage.error('注册');
+	//location.reload()
+  	//isRegistrationPageVisible.value = true;
+};
+const goToLoginPage = () => {
+  isRegistrationPageVisible.value = false;
+};
+
 const submitForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
 		
@@ -96,10 +96,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			username: param.username,
 			password: param.password,
 		};
-
 		// 发送POST请求
 		axios
-			.post('http://127.0.0.1:5000/auth/login', requestData)
+			.post(url+'/auth/login', requestData)
 			.then((response) => {
 			// 请求成功时的处理
 				console.log('POST请求成功', response.data);
@@ -108,12 +107,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
 				const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
 				permiss.handleSet(keys);
 				localStorage.setItem('ms_keys', JSON.stringify(keys));
-			//router.push('/');
-			
+				//router.push('/register');
 			//登陆成功，跳转到主页面
 				router.push('/dashboard');
-			// 这里可以根据后端返回的数据或逻辑来决定下一步操作
-			// 如果需要跳转到其他页面，使用router.push('/dashboard');
 			})
 			.catch((error) => {
 			// 请求失败时的处理
@@ -124,27 +120,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
 		else {
 			ElMessage.error('请输入用户名和密码');
 		}
-		/*
-		if (valid) {
-			ElMessage.success('登录成功');
-			localStorage.setItem('ms_username', param.username);
-			const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
-			permiss.handleSet(keys);
-			localStorage.setItem('ms_keys', JSON.stringify(keys));
-			//router.push('/');
-			
-			//登陆成功，跳转到主页面
-			router.push('/dashboard');
-		} else {
-			ElMessage.error('请输入用户名和密码');
-			return false;
-		}*/
 	});
 };
 
 const tags = useTagsStore();
 tags.clearTags();
 </script>
+
 
 <style scoped>
 .login-wrap {
@@ -179,7 +161,15 @@ tags.clearTags();
 	text-align: center;
 }
 .login-btn button {
-	width: 100%;
+	width: 80%;
+	height: 36px;
+	margin-bottom: 10px;
+}
+.register-btn {
+	text-align: center;
+}
+.register-btn button {
+	width: 80%;
 	height: 36px;
 	margin-bottom: 10px;
 }
@@ -197,27 +187,7 @@ tags.clearTags();
 	top: 50%;
 	color: #fff;
 }
-/*
-.headbar-btn-user{
-	width:60px;
-	height:36px;
-	text-align: center;
-	position: absolute;
-	right: 13%;
-	top: 10px;
-	color: #fff;
-}
 
-.headbar-btn-visitor{
-	width:60px;
-	height:36px;
-	text-align: center;
-	position: absolute;
-	right: 6%;
-	top: 10px;
-	color: #fff;
-}
-*/
 .ms-headbar{
 	width: 100%;
 	height : 40px;

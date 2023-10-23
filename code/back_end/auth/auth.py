@@ -17,7 +17,7 @@ def register():
     if existing_user:
         return jsonify({'message': 'Username already exists'}), 400
 
-    user = {'username': username, 'password': password, 'is_admin': false}
+    user = {'username': username, 'password': password, 'is_admin': False}
     users_collection.insert_one(user)
 
     return jsonify({'message': 'User registered successfully'}), 200
@@ -25,6 +25,12 @@ def register():
 # 登录路由
 @auth_bp.route('/login', methods=['POST'])
 def login():
+
+    # 下面为测试代码
+    return jsonify({'message': 'Login successful'}), 200
+    #return jsonify({'message': 'Username and password are required'}), 400
+    # 上面为测试代码
+
     data = request.get_json()
     print(data)
     username = data['username']

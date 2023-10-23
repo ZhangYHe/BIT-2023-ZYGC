@@ -12,11 +12,11 @@
 					</div>
 					<div class="user-info-list">
 						上次登录时间：
-						<span>2022-10-01</span>
+						<span>2023-10-23</span>
 					</div>
 					<div class="user-info-list">
 						上次登录地点：
-						<span>东莞</span>
+						<span>北京</span>
 					</div>
 				</el-card>
 				<el-card shadow="hover" style="height: 252px">
@@ -42,7 +42,7 @@
 							<div class="grid-content grid-con-1">
 								<el-icon class="grid-con-icon"><User /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">1234</div>
+									<div class="grid-num">12</div>
 									<div>用户访问量</div>
 								</div>
 							</div>
@@ -53,7 +53,7 @@
 							<div class="grid-content grid-con-2">
 								<el-icon class="grid-con-icon"><ChatDotRound /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">321</div>
+									<div class="grid-num">2</div>
 									<div>系统消息</div>
 								</div>
 							</div>
@@ -64,8 +64,8 @@
 							<div class="grid-content grid-con-3">
 								<el-icon class="grid-con-icon"><Goods /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">5000</div>
-									<div>商品数量</div>
+									<div class="grid-num">5</div>
+									<div>收藏论文</div>
 								</div>
 							</div>
 						</el-card>
@@ -168,29 +168,30 @@ const options2 = {
 };
 const todoList = reactive([
 	{
-		title: '今天要修复100个bug',
-		status: false
-	},
-	{
-		title: '今天要修复100个bug',
-		status: false
-	},
-	{
-		title: '今天要写100行代码加几个bug吧',
-		status: false
-	},
-	{
-		title: '今天要修复100个bug',
-		status: false
-	},
-	{
-		title: '今天要修复100个bug',
+		title: '完成需求分析文档',
 		status: true
 	},
 	{
-		title: '今天要写100行代码加几个bug吧',
+		title: '完成登录注册页面前段设计',
 		status: true
+	},
+	{
+		title: '实现登录注册功能后端实现',
+		status: true
+	},
+	{
+		title: '初步实现搜索页面界面设计',
+		status: true
+	},
+	{
+		title: '完成搜索引擎后端逻辑设计',
+		status: true
+	},
+	{
+		title: '今天要修复100个bug',
+		status: false
 	}
+	
 ]);
 </script>
 

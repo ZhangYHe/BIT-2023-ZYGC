@@ -23,6 +23,7 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
             },
+            
             {
                 path: '/generate',
                 name: 'generate',
@@ -113,6 +114,7 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "icon" */ '../views/icon.vue'),
             },
+            
             {
                 path: '/user',
                 name: 'user',
@@ -168,6 +170,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import(/* webpackChunkName: "login" */ '../views/login.vue'),
     },
     {
+        path: '/register', // 添加注册页面的路由
+        name: 'register',
+        meta: {
+            title: '注册',
+        },
+        component: () => import(/* webpackChunkName: "register" */ '../views/register.vue'),
+    },
+
+    {
         path: '/403',
         name: '403',
         meta: {
@@ -182,6 +193,7 @@ const router = createRouter({
     routes,
 });
 
+
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | vue-manage-system`;
     const role = localStorage.getItem('ms_username');
@@ -191,7 +203,11 @@ router.beforeEach((to, from, next) => {
     } else if (to.meta.permiss && !permiss.key.includes(to.meta.permiss)) {
         // 如果没有权限，则进入403
         next('/403');
-    } else {
+    } 
+    // else if(!role){
+    //     next('/register');
+    // }
+    else{
         next();
     }
 });
