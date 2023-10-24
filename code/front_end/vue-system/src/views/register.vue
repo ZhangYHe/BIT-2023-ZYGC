@@ -127,8 +127,8 @@
           confirmPassword: registerParam.confirmPassword
         };
         //test
-        router.push('/login');
-        ElMessage.success('注册成功，请登录');
+        //router.push('/login');
+        //ElMessage.success('注册成功，请登录');
         //
         axios
           .post(url + '/auth/register', requestData)
@@ -139,9 +139,10 @@
           })
           .catch((error) => {
             console.error('POST请求失败', error);
-            ElMessage.error('注册失败，请检查用户名或邮箱是否已存在');
+            ElMessage.error('注册失败，用户名已存在');
           });
-      } else {
+      }
+      else {
         ElMessage.error('请检查表单输入');
       }
     });

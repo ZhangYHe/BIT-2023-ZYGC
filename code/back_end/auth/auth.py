@@ -27,7 +27,7 @@ def register():
 def login():
 
     # 下面为测试代码
-    return jsonify({'message': 'Login successful'}), 200
+    #return jsonify({'message': 'Login successful'}), 200
     #return jsonify({'message': 'Username and password are required'}), 400
     # 上面为测试代码
 
