@@ -74,6 +74,12 @@ const items = [
         title: '语音分割',
         permiss: '1',
     },
+    {
+        icon: 'Odometer',
+        index: '/SearchEngine',
+        title: '搜索',
+        permiss: '1',
+    },
     /*{
         icon: 'Calendar',
         index: '1',
