@@ -104,7 +104,7 @@ def set_crawl_parameters(username):
     else:
         return jsonify({'message': 'Unauthorized'}), 401
 
-# 管理员管理数据
+# 管理员管理用户
 @admin_bp.route('/user-management/<username>', methods=['POST'])
 def admin_user_management(username):
     admin_token = request.headers.get('Authorization')

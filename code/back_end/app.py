@@ -12,13 +12,6 @@ app.register_blueprint(search_bp, url_prefix='/search')
 app.register_blueprint(collection_bp, url_prefix='/collection')
 app.register_blueprint(information_bp, url_prefix='/information')
 app.register_blueprint(admin_bp, url_prefix='/admin')
-# # vultr服务器测试
-# client = pymongo.MongoClient("mongodb://admin:202309@64.176.214.218:27017/?authMechanism=DEFAULT")
-# db = client['Scholar']
-# users_collection = db['users']
-
-# clean_papers_tb = db['clean_papers']
-# authors_tb = db['authors']
 
 @app.route('/')
 def hello_world():  # put application's code here
