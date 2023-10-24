@@ -10,15 +10,15 @@ index_collection = db.get_collection('inverted_index_collection')
 # 路由用于执行关键词搜索
 @search_bp.route('/searchres', methods=['GET'])
 def search():
-    data = request.get_json()
-    print(data['keyword'])
-    keyword=data['keyword']
+    keyword = request.args.get('keyword')
+
     if not keyword:
         return jsonify({'message': 'Keyword is required'}), 400
-
+    # 测试用
+    return jsonify({'keyword': keyword})
     # 在数据库中执行关键词搜索操作
     # 你需要实现具体的搜索逻辑，使用 MongoDB 的查询或其他搜索引擎
-
+    '''
     # 示例：使用 MongoDB 的基本搜索
     results = clean_papers_collection.find({
         '$text': {'$search': keyword}
@@ -35,6 +35,6 @@ def search():
             matching_records.append(index_doc)
 
     return jsonify(matching_records)
-
+    '''
 # 其他搜索相关的视图函数和逻辑可以在这个模块中添加
 
