@@ -31,6 +31,9 @@
               v-model="registerParam.confirmPassword"
             >
             </el-input>
+            <el-form-item prop="confirmPassword">
+              <span v-show="registerParam.password !== registerParam.confirmPassword" class="password-mismatch">密码不匹配</span>
+            </el-form-item>
           </el-form-item>
           <div class="register-btn">
             <el-button type="primary" @click="submitForm('register')">确认注册</el-button>
@@ -221,5 +224,9 @@
 	width: 100%;
 	height : 40px;
 }
-</style>
 
+.password-mismatch {
+  color: red;
+  font-size: 12px;
+}
+</style>
