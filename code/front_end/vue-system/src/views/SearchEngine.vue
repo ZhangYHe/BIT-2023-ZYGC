@@ -42,18 +42,15 @@ methods: {
   
   .then(response => {
       // 处理响应数据
-  //     const matchingRecords = response.data.matching_records;
-  //     this.$router.push({
-  //     name: 'SearchResult',
-  //     params: { records: matchingRecords }
-  // });
       const keywords = response.data.keyword;
-      ElMessage.success(keywords);
+      const matchingRecords = response.data.keyword; //response.data.matching_records;
+      //ElMessage.success(matchingRecords);
+      this.$router.push({
+      name: 'SearchResult',
+      params: { test: matchingRecords }
     })
+  })
     .catch(error => {
-      // 处理错误
-      console.error(error);
-      ElMessage.error('Keyword is required2');
     });
 }
   }
