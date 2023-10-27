@@ -48,7 +48,7 @@ def admin_login():
 
     return jsonify({'message': 'Login successful', 'admin_token': admin_token}), 200
 
-# 管理员管理数据
+# 管理员管理数据 TODO 删除数据后更新用户收藏
 @admin_bp.route('/data-management/<username>', methods=['POST'])
 def admin_data_management(username):
 
