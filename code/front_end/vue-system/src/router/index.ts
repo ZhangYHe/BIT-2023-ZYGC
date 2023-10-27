@@ -52,6 +52,15 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "Search" */ '../views/SearchEngine.vue'),
             },
             {
+                path: '/SearchResult',
+                name: 'SearchResult',
+                meta: {
+                    title: '搜索结果',
+                    permiss: '1',
+                },
+                component: () => import(/* webpackChunkName: "Search" */ '../views/SearchResult.vue'),
+            },
+            {
                 path: '/table',
                 name: 'basetable',
                 meta: {

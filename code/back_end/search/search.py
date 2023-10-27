@@ -12,9 +12,6 @@ index_collection = db.get_collection('inverted_index_collection')
 def search():
     keyword = request.args.get('keyword')
 
-    if not keyword:
-        return jsonify({'message': 'Keyword is required'}), 400
-    # 测试用
     return jsonify({'keyword': keyword})
     # 在数据库中执行关键词搜索操作
     # 你需要实现具体的搜索逻辑，使用 MongoDB 的查询或其他搜索引擎
