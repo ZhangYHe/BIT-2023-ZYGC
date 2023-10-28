@@ -4,6 +4,7 @@ import json
 from bson import ObjectId
 from bson.json_util import dumps
 from bson.json_util import loads
+from utils.logger import logger
 
 information_bp = Blueprint('information', __name__)
 

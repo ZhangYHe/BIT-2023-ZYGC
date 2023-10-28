@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from database import db  # 导入数据库连接
 from admin.admin import generate_admin_token,validate_admin_token
+from utils.logger import logger
+
 auth_bp = Blueprint('auth', __name__)
 users_collection = db.get_collection('users')
 

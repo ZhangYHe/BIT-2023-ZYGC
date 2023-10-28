@@ -6,6 +6,7 @@ from bson.json_util import dumps
 from bson.json_util import loads
 import hashlib
 import time
+from utils.logger import logger
 
 admin_bp = Blueprint('admin', __name__)
 
