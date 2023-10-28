@@ -7,6 +7,7 @@ from admin.admin import admin_bp
 from flask import Flask
 from flask_cors import CORS
 from database import db  # 导入数据库连接
+from utils.logger import logger
 
 app = Flask(__name__)
 CORS(app)
