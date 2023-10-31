@@ -20,7 +20,7 @@ import yaml
 在 code/back_end/config/logging_config.yaml 中更改显示等级
 '''
 
-logging_config_file = './config/logging_config.yaml'
+logging_config_file = 'config/logging_config.yaml'
 
 # 设置日志
 with open(logging_config_file, 'r') as f:
