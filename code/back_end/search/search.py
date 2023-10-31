@@ -1,7 +1,7 @@
 from bson import ObjectId
 from flask import Blueprint, request, jsonify
-from back_end.database import db
-from back_end.utils.logger import logger
+from database import db
+from utils.logger import logger
 
 search_bp = Blueprint('search', __name__)
 clean_papers_collection = db.get_collection('clean_papers')
