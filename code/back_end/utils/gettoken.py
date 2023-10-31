@@ -18,14 +18,13 @@ while True:
         break  # 已经没有更多的文档了
     print(documents)
     for doc in documents:
-        print(doc['*title'])
-
         if '*title' in doc:
             text_data.append(doc['*title'])
+            print(doc['*title'])
 
         if '*abstract' in doc:
             text_data.append(doc['*abstract'])
-
+            print(doc['*abstract'])
     page_number += 1
 # 打开一个本地文本文件以写入数据
 with open('text_data.txt', 'w', encoding='utf-8') as file:
