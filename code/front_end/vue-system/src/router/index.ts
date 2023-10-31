@@ -43,6 +43,15 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "Diarization" */ '../views/Diarization.vue'),
             },
             {
+                path: '/GetUserCollections',
+                name: 'GetUserCollections',
+                meta: {
+                    title: '收藏',
+                    permiss: '1',
+                },
+                component: () => import(/* webpackChunkName: "Diarization" */ '../views/GetUserCollections.vue'),
+            },
+            {
                 path: '/SearchEngine',
                 name: 'SearchEngine',
                 meta: {
