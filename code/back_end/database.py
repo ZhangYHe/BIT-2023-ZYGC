@@ -1,9 +1,14 @@
 import pymongo
+from utils.logger import logger
 
 class Database:
     def __init__(self, db_uri):
-        self.client = pymongo.MongoClient(db_uri)
-        self.db = self.client['Scholar']
+        try:
+            self.client = pymongo.MongoClient(db_uri)
+            self.db = self.client['Scholar']
+            logger.info("Database connected !")
+        except Exception as e:
+            logger.info('Exception %s happened , Database connect error !' % e)
 
     def get_collection(self, collection_name):
         return self.db[collection_name]

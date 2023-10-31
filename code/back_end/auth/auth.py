@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from database import db  # 导入数据库连接
 from admin.admin import generate_admin_token,validate_admin_token
+from utils.logger import logger
+
 auth_bp = Blueprint('auth', __name__)
 users_collection = db.get_collection('users')
 
@@ -45,12 +47,12 @@ def login():
         return jsonify({'message': 'Invalid credentials'}), 401
 
     is_admin = user.get('is_admin', False)
-
+    user_id = str(user['_id'])
     # 管理员登录
     if is_admin:
         # generate admin token
         admin_token = generate_admin_token(username)
-        return jsonify({'message': 'Admin login successful', 'admin_token': admin_token}), 200
+        return jsonify({'message': 'Admin login successful', 'admin_token': admin_token, 'user_id': user_id}), 200
     # 用户登录
     else:
-        return jsonify({'message': 'User login successful'}), 200
+        return jsonify({'message': 'User login successful', 'user_id': user_id}), 200

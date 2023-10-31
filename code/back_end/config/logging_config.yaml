@@ -1,0 +1,29 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  simple:
+    format: "%(asctime)s %(levelname)-8s [%(threadName)s] %(name)s %(filename)s: %(lineno)d: %(message)s"
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+  file:
+    class: logging.FileHandler
+    filename: ./logs/back_end.log
+    level: DEBUG
+    formatter: simple
+    encoding: UTF-8
+    mode: w
+  info_file_handler:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: simple
+    filename: ./logs/info.log
+    maxBytes: 10485760 # 10MB 10485760
+    backupCount: 3
+    encoding: utf8
+    mode: w
+root:
+  level: DEBUG
+  handlers: [file,console,info_file_handler]

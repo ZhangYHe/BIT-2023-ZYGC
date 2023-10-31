@@ -6,6 +6,7 @@ from bson.json_util import dumps
 from bson.json_util import loads
 import hashlib
 import time
+from utils.logger import logger
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -59,9 +60,18 @@ def admin_data_management(username):
         try:
             data = request.get_json()
 
+            # TODO 未测试，可能有问题
             # 确保 JSON 数据包含一个有效的 MongoDB 操作指令
             if 'mongo_command' in data:
                 command = data['mongo_command']
+
+                if 'delete' in command:  # 如果指令是删除数据
+                    collection = command['delete']['collection']
+                    object_id = command['delete']['object_id']
+
+                    if collection and object_id:
+                        # 在 users 表的 collection 中查找相同 objectid 的记录
+                        user_collection.delete_one({'collection.item_id': object_id, 'collection.collection_type': collection})
 
                 result = db.command(command)
 
