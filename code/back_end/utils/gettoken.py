@@ -1,6 +1,24 @@
 import nltk
 from nltk.corpus import stopwords
-from back_end.database import db
+import  pymongo
+
+class Database:
+    def __init__(self, db_uri):
+        self.client = pymongo.MongoClient(db_uri)
+        self.db = self.client['Scholar']
+
+    def get_collection(self, collection_name):
+        return self.db[collection_name]
+
+    def command(self, command):
+        return self.db.command(command)
+
+    def close(self):
+        self.client.close()
+
+
+# vultr服务器测试
+db = Database("mongodb://admin:202309@64.176.214.218:27017/?authMechanism=DEFAULT")  # 使用你的 MongoDB 连接字符串
 
 # 获取集合
 index_collection = db.get_collection('clean_papers')
@@ -12,9 +30,9 @@ page_number = 0  # 起始页号
 
 while True:
     # 分页查询，跳过前面的页数，获取多个文档
-    documents = index_collection.find({}, {'*title': 1, '*abstract': 1}).skip(page_number * page_size).limit(page_size)
+    documents = index_collection.find({}, {'_id': 1}).skip(page_number * page_size).limit(page_size)
 
-    if len(list(documents)) == 0 or page_number>2:
+    if len(list(documents)) == 0 or page_number > 2:
         break  # 已经没有更多的文档了
     print(documents)
     for doc in documents:
