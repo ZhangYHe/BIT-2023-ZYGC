@@ -12,7 +12,7 @@
 					</div>
 					<div class="user-info-list">
 						上次登录时间：
-						<span>2023-10-23</span>
+						<span>2023-10-31</span>
 					</div>
 					<div class="user-info-list">
 						上次登录地点：
@@ -121,7 +121,9 @@ import Schart from 'vue-schart';
 import { reactive } from 'vue';
 import imgurl from '../assets/img/img.jpg'
 const name = localStorage.getItem('ms_username');
-const role: string = name === 'admin' ? '超级管理员' : '普通用户';
+const admin_token = localStorage.getItem('ms_admintoken');
+const already_login: boolean = name === null? false:true;
+const role: string = already_login?(admin_token!=='' ? '超级管理员' : '普通用户'):'未登录';
 
 const options = {
 	type: 'bar',

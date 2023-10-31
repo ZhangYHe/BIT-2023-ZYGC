@@ -51,7 +51,7 @@ interface LoginInfo {
 }
 
 const router = useRouter();
-const isRegistrationPageVisible = ref(false);
+//const isRegistrationPageVisible = ref(false);
 const param = reactive<LoginInfo>({
 	username: '',
 	password: ''
@@ -71,7 +71,7 @@ const rules: FormRules = {
 const url = 'http://127.0.0.1:5000';
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
-const register = ref<FormInstance>();
+//const register = ref<FormInstance>();
 
 const goToRegistrationPage = () => {
 	//
@@ -81,9 +81,9 @@ const goToRegistrationPage = () => {
 	//location.reload()
   	//isRegistrationPageVisible.value = true;
 };
-const goToLoginPage = () => {
-  isRegistrationPageVisible.value = false;
-};
+// const goToLoginPage = () => {
+//   isRegistrationPageVisible.value = false;
+// };
 
 const submitForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
@@ -103,7 +103,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			// 请求成功时的处理
 				console.log('POST请求成功', response.data);
 				ElMessage.success('登录成功');
+				//ElMessage.success(response.data.user_id);
 				localStorage.setItem('ms_username', param.username);
+				localStorage.setItem('ms_userid',response.data.user_id);
+				if(response.data.admin_token){
+					localStorage.setItem('ms_admintoken',response.data.admin_token);
+				}
+				else{
+					localStorage.setItem('ms_admintoken','');
+				}
+
 				const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
 				permiss.handleSet(keys);
 				localStorage.setItem('ms_keys', JSON.stringify(keys));

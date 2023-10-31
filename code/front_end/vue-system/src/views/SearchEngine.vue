@@ -13,8 +13,7 @@ name: 'searchEngine',
 data () {
   return {
     query: '',
-
-  }
+  };
 },
 methods: {
   change: function(){
@@ -23,31 +22,35 @@ methods: {
   submit: function(){
 
     if (this.query === '') {
-      ElMessage.error('Keyword is required1');
-  return;
-  }
+      ElMessage.error('Keyword is required');
+    return;
+    }
+    
     //location.reload() 
     const params = {
       keyword: this.query,
     };
-    //ElMessage.error(this.query);
+    ElMessage.error(this.query);
     axios.get('http://127.0.0.1:5000/search/searchres',{
       params: {
         keyword: this.query,
       },
 })
-      // : {
-      //   data: JSON.stringify({ keyword: this.query })
-      // }
   
   .then(response => {
       // 处理响应数据
-      const keywords = response.data.keyword;
-      const matchingRecords = response.data.keyword; //response.data.matching_records;
+      // const keywords = response.data.keyword;
+      // const matchingRecords = response.data.keyword; //response.data.matching_records;
       //ElMessage.success(matchingRecords);
+      const authors = response.data.authors;
+      const papers = response.data.papers;
+
+      ElMessage.success(authors);
+      ElMessage.success(papers);
+
       this.$router.push({
       name: 'SearchResult',
-      params: { test: matchingRecords }
+      params: {authors,papers}
     })
   })
     .catch(error => {

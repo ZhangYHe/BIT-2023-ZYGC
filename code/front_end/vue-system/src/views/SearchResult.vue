@@ -1,48 +1,25 @@
-<!-- <template>
-    <div>
-      <h1>Search Result</h1>
-  
-      <ul>
-        <li v-for="(record, index) in matchingRecords" :key="index">
-          <div>
-            <h3>{{ record.title }}</h3>
-            <p>{{ record.description }}</p>
-          </div>
-          <hr />
-        </li>
-      </ul>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      matchingRecords: {
-        type: Array,
-        required: true,
-      },
-    },
-  };
-  </script>
-   -->
+<template>
+  <!-- <div>
+    <ul>
+      <li v-for="author in authors" :key="author.id">{{ author.name }}</li>
+    </ul>
+    <ul>
+      <li v-for="paper in papers" :key="paper.id">{{ paper.title }}</li>
+    </ul>
+  </div> -->
+</template>
 
-   <template>
-    <div>
-      <h1>Search Result</h1>
-      <p>Keywords: {{ test }}</p>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-
-    props: {
-      test: {
-        type: String,
-        required: true,
-      },
-    },
-  };
-  
-  </script>
-  
+<script>
+export default {
+  data() {
+    return {
+      authors: [],
+      papers: []
+    };
+  },
+  mounted() {
+    this.authors = this.$route.params.authors;
+    this.papers = this.$route.params.papers;
+  }
+};
+</script>
