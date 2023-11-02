@@ -1,0 +1,100 @@
+<template>
+  <div>
+    <div class="chart-container">
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+import Chart from 'chart.js/auto';
+
+export default {
+  data() {
+    return {
+      options: {
+        type: 'line',
+        title: {
+          display: true,
+          text: '作者论文数量趋势',
+        },
+        bgColor: '#fbfbfb',
+        labels: [],
+        datasets: [],
+      },
+      authorId: null, // 使用 authorId 替代 paperId
+    };
+  },
+  mounted() {
+    this.authorId = this.$route.params.author_id; // 获取 author_id 参数
+
+    axios.get(`http://127.0.0.1:5000/visualization/author/${this.authorId}`) // 使用 author_id 发送请求
+      .then(response => {
+        const data = response.data;
+        this.drawChart(data);
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  },
+  methods: {
+    drawChart(data) {
+      const labels = ["0-1990", "1990-1995", "1995-2000", "2000-2005", "2005-2010", "2010-2015", "2015-2019", "2020-2024"];
+      const datasets = [];
+
+      // 可能需要适配后端数据格式
+      datasets.push({
+        label: data.name,
+        data: data.paper_count,
+      });
+
+      const ctx = document.getElementById('chart');
+      if (ctx.chart) {
+        ctx.chart.destroy();
+      }
+
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets,
+        },
+        options: {
+          maintainAspectRatio: false,
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: '作者发表论文数量趋势',
+            },
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: Math.max(...data.paper_count) + 1, // 设置纵轴最大值
+              ticks: {
+                stepSize: 10,
+              },
+            },
+          },
+        },
+      });
+    },
+  },
+};
+</script>
+
+<style>
+#chart {
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+.chart-container {
+  width: 90%; 
+  height: 500px;
+  margin: 0 auto;
+}
+</style>
