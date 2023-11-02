@@ -186,6 +186,24 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "import" */ '../views/import.vue'),
             },
+            {
+                path: '/visualization/author/:author_id',
+                name: 'AuthorVisualization',
+                meta: {
+                    title: 'AuthorVisualization',
+                    permiss: '1',
+                },
+                component: () => import(/* webpackChunkName: "import" */ '../views/AuthorVisualization.vue'),
+            },
+            {
+                path: '/visualization/paper/:paper_id',
+                name: 'PaperVisualization',
+                meta: {
+                    title: 'PaperVisualization',
+                    permiss: '1',
+                },
+                component: () => import(/* webpackChunkName: "import" */ '../views/PaperVisualization.vue'),
+            },
         ],
     },
     {
