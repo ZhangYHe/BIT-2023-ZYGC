@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
                 path: '/generate',
                 name: 'generate',
                 meta: {
-                    title: '合成',
+                    title: '主页',
                     permiss: '1',
                 },
                 component: () => import(/* webpackChunkName: "Generate" */ '../views/Generate.vue'),
@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
                 path: '/Diarization',
                 name: 'Diarization',
                 meta: {
-                    title: '语音分割',
+                    title: '可视化',
                     permiss: '1',
                 },
                 component: () => import(/* webpackChunkName: "Diarization" */ '../views/Diarization.vue'),
@@ -186,6 +186,24 @@ const routes: RouteRecordRaw[] = [
             //     },
             //     component: () => import(/* webpackChunkName: "import" */ '../views/import.vue'),
             // },
+            {
+                path: '/visualization/author/:author_id',
+                name: 'AuthorVisualization',
+                meta: {
+                    title: 'AuthorVisualization',
+                    permiss: '1',
+                },
+                component: () => import(/* webpackChunkName: "import" */ '../views/AuthorVisualization.vue'),
+            },
+            {
+                path: '/visualization/paper/:paper_id',
+                name: 'PaperVisualization',
+                meta: {
+                    title: 'PaperVisualization',
+                    permiss: '1',
+                },
+                component: () => import(/* webpackChunkName: "import" */ '../views/PaperVisualization.vue'),
+            },
         ],
     },
     {

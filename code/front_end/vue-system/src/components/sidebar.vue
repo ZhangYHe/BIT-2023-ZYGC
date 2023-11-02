@@ -96,7 +96,9 @@ const items = [
     },
     {
         //'Scissor' 剪刀
-        icon: 'VideoPlay',
+        // VideoPlay
+        
+        icon: 'PieChart',
         index: '/Diarization',
         title: '可视化',
         permiss: '1',
@@ -108,7 +110,7 @@ const items = [
         permiss: '1',
     },
     {
-        icon: 'PieChart',
+        icon: 'Star',
         index: '/GetUserCollections',
         title: '收藏',
         permiss: '1',

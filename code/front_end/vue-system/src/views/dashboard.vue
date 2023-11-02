@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<!-- 测试用 -->
+		<!-- 测试用 
 		<div>
     		<router-link to="/visualization/author/651288ceeb11a940d8e47974">Go to Author Visualization</router-link>
   		</div>
 		<div>
     		<router-link to="/visualization/paper/651288cfeb11a940d8e47976">Go to Paper Visualization</router-link>
   		</div>
-		<!-- 测试用 -->
+		 测试用 -->
 		<el-row :gutter="20">
 			<el-col :span="8">
 				<el-card shadow="hover" class="mgb20" style="height: 252px">
