@@ -1,63 +1,4 @@
 <template>
-  <div class="paper-details">
-    <h2>{{ paper.title }}</h2>
-    <div class="paper-info">
-      <p><strong>作者：</strong>{{ paper.authors.join(', ') }}</p>
-      <p><strong>摘要：</strong>{{ paper.abstract }}</p>
-      <p><strong>关键词：</strong>{{ paper.keywords.join(', ') }}</p>
-      <p><strong>发表日期：</strong>{{ formatDate(paper.publication_date) }}</p>
-    </div>
-  </div>
-</template>
-
-<script>
-import Loading from "../components/Loading.vue";
-import {ElMessage} from "element-plus";
-import axios from  'axios';
-export default {
-  data() {
-    return {
-      paper: {}
-    };
-  },
-  url = this.backendurl;
-  methods: {
-    fetchPaperDetails() {
-      //const paperId = this.$route.params.id; // Assuming you are using Vue Router
-      //Send a GET request to fetch paper details from the backend
-      const paperId = '651288cfeb11a940d8e47976';
-      axios.get(url+`/papers/${paperId}`)
-        .then(response => {
-          this.paper = response.data;
-        })
-        .catch(error => {
-          console.error('Error fetching paper details', error);
-        });
-    },
-    formatDate(date) {
-      // Implement date formatting logic as needed
-      return date; // Placeholder, format the date as per your requirements
-    }
-  },
-  created() {
-    this.fetchPaperDetails();
-  }
-};
-</script>
-
-<style scoped>
-.paper-details {
-  margin: 20px;
-}
-
-.paper-info {
-  margin-top: 10px;
-}
-
-/* Add more CSS styles for styling the paper details page */
-</style>
-
-<!-- <template>
   <div class="container" style="min-height: 100%;min-width: 60%; padding-bottom: 100px;">
     <el-container>
       <el-header></el-header>
@@ -300,9 +241,9 @@ export default {
 </script>
 
 <style scoped>
-.el-icon--right{}
+/* .el-icon--right{}
 .el-icon-upload{}
-.line{}
+.line{} */
 .textarea>>>.el-input__inner{
   font-size: 18px!important;
   color:#000000!important;
@@ -325,4 +266,4 @@ export default {
   display: inline-block;
 }
 
-</style> -->
+</style>
