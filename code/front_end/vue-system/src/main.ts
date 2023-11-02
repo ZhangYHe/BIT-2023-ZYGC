@@ -10,6 +10,7 @@ import './assets/css/icon.css';
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);
+app.config.globalProperties.backendurl = 'http://127.0.0.1:5000';
 
 // 注册elementplus图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
