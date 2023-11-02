@@ -1,9 +1,68 @@
 <template>
+  <div class="paper-details">
+    <h2>{{ paper.title }}</h2>
+    <div class="paper-info">
+      <p><strong>作者：</strong>{{ paper.authors.join(', ') }}</p>
+      <p><strong>摘要：</strong>{{ paper.abstract }}</p>
+      <p><strong>关键词：</strong>{{ paper.keywords.join(', ') }}</p>
+      <p><strong>发表日期：</strong>{{ formatDate(paper.publication_date) }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import Loading from "../components/Loading.vue";
+import {ElMessage} from "element-plus";
+import axios from  'axios';
+export default {
+  data() {
+    return {
+      paper: {}
+    };
+  },
+  url = this.backendurl;
+  methods: {
+    fetchPaperDetails() {
+      //const paperId = this.$route.params.id; // Assuming you are using Vue Router
+      //Send a GET request to fetch paper details from the backend
+      const paperId = '651288cfeb11a940d8e47976';
+      axios.get(url+`/papers/${paperId}`)
+        .then(response => {
+          this.paper = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching paper details', error);
+        });
+    },
+    formatDate(date) {
+      // Implement date formatting logic as needed
+      return date; // Placeholder, format the date as per your requirements
+    }
+  },
+  created() {
+    this.fetchPaperDetails();
+  }
+};
+</script>
+
+<style scoped>
+.paper-details {
+  margin: 20px;
+}
+
+.paper-info {
+  margin-top: 10px;
+}
+
+/* Add more CSS styles for styling the paper details page */
+</style>
+
+<!-- <template>
   <div class="container" style="min-height: 100%;min-width: 60%; padding-bottom: 100px;">
     <el-container>
       <el-header></el-header>
       <el-main>
-      <!-- 加载动画 -->
+      
         <div>
           <transition name="fade">
             <loading v-if="is_loading"></loading>
@@ -18,11 +77,11 @@
             class="demo-border"
             id="uploadForm"
         >
-          <!-- 文本输入框-->
+         
           <el-form-item label="请输入文本内容" prop="text">
             <el-input   class="textarea" v-model="ruleForm.text" maxlength="20" show-word-limit></el-input>
           </el-form-item>
-          <!-- 合成目标选择-->
+       
           <el-form-item label="请选择合成目标" prop="target">
             <el-select v-model="ruleForm.target" placeholder="请选择合成目标">
               <el-option label="英文" value="english"></el-option>
@@ -30,18 +89,18 @@
               <el-option label="普通话" value="mandarin"></el-option>
             </el-select>
           </el-form-item>
-          <!-- 选择英文克隆时，音频文件选择-->
+          
           <el-form-item v-if="ruleForm.target==='english' || ruleForm.target==='mandarin' " label="音频文件上传">
             <audio-select v-model="ruleForm.audio"></audio-select>
           </el-form-item>
-          <!-- 合成类型单选框-->
+   
           <el-form-item label="合成类型" prop="type">
             <el-radio-group v-model="ruleForm.type">
               <el-radio label="使用图片文件合成" name="type"></el-radio>
               <el-radio label="使用视频文件合成" name="type"></el-radio>
             </el-radio-group>
           </el-form-item>
-          <!-- 如果合成图片则为图片选择，如果使用视频文件合成则是视频选择-->
+         
 
           <el-form-item v-if="ruleForm.type === '使用视频文件合成'" label="视频文件上传">
             <video-select v-model="ruleForm.video"></video-select>
@@ -50,16 +109,14 @@
             <image-select v-model="ruleForm.video"></image-select>
           </el-form-item>
 
-          <!-- 按钮组-->
           <el-form-item>
             <el-button type="primary" :disabled="is_disabled" @click="submitForm">上传合成</el-button>
             <el-button @click="resetForm">重置</el-button>
           </el-form-item>
         </el-form>
-        <!-- 视频结果展示-->
-        <!-- 后端没处理完，隐藏视频 -->
+       
         <video  ref="video" :src="url" v-show="url!=''" style="width: 300px; height: auto;" controls></video>
-<!--        <video  ref="video" :src="url" style="width: 300px; height: auto;" controls></video>-->
+
       </el-main>
       <el-footer></el-footer>
     </el-container>
@@ -268,4 +325,4 @@ export default {
   display: inline-block;
 }
 
-</style>
+</style> -->
