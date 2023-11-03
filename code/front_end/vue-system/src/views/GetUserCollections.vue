@@ -3,11 +3,21 @@
       <h1>User Collections</h1>
       <h2>Favorite Authors:</h2>
       <ul>
-        <li v-for="author in authors" :key="author.id">{{ author['name'] }}</li>
+        <!-- <li v-for="author in authors" :key="author.id">{{ author['name'] }}</li> -->
+        <router-link :to="`/information/authors/${author['_id']}`" v-for="author in authors" :key="author.id">
+          <div>
+            {{ author['name'] }}
+          </div>
+        </router-link>
       </ul>
       <h2>Favorite Documents:</h2>
       <ul>
-        <li v-for="paper in papers" :key="paper.id">{{ paper['*title'] }}</li>
+        <!-- <li v-for="paper in papers" :key="paper.id">{{ paper['*title'] }}</li> -->
+        <router-link :to="`/information/papers/${paper['_id']}`" v-for="paper in papers" :key="paper.id">
+          <div>
+            {{ paper['*title'] }}
+          </div>
+        </router-link>
       </ul>
     </div>
   </template>
