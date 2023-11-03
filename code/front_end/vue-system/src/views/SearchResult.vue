@@ -2,8 +2,9 @@
   <div>
     <h1>Matching Records:</h1>
     <div v-for="(record, index) in matchingRecords" :key="index">
-      
-      <p>Title: {{ record['*title' ]}}</p>
+      <div>
+        <router-link :to="`/information/papers/${record['_id']}`">Title: {{ record['*title' ]}}</router-link>
+      </div>
       <p>DOI: <a :href="record['*doi' ]" target="_blank">{{ record['*doi' ] }}</a></p>
       <hr>
     </div>

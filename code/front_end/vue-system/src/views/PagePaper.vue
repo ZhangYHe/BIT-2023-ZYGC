@@ -1,13 +1,19 @@
 <template>
     <div class="paper-details">
       <h2>{{ paper['*title'] }}</h2>
-      <!-- <p>Authors: {{ formatAuthors() }}</p> -->
+      <p>Authors: 
+        <span v-for="(author, index) in paper['*authors']" :key="index">
+          <router-link :to="`/information/authors/${author.id}`">
+            {{ author['name'] }}{{ index < paper['*authors'].length - 1 ? ', ' : '' }}
+          </router-link>
+        </span>
+      </p>
+      
       <p>Abstract:</p>
       <p class="abstract">{{ paper['*abstract'] }}</p>
       <p>Publication Date: {{ paper['*date'] }} {{ paper['*year'] }}</p>
       <p>DOI: <a :href="paper['*doi']" target="_blank">{{ paper['*doi'] }}</a></p>
       <p>Venue: {{ paper['*venue'] }}</p>
-      <!-- <p>Year: {{ paper['*year'] }}</p> -->
       <p>PDF: <a :href="paper['*pdf']" target="_blank">Download PDF</a></p>
       <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
 
@@ -46,20 +52,13 @@
         const url = `http://127.0.0.1:5000/information/papers/${paperId}`;
         axios.get(url)
           .then((response) => {
-            ElMessage.success(paperId);
+            //ElMessage.success(paperId);
             this.paper = response.data;
-
           })
           .catch((error) => {
             //ElMessage.success('失败');
             console.error('Failed to fetch paper details:', error);
           });
-      },
-      formatAuthors() {
-        return this.paper['*authors'].map((author) => {
-          const authorObj = JSON.parse(author);
-          return authorObj['name'];
-        }).join(', ');
       },
     },
   };
