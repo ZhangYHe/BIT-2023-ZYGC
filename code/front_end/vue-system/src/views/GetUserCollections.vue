@@ -21,7 +21,7 @@
       };
     },
     mounted() {
-      const userId = '<user_id>'; // 替换为实际的 user_id
+      const userId = localStorage.getItem('ms_userid') // 替换为实际的 user_id
   
       // 发起 GET 请求获取收藏信息
       axios.get(`/collection/collections/${userId}`)

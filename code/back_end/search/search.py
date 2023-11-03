@@ -13,9 +13,9 @@ index_collection = db.get_collection('inverted_index_collection')
 # 路由用于执行关键词搜索
 @search_bp.route('/searchres', methods=['GET'])
 def search():
-<<<<<<< wyz
-    data = request.get_json()
-    keyword = data['keyword']
+#<<<<<<< wyz
+    keyword = request.args.get('keyword')
+    
     logger.debug("/search/searchres get [ %s ]" % keyword)
 
     # # 在数据库中执行关键词搜索操作
@@ -48,5 +48,6 @@ def search():
             authornum += 1
             index_doc['_id'] = str(index_doc['_id'])
             matching_records.append(index_doc)
+    print(matching_records)
 
     return jsonify(matching_records)
