@@ -27,6 +27,13 @@ def get_user_collections(user_id):
     # 获取用户的收藏数组
     user_collections = user_data.get('collections', [])
 
+    '''
+    # 测试代码，正式使用时需要注释
+    user_collections = ["651288cfeb11a940d8e47976", "651288d4eb11a940d8e47979", "65128886eb11a940d8e4795d", "65128888eb11a940d8e4795f"]
+    logger.debug(user_collections)
+    '''
+
+
     # 根据收藏数组中的 ObjectId 获取作者和文献信息
     authors = []
     papers = []
