@@ -71,7 +71,7 @@ def admin_data_management(username):
 
                     if collection and object_id:
                         # 在 users 表的 collection 中查找相同 objectid 的记录
-                        user_collection.delete_one({'collection.item_id': object_id, 'collection.collection_type': collection})
+                        users_collection.delete_one({'collection.item_id': object_id, 'collection.collection_type': collection})
 
                 result = db.command(command)
 

@@ -7,15 +7,12 @@ search_bp = Blueprint('search', __name__)
 clean_papers_collection = db.get_collection('clean_papers')
 authors_collection = db.get_collection('authors')
 index_collection = db.get_collection('inverted_index_collection')
-'''下面是GPT给的模板代码'''
-
 
 # 路由用于执行关键词搜索
 @search_bp.route('/searchres', methods=['GET'])
 def search():
-#<<<<<<< wyz
     keyword = request.args.get('keyword')
-    
+
     logger.debug("/search/searchres get [ %s ]" % keyword)
 
     # # 在数据库中执行关键词搜索操作

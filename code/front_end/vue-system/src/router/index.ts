@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
                 path: '/generate',
                 name: 'generate',
                 meta: {
-                    title: '合成',
+                    title: '主页',
                     permiss: '1',
                 },
                 component: () => import(/* webpackChunkName: "Generate" */ '../views/Generate.vue'),
@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
                 path: '/Diarization',
                 name: 'Diarization',
                 meta: {
-                    title: '语音分割',
+                    title: '可视化',
                     permiss: '1',
                 },
                 component: () => import(/* webpackChunkName: "Diarization" */ '../views/Diarization.vue'),
@@ -70,78 +70,14 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "Search" */ '../views/SearchResult.vue'),
             },
             {
-                path: '/table',
-                name: 'basetable',
-                meta: {
-                    title: '表格',
-                    permiss: '2',
-                },
-                component: () => import(/* webpackChunkName: "table" */ '../views/table.vue'),
-            },
-            {
-                path: '/charts',
-                name: 'basecharts',
-                meta: {
-                    title: '图表',
-                    permiss: '11',
-                },
-                component: () => import(/* webpackChunkName: "charts" */ '../views/charts.vue'),
-            },
-            {
-                path: '/form',
-                name: 'baseform',
-                meta: {
-                    title: '表单',
-                    permiss: '5',
-                },
-                component: () => import(/* webpackChunkName: "form" */ '../views/form.vue'),
-            },
-            {
-                path: '/tabs',
-                name: 'tabs',
-                meta: {
-                    title: 'tab标签',
-                    permiss: '3',
-                },
-                component: () => import(/* webpackChunkName: "tabs" */ '../views/tabs.vue'),
-            },
-            {
-                path: '/AboutUs',
-                name: 'AboutUs',
-                meta: {
-                    title: '关于我们',
-                    permiss: '14',
-                },
-                component: () => import(/* webpackChunkName: "donate" */ '../views/AboutUs.vue'),
-            },
-            {
                 path: '/permission',
                 name: 'permission',
                 meta: {
                     title: '权限管理',
-                    permiss: '13',
+                    permiss: '7',
                 },
                 component: () => import(/* webpackChunkName: "permission" */ '../views/permission.vue'),
             },
-            {
-                path: '/upload',
-                name: 'upload',
-                meta: {
-                    title: '上传插件',
-                    permiss: '6',
-                },
-                component: () => import(/* webpackChunkName: "upload" */ '../views/upload.vue'),
-            },
-            {
-                path: '/icon',
-                name: 'icon',
-                meta: {
-                    title: '自定义图标',
-                    permiss: '10',
-                },
-                component: () => import(/* webpackChunkName: "icon" */ '../views/icon.vue'),
-            },
-            
             {
                 path: '/user',
                 name: 'user',
@@ -151,40 +87,40 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "user" */ '../views/user.vue'),
             },
             {
-                path: '/editor',
-                name: 'editor',
+                path: '/visualization/author/:author_id',
+                name: 'AuthorVisualization',
                 meta: {
-                    title: '富文本编辑器',
-                    permiss: '8',
+                    title: 'AuthorVisualization',
+                    permiss: '1',
                 },
-                component: () => import(/* webpackChunkName: "editor" */ '../views/editor.vue'),
+                component: () => import(/* webpackChunkName: "import" */ '../views/AuthorVisualization.vue'),
             },
             {
-                path: '/markdown',
-                name: 'markdown',
+                path: '/visualization/paper/:paper_id',
+                name: 'PaperVisualization',
                 meta: {
-                    title: 'markdown编辑器',
-                    permiss: '9',
+                    title: 'PaperVisualization',
+                    permiss: '1',
                 },
-                component: () => import(/* webpackChunkName: "markdown" */ '../views/markdown.vue'),
+                component: () => import(/* webpackChunkName: "import" */ '../views/PaperVisualization.vue'),
             },
             {
-                path: '/export',
-                name: 'export',
+                path: '/information/authors/:author_id',
+                name: 'AuthorPage',
                 meta: {
-                    title: '导出Excel',
-                    permiss: '2',
+                    title: 'AuthorPage',
+                    permiss: '1',
                 },
-                component: () => import(/* webpackChunkName: "export" */ '../views/export.vue'),
+                component: () => import(/* webpackChunkName: "import" */ '../views/PageAuthor.vue'),
             },
             {
-                path: '/import',
-                name: 'import',
+                path: '/information/papers/:paper_id',
+                name: 'PaperPage',
                 meta: {
-                    title: '导入Excel',
-                    permiss: '2',
+                    title: 'PaperPage',
+                    permiss: '1',
                 },
-                component: () => import(/* webpackChunkName: "import" */ '../views/import.vue'),
+                component: () => import(/* webpackChunkName: "import" */ '../views/PagePaper.vue'),
             },
         ],
     },

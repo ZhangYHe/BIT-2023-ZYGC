@@ -71,6 +71,7 @@ const handleCommand = (command: string) => {
 	if (command == 'loginout') {
 		localStorage.removeItem('ms_username');
 		localStorage.removeItem('ms_userid');
+		localStorage.removeItem('ms_admintoken');
 		router.push('/login');
 	} else if (command == 'user') {
 		router.push('/user');

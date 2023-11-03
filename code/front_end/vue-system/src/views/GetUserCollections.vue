@@ -12,7 +12,10 @@
     </div>
   </template>
   
-  <script>
+<script>
+import Loading from "../components/Loading.vue";
+import {ElMessage} from "element-plus";
+import axios from  'axios';
   export default {
     data() {
       return {
@@ -21,10 +24,13 @@
       };
     },
     mounted() {
-      const userId = localStorage.getItem('ms_userid') // 替换为实际的 user_id
-  
+
+      //const userId = '<user_id>'; // 替换为实际的 user_id
+      const userId = localStorage.getItem('ms_userid');
+      const url = this.backendurl;
+
       // 发起 GET 请求获取收藏信息
-      axios.get(`/collection/collections/${userId}`)
+      axios.get(url+`/collection/collections/${userId}`)
         .then(response => {
           this.favoriteAuthors = response.data.favoriteAuthors;
           this.favoriteDocuments = response.data.favoriteDocuments;

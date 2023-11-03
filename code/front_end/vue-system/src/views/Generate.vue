@@ -1,9 +1,17 @@
 <template>
   <div class="container" style="min-height: 100%;min-width: 60%; padding-bottom: 100px;">
+    <!-- test -->
+  <div>
+    	<router-link to="/visualization/author/651288ceeb11a940d8e47974">Go to Author Page</router-link>
+  </div>
+	<div>
+    	<router-link to="/visualization/paper/651288cfeb11a940d8e47976">Go to Paper Page</router-link>
+  </div>
+  <!-- test -->
     <el-container>
       <el-header></el-header>
       <el-main>
-      <!-- 加载动画 -->
+      
         <div>
           <transition name="fade">
             <loading v-if="is_loading"></loading>
@@ -18,11 +26,11 @@
             class="demo-border"
             id="uploadForm"
         >
-          <!-- 文本输入框-->
+         
           <el-form-item label="请输入文本内容" prop="text">
             <el-input   class="textarea" v-model="ruleForm.text" maxlength="20" show-word-limit></el-input>
           </el-form-item>
-          <!-- 合成目标选择-->
+       
           <el-form-item label="请选择合成目标" prop="target">
             <el-select v-model="ruleForm.target" placeholder="请选择合成目标">
               <el-option label="英文" value="english"></el-option>
@@ -30,18 +38,18 @@
               <el-option label="普通话" value="mandarin"></el-option>
             </el-select>
           </el-form-item>
-          <!-- 选择英文克隆时，音频文件选择-->
+          
           <el-form-item v-if="ruleForm.target==='english' || ruleForm.target==='mandarin' " label="音频文件上传">
             <audio-select v-model="ruleForm.audio"></audio-select>
           </el-form-item>
-          <!-- 合成类型单选框-->
+   
           <el-form-item label="合成类型" prop="type">
             <el-radio-group v-model="ruleForm.type">
               <el-radio label="使用图片文件合成" name="type"></el-radio>
               <el-radio label="使用视频文件合成" name="type"></el-radio>
             </el-radio-group>
           </el-form-item>
-          <!-- 如果合成图片则为图片选择，如果使用视频文件合成则是视频选择-->
+         
 
           <el-form-item v-if="ruleForm.type === '使用视频文件合成'" label="视频文件上传">
             <video-select v-model="ruleForm.video"></video-select>
@@ -50,16 +58,14 @@
             <image-select v-model="ruleForm.video"></image-select>
           </el-form-item>
 
-          <!-- 按钮组-->
           <el-form-item>
             <el-button type="primary" :disabled="is_disabled" @click="submitForm">上传合成</el-button>
             <el-button @click="resetForm">重置</el-button>
           </el-form-item>
         </el-form>
-        <!-- 视频结果展示-->
-        <!-- 后端没处理完，隐藏视频 -->
+       
         <video  ref="video" :src="url" v-show="url!=''" style="width: 300px; height: auto;" controls></video>
-<!--        <video  ref="video" :src="url" style="width: 300px; height: auto;" controls></video>-->
+
       </el-main>
       <el-footer></el-footer>
     </el-container>
@@ -243,9 +249,9 @@ export default {
 </script>
 
 <style scoped>
-.el-icon--right{}
+/* .el-icon--right{}
 .el-icon-upload{}
-.line{}
+.line{} */
 .textarea>>>.el-input__inner{
   font-size: 18px!important;
   color:#000000!important;

@@ -1,5 +1,14 @@
 <template>
+  
   <div class="container" style="min-height: 100%;min-width: 60%; padding-bottom: 100px;">
+    <!-- test -->
+  <div>
+    		<router-link to="/visualization/author/651288ceeb11a940d8e47974">Go to Author Visualization</router-link>
+  		</div>
+		<div>
+    		<router-link to="/visualization/paper/651288cfeb11a940d8e47976">Go to Paper Visualization</router-link>
+  		</div>
+  <!-- test -->
     <el-container>
       <el-header></el-header>
       <el-main>
