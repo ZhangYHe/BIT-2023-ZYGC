@@ -1,3 +1,5 @@
+import logging
+
 from bson import ObjectId
 from flask import Blueprint, request, jsonify
 from database import db
@@ -13,6 +15,7 @@ index_collection = db.get_collection('inverted_index_collection')
 # 路由用于执行关键词搜索
 @search_bp.route('/searchres', methods=['GET'])
 def search():
+    # keyword = request.args.get('keyword')
     data = request.get_json()
     keyword = data['keyword']
     logger.debug("/search/searchres get [ %s ]" % keyword)
@@ -46,5 +49,4 @@ def search():
             authornum += 1
             index_doc['_id'] = str(index_doc['_id'])
             matching_records.append(index_doc)
-
     return jsonify(matching_records)
