@@ -33,6 +33,7 @@ def get_user_collections(user_id):
     logger.debug(user_collections)
     '''
 
+
     # 根据收藏数组中的 ObjectId 获取作者和文献信息
     authors = []
     papers = []
@@ -46,12 +47,17 @@ def get_user_collections(user_id):
         else:
             paper_data = clean_papers_collection.find_one({'_id': ObjectId(item_id)})
 
-            paper_data['_id'] = str(paper_data['_id'])
-            for i in range(len(paper_data['*authors'])):
-                paper_data['*authors'][i] = str(paper_data['*authors'][i])
             if paper_data:
-                papers.append(paper_data)
+                paper_data['_id'] = str(paper_data['_id'])
+                for i in range(len(paper_data['*authors'])):
+                    paper_data['*authors'][i] = str(paper_data['*authors'][i])
+                if paper_data:
+                    papers.append(paper_data)
+            else:
+                return jsonify({'message': 'User collections not found'}), 404
 
+    logger.debug("collection/collections/%s : %s" % (user_id, authors))
+    logger.debug("collection/collections/%s : %s" % (user_id, papers))
     # 返回用户的收藏信息
     return jsonify({
         'authors': authors,
