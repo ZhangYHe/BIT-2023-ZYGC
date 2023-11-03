@@ -9,7 +9,11 @@
       <p>Venue: {{ paper['*venue'] }}</p>
       <!-- <p>Year: {{ paper['*year'] }}</p> -->
       <p>PDF: <a :href="paper['*pdf']" target="_blank">Download PDF</a></p>
+      <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
+
+
     </div>
+
   </template>
   
   <script>
@@ -29,6 +33,7 @@
           '*venue': '',
           '*year': '',
           '*pdf': '',
+          '_id':'',
         },
       };
     },
@@ -41,7 +46,7 @@
         const url = `http://127.0.0.1:5000/information/papers/${paperId}`;
         axios.get(url)
           .then((response) => {
-            //ElMessage.success('登录成功');
+            ElMessage.success(paperId);
             this.paper = response.data;
 
           })
