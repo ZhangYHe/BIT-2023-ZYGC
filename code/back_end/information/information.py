@@ -38,6 +38,8 @@ def get_paper_details(paper_id):
     # 将 ObjectId 转换为字符串
     paper_data['_id'] = str(paper_data['_id'])
     for i in range(len(paper_data['*authors'])):
-        paper_data['*authors'][i] = str(paper_data['*authors'][i])
+        paper_data['*authors'][i]['id'] = str(paper_data['*authors'][i]['id'])
+
+    logger.debug("information/papers/%s : %s" % (paper_id,paper_data))
     # 返回论文的信息
     return jsonify(paper_data), 200
