@@ -47,7 +47,7 @@ const routes: RouteRecordRaw[] = [
                 name: 'GetUserCollections',
                 meta: {
                     title: '收藏',
-                    permiss: '1',
+                    permiss: '2',
                 },
                 component: () => import(/* webpackChunkName: "Diarization" */ '../views/GetUserCollections.vue'),
             },
