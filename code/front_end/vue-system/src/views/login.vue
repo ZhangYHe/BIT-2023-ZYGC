@@ -32,7 +32,13 @@
         		</div>
 			</el-form>
 		</div>
+		<!-- <div>
+			<transition name="fade">
+				<loading v-if="is_loading"></loading>
+			</transition>
+		</div> -->
 	</div>
+	
 	<!--<register v-if="isRegistrationPageVisible" @goToLoginPage="goToLoginPage" />-->
 </template>
 
@@ -44,6 +50,7 @@ import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
 import { Lock, User } from '@element-plus/icons-vue';
+import Loading from "../components/Loading.vue"
 import axios from 'axios';
 interface LoginInfo {
 	username: string;
@@ -71,7 +78,7 @@ const url = 'http://127.0.0.1:5000';
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
 //const register = ref<FormInstance>();
-
+//const is_loading = true;
 const goToRegistrationPage = () => {
 	//
 	router.push('/register');

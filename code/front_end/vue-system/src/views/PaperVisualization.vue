@@ -4,12 +4,19 @@
       <div class="chart-container">
         <canvas id="chart"></canvas>
       </div>
+      
     </div>
-  </template>
+    <div>
+      <transition name="fade">
+        <loading v-if="is_loading"></loading>
+      </transition>
+    </div>
+</template>
   
-  <script>
-  import axios from "axios";
-  import Chart from 'chart.js/auto';
+<script>
+import axios from "axios";
+import { ElMessage } from 'element-plus';
+import Chart from 'chart.js/auto';
   
   export default {
     data() {
@@ -24,19 +31,27 @@
           labels: [],
           datasets: []
         },
-        paperId: null
+        paperId: null,
+        is_loading:false,
       };
     },
     mounted() {
+      this.is_loading=true;
       this.paperId = this.$route.params.paper_id;
-  
       axios.get(`http://127.0.0.1:5000/visualization/paper/${this.paperId}`)
         .then(response => {
+          this.is_loading=false;
           const data = response.data;
           this.drawChart(data);
         })
         .catch(error => {
+          this.is_loading=false;
+          ElMessage.error('请求失败，请检查网络连接！');
           console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          // 无论请求成功还是失败，都将 is_loading 设置为 false
+          this.is_loading = false;
         });
     },
     methods: {
