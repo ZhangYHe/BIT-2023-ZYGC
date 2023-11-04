@@ -30,27 +30,23 @@ methods: {
     const params = {
       keyword: this.query,
     };
-    ElMessage.error(this.query);
+    //ElMessage.error(this.query);
     axios.get('http://127.0.0.1:5000/search/searchres',{
-      params: {
-        keyword: this.query,
-      },
+      params
 })
   
   .then(response => {
       // 处理响应数据
       // const keywords = response.data.keyword;
-      // const matchingRecords = response.data.keyword; //response.data.matching_records;
-      //ElMessage.success(matchingRecords);
-      const authors = response.data.authors;
-      const papers = response.data.papers;
-
-      ElMessage.success(authors);
-      ElMessage.success(papers);
-
+      //ElMessage.success("matchingRecords");
+      const matchingRecords = response.data;
+      // const authors = response.data.authors;
+      // const papers = response.data.papers;
+      console.log("1");
+      console.log(matchingRecords);
       this.$router.push({
       name: 'SearchResult',
-      params: {authors,papers}
+      params: {matchingRecords:JSON.stringify(matchingRecords)}
     })
   })
     .catch(error => {

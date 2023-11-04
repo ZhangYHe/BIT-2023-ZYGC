@@ -64,45 +64,45 @@ const items = [
         title: '系统首页',
         permiss: '1',
     },
-    {
-        icon: 'Calendar',
-        index: '/Generate',
-        title: '主页',
-        permiss: '1',
-        // subs:[
-        //     {
-        //         index: '/Generate',
-        //         title: '学者主页',
-        //         permiss: '2',
-        //     },
-        //     {
-        //         index: '/Generate',
-        //         title: '文献主页',
-        //         permiss: '2',
-        //         subs:[
-        //             {
-        //                 index: '/Generate',
-        //                 title: '主页1',
-        //                 permiss: '2',
-        //             },
-        //             {
-        //                 index: '/Generate',
-        //                 title: '主页2',
-        //                 permiss: '2',
-        //             },
-        //         ]
-        //     },
-        // ],
-    },
-    {
-        //'Scissor' 剪刀
-        // VideoPlay
+    // {
+    //     icon: 'Calendar',
+    //     index: '/Generate',
+    //     title: '主页',
+    //     permiss: '1',
+    //     // subs:[
+    //     //     {
+    //     //         index: '/Generate',
+    //     //         title: '学者主页',
+    //     //         permiss: '2',
+    //     //     },
+    //     //     {
+    //     //         index: '/Generate',
+    //     //         title: '文献主页',
+    //     //         permiss: '2',
+    //     //         subs:[
+    //     //             {
+    //     //                 index: '/Generate',
+    //     //                 title: '主页1',
+    //     //                 permiss: '2',
+    //     //             },
+    //     //             {
+    //     //                 index: '/Generate',
+    //     //                 title: '主页2',
+    //     //                 permiss: '2',
+    //     //             },
+    //     //         ]
+    //     //     },
+    //     // ],
+    // },
+    // {
+    //     //'Scissor' 剪刀
+    //     // VideoPlay
         
-        icon: 'PieChart',
-        index: '/Diarization',
-        title: '可视化',
-        permiss: '1',
-    },
+    //     icon: 'PieChart',
+    //     index: '/Diarization',
+    //     title: '可视化',
+    //     permiss: '1',
+    // },
     {
         icon: 'Odometer',
         index: '/SearchEngine',

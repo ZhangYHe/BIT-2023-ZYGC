@@ -3,11 +3,21 @@
       <h1>User Collections</h1>
       <h2>Favorite Authors:</h2>
       <ul>
-        <li v-for="author in favoriteAuthors" :key="author.id">{{ author.name }}</li>
+        <!-- <li v-for="author in authors" :key="author.id">{{ author['name'] }}</li> -->
+        <router-link :to="`/information/authors/${author['_id']}`" v-for="author in authors" :key="author.id">
+          <div>
+            {{ author['name'] }}
+          </div>
+        </router-link>
       </ul>
       <h2>Favorite Documents:</h2>
       <ul>
-        <li v-for="document in favoriteDocuments" :key="document.id">{{ document.title }}</li>
+        <!-- <li v-for="paper in papers" :key="paper.id">{{ paper['*title'] }}</li> -->
+        <router-link :to="`/information/papers/${paper['_id']}`" v-for="paper in papers" :key="paper.id">
+          <div>
+            {{ paper['*title'] }}
+          </div>
+        </router-link>
       </ul>
     </div>
   </template>
@@ -19,21 +29,25 @@ import axios from  'axios';
   export default {
     data() {
       return {
-        favoriteAuthors: [],
-        favoriteDocuments: [],
+        authors: [],
+        papers: [],
       };
     },
     mounted() {
+
       //const userId = '<user_id>'; // 替换为实际的 user_id
       const userId = localStorage.getItem('ms_userid');
       const url = this.backendurl;
+
       // 发起 GET 请求获取收藏信息
       axios.get(url+`/collection/collections/${userId}`)
         .then(response => {
-          this.favoriteAuthors = response.data.favoriteAuthors;
-          this.favoriteDocuments = response.data.favoriteDocuments;
-          console.log(this.favoriteAuthors);
-          console.log(this.favoriteDocuments);
+          const collectiondata = response.data;
+          console.log(collectiondata);
+          this.authors = response.data.authors;
+          this.papers = response.data.papers;
+          console.log(this.authors);
+          console.log(this.papers);
         })
         .catch(error => {
           console.log(error);

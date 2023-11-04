@@ -20,17 +20,25 @@ declare module '@vue/runtime-core' {
 <<<<<<< HEAD
 =======
     ElIconMicrophone: typeof import('@element-plus/icons-vue')['Microphone']
+    ElIconPicture: typeof import('@element-plus/icons-vue')['Picture']
     ElIconVideoCamera: typeof import('@element-plus/icons-vue')['VideoCamera']
+    ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
 >>>>>>> b676df63faf1579dc0038e3b54b8190728656481
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
+    ElOption: typeof import('element-plus/es')['ElOption']
     ElProgress: typeof import('element-plus/es')['ElProgress']
     ElRow: typeof import('element-plus/es')['ElRow']
+<<<<<<< HEAD
 <<<<<<< HEAD
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
 =======
 >>>>>>> b676df63faf1579dc0038e3b54b8190728656481
+=======
+    ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+>>>>>>> b7d40829d6958c6833058c43ff72e9c514e3d1ae
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']

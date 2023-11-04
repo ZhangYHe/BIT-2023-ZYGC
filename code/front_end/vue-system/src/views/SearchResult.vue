@@ -1,25 +1,29 @@
 <template>
-  <!-- <div>
-    <ul>
-      <li v-for="author in authors" :key="author.id">{{ author.name }}</li>
-    </ul>
-    <ul>
-      <li v-for="paper in papers" :key="paper.id">{{ paper.title }}</li>
-    </ul>
-  </div> -->
+  <div>
+    <h1>Matching Records:</h1>
+    <div v-for="(record, index) in matchingRecords" :key="index">
+      <div>
+        <router-link :to="`/information/papers/${record['_id']}`">Title: {{ record['*title' ]}}</router-link>
+      </div>
+      <p>DOI: <a :href="record['*doi' ]" target="_blank">{{ record['*doi' ] }}</a></p>
+      <hr>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      authors: [],
-      papers: []
+      matchingRecords:[],
     };
   },
-  mounted() {
-    this.authors = this.$route.params.authors;
-    this.papers = this.$route.params.papers;
+  created() {
+    console.log("2");
+    //console.log(JSON.parse(this.$route.params.matchingRecords));
+    const matching_Records = JSON.parse(this.$route.params.matchingRecords);
+    this.matchingRecords = matching_Records;
+    console.log(this.matchingRecords);
   }
 };
 </script>
