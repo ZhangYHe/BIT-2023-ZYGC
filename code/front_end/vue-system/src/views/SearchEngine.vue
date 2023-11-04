@@ -1,18 +1,25 @@
 <template>
   <div id="searchEngine">
-  <input type="text" id="text" v-model="query" v-on:input="change">
-  <span id="img_upload"></span>
-  <button v-on:click="submit" id="button">search</button>
+    <input type="text" id="text" v-model="query" v-on:input="change">
+    <span id="img_upload"></span>
+    <button v-on:click="submit" id="button">search</button>
+    <div>
+      <transition name="fade">
+        <loading v-if="is_loading"></loading>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Loading from "../components/Loading.vue"
 export default {
 name: 'searchEngine',
 data () {
   return {
     query: '',
+    is_loading: false,
   };
 },
 methods: {
@@ -20,7 +27,8 @@ methods: {
     this.$emit('childChange',this.query)
   },
   submit: function(){
-
+    //提交时出现加载动画
+    this.is_loading = true;
     if (this.query === '') {
       ElMessage.error('Keyword is required');
     return;
@@ -44,12 +52,18 @@ methods: {
       // const papers = response.data.papers;
       console.log("1");
       console.log(matchingRecords);
+      //后端处理完成，将is_loading改为false
+      this.is_loading = false;
       this.$router.push({
       name: 'SearchResult',
       params: {matchingRecords:JSON.stringify(matchingRecords)}
     })
   })
     .catch(error => {
+    })
+    .finally(() => {
+      // 无论请求成功还是失败，都将 is_loading 设置为 false
+      this.is_loading = false;
     });
 }
   }
