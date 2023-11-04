@@ -2,11 +2,11 @@
   <div class="author-details">
     <h2>{{ author.name }}</h2>
     <p v-if="author.affiliation">Affiliation: {{ author.affiliation }}</p>
-    <p>First Name: {{ author.first_name }}</p>
-    <p>Last Name: {{ author.last_name }}</p>
+    <p v-if="author.first_name">First Name: {{ author.first_name }}</p>
+    <p v-if="author.last_name">Last Name: {{ author.last_name }}</p>
     <p v-if="author.dblp_key">DBLP Key: {{ author.dblp_key }}</p>
     <p v-if="author.orcid">ORCID: {{ author.orcid }}</p>
-    <h3 v-if="author.publication_periods">
+    <h3 v-if="author.publication_periods[0]">
       paper list:
     </h3>  
       <p v-for="(publication,index) in author.publication_periods" :key="index">
@@ -17,13 +17,19 @@
         </p>
       </p>
     
-    <button>
+    <button v-if="author.name">
       <router-link :to="`/visualization/author/${author['_id']}`">Go to author Visualization</router-link>
     </button>
 
+    
     <!-- 可根据返回的 JSON 数据中的其他字段添加更多信息 -->
 
   </div>
+  <div>
+      <transition name="fade">
+        <loading v-if="is_loading"></loading>
+      </transition>
+    </div>
 </template>
 
 <script>
@@ -43,6 +49,7 @@ export default {
         orcid: '',
         publication_periods:[],
       },
+      is_loading:false,
     };
   },
   mounted() {
@@ -52,15 +59,23 @@ export default {
     getAuthorDetails() {
       const authorId = this.$route.params.author_id;
       const url = `http://127.0.0.1:5000/information/authors/${authorId}`;
+      this.is_loading=true;
       axios
         .get(url)
         .then((response) => {
+          this.is_loading=false;
           // ElMessage.success(authorId);
           this.author = response.data;
         })
         .catch((error) => {
+          this.is_loading=false;
           // ElMessage.success('失败');
+          ElMessage.error('请求失败，请检查网络连接！');
           console.error('Failed to fetch author details:', error);
+        })
+        .finally(() => {
+          // 无论请求成功还是失败，都将 is_loading 设置为 false
+          this.is_loading = false;
         });
       
     },

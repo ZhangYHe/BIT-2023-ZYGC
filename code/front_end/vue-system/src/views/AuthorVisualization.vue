@@ -4,10 +4,16 @@
       <canvas id="chart"></canvas>
     </div>
   </div>
+  <div>
+      <transition name="fade">
+        <loading v-if="is_loading"></loading>
+      </transition>
+    </div>
 </template>
 
 <script>
 import axios from "axios";
+import { ElMessage } from 'element-plus';
 import Chart from 'chart.js/auto';
 
 export default {
@@ -24,19 +30,27 @@ export default {
         datasets: [],
       },
       authorId: null, // 使用 authorId 替代 paperId
+      is_loading: false,
     };
   },
   mounted() {
     this.authorId = this.$route.params.author_id; // 获取 author_id 参数
-
+    this.is_loading=true;
     axios.get(`http://127.0.0.1:5000/visualization/author/${this.authorId}`) // 使用 author_id 发送请求
       .then(response => {
+        this.is_loading=false;
         const data = response.data;
         this.drawChart(data);
       })
       .catch(error => {
+        this.is_loading=false;
+        ElMessage.error('请求失败，请检查网络连接！');
         console.error("Error fetching data:", error);
-      });
+      })
+      .finally(() => {
+        // 无论请求成功还是失败，都将 is_loading 设置为 false
+        this.is_loading = false;
+      });;
   },
   methods: {
     drawChart(data) {

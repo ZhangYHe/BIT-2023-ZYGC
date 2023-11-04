@@ -18,9 +18,12 @@
       <button>
         <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
       </button>
-
     </div>
-
+    <div>
+      <transition name="fade">
+        <loading v-if="is_loading"></loading>
+      </transition>
+    </div>
   </template>
   
   <script>
@@ -42,6 +45,7 @@
           '*pdf': '',
           '_id':'',
         },
+        is_loading:false,
       };
     },
     mounted() {
@@ -51,15 +55,26 @@
       getPaperDetails() {
         const paperId = this.$route.params.paper_id;
         const url = `http://127.0.0.1:5000/information/papers/${paperId}`;
+        this.is_loading = true;
         axios.get(url)
           .then((response) => {
             //ElMessage.success(paperId);
+            this.is_loading = false;
             this.paper = response.data;
+            
           })
           .catch((error) => {
             //ElMessage.success('失败');
+            this.is_loading = false;
+            ElMessage.error('请求失败，请检查网络连接！');
             console.error('Failed to fetch paper details:', error);
+          })
+          .finally(() => {
+            // 无论请求成功还是失败，都将 is_loading 设置为 false
+            this.is_loading = false;
           });
+          
+
       },
     },
   };
