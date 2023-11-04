@@ -104,7 +104,8 @@ const items = [
     //     permiss: '1',
     // },
     {
-        icon: 'Odometer',
+        //icon: 'Odometer',
+        icon: 'search',
         index: '/SearchEngine',
         title: '搜索',
         permiss: '1',

@@ -67,7 +67,7 @@ methods: {
   background-color: #FFF;
 }
 #text{
-  width: 40%;
+  width: 80%;
   height: 41px;
   
   border-style:solid;
@@ -83,7 +83,7 @@ background:url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/
 #button{
   float: right;
   height:45px;
-  width:10%;
+  width:20%;
   background-color:#39F;
   border-width: 1px;
   border-style: solid;
