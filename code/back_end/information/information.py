@@ -10,6 +10,7 @@ information_bp = Blueprint('information', __name__)
 
 clean_papers_collection = db.get_collection('clean_papers')
 authors_collection = db.get_collection('authors')
+visualize_collection = db.get_collection('visualize')
 
 # 展示学者主页
 @information_bp.route('/authors/<author_id>', methods=['GET'])
@@ -23,6 +24,16 @@ def get_author_details(author_id):
     # 将 ObjectId 转换为字符串
     author_data['_id'] = str(author_data['_id'])
 
+    visualize_data = visualize_collection.find_one({'author_id': ObjectId(author_id)})
+
+    if visualize_data:
+        for period in visualize_data.get('publication_periods', []):
+            if 'paper_ids' in period:
+                period['paper_ids'] = [str(paper_id) for paper_id in period['paper_ids']]
+
+        author_data['publication_periods'] = visualize_data['publication_periods']
+
+    logger.debug("information/authors/%s : %s" % (author_id,author_data))
     # 返回学者的信息
     return jsonify(author_data), 200
 
