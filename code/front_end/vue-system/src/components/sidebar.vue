@@ -114,7 +114,7 @@ const items = [
         icon: 'Star',
         index: '/GetUserCollections',
         title: '收藏',
-        permiss: '1',
+        permiss: '2',
     },
     // {
     //     icon: 'Calendar',
