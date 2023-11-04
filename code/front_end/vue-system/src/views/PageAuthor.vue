@@ -10,17 +10,16 @@
       paper list:
     </h3>  
       <p v-for="(publication,index) in author.publication_periods" :key="index">
-        <p v-for="paperid in publication.paper_ids">
-          <router-link :to="`/information/papers/${paperid}`">
-            id: {{ paperid }}
+        <p v-for="paper in publication.paper_info">
+          <router-link :to="`/information/papers/${paper.paper_id}`">
+             {{ paper.paper_title }}
           </router-link>
         </p>
-
       </p>
     
-    
-    <router-link :to="`/visualization/author/${author['_id']}`">Go to author Visualization</router-link>
-
+    <button>
+      <router-link :to="`/visualization/author/${author['_id']}`">Go to author Visualization</router-link>
+    </button>
 
     <!-- 可根据返回的 JSON 数据中的其他字段添加更多信息 -->
 
@@ -81,19 +80,16 @@ export default {
 
 h2 {
   font-size: 24px;
+  margin: 10px 10px;
 }
 
 h3 {
   font-size: 18px;
-}
-
-h4{
-  font-size: 16px;
-  margin: 10px 0;
+  margin: 10px 20px;
 }
 
 p {
-  margin: 10px 0;
+  margin: 10px 20px;
 }
 </style>
 

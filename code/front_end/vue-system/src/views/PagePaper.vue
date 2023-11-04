@@ -15,8 +15,9 @@
       <p>DOI: <a :href="paper['*doi']" target="_blank">{{ paper['*doi'] }}</a></p>
       <p>Venue: {{ paper['*venue'] }}</p>
       <p>PDF: <a :href="paper['*pdf']" target="_blank">Download PDF</a></p>
-      <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
-
+      <button>
+        <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
+      </button>
 
     </div>
 
