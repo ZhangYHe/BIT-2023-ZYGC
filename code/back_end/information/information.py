@@ -29,7 +29,19 @@ def get_author_details(author_id):
     if visualize_data:
         for period in visualize_data.get('publication_periods', []):
             if 'paper_ids' in period:
+                paper_ids = period.get('paper_ids', [])
                 period['paper_ids'] = [str(paper_id) for paper_id in period['paper_ids']]
+                paper_titles = []
+
+                for paper_id in paper_ids:
+                    paper_info = clean_papers_collection.find_one({'_id': ObjectId(paper_id)})
+                    if paper_info and '*title' in paper_info:
+                        paper_titles.append(paper_info['*title'])
+
+                #logger.debug(period['paper_ids'])
+                paper_info_list = [{'paper_id': paper_id, 'paper_title': title} for paper_id, title in
+                                   zip(period['paper_ids'], paper_titles)]
+                period['paper_info'] = paper_info_list
 
         author_data['publication_periods'] = visualize_data['publication_periods']
 
