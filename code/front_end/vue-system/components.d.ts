@@ -17,15 +17,22 @@ declare module '@vue/runtime-core' {
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElIcon: typeof import('element-plus/es')['ElIcon']
+<<<<<<< HEAD
+=======
+    ElIconMicrophone: typeof import('@element-plus/icons-vue')['Microphone']
+    ElIconVideoCamera: typeof import('@element-plus/icons-vue')['VideoCamera']
+    ElMain: typeof import('element-plus/es')['ElMain']
+>>>>>>> b676df63faf1579dc0038e3b54b8190728656481
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElProgress: typeof import('element-plus/es')['ElProgress']
     ElRow: typeof import('element-plus/es')['ElRow']
+<<<<<<< HEAD
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+=======
+>>>>>>> b676df63faf1579dc0038e3b54b8190728656481
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
-    ElTabPane: typeof import('element-plus/es')['ElTabPane']
-    ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     Header: typeof import('./src/components/header.vue')['default']
     ImageSelect: typeof import('./src/components/ImageSelect.vue')['default']

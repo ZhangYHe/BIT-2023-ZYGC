@@ -1,5 +1,13 @@
 <template>
 	<div>
+		<!-- 测试用 
+		<div>
+    		<router-link to="/visualization/author/651288ceeb11a940d8e47974">Go to Author Visualization</router-link>
+  		</div>
+		<div>
+    		<router-link to="/visualization/paper/651288cfeb11a940d8e47976">Go to Paper Visualization</router-link>
+  		</div>
+		 测试用 -->
 		<el-row :gutter="20">
 			<el-col :span="8">
 				<el-card shadow="hover" class="mgb20" style="height: 252px">
@@ -12,7 +20,7 @@
 					</div>
 					<div class="user-info-list">
 						上次登录时间：
-						<span>2023-10-23</span>
+						<span>2023-10-31</span>
 					</div>
 					<div class="user-info-list">
 						上次登录地点：
@@ -121,7 +129,9 @@ import Schart from 'vue-schart';
 import { reactive } from 'vue';
 import imgurl from '../assets/img/img.jpg'
 const name = localStorage.getItem('ms_username');
-const role: string = name === 'admin' ? '超级管理员' : '普通用户';
+const admin_token = localStorage.getItem('ms_admintoken');
+const already_login: boolean = name === null? false:true;
+const role: string = already_login?(admin_token!=='' ? '超级管理员' : '普通用户'):'未登录';
 
 const options = {
 	type: 'bar',
