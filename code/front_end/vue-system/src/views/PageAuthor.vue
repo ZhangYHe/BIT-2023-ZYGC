@@ -6,6 +6,7 @@
     <p v-if="author.last_name">Last Name: {{ author.last_name }}</p>
     <p v-if="author.dblp_key">DBLP Key: {{ author.dblp_key }}</p>
     <p v-if="author.orcid">ORCID: {{ author.orcid }}</p>
+    <p><button @click="sendRequest">收藏</button></p>
     <h3 v-if="author.publication_periods[0]">
       paper list:
     </h3>  
@@ -79,6 +80,20 @@ export default {
         });
       
     },
+    sendRequest() {
+      const userId = localStorage.getItem('ms_userid');
+      const collection_id = authorId;
+      const username = userid;
+      axios.get(`http://127.0.0.1:5000/user/collect/${username}/${collection_id}`)
+        .then(response => {
+          // 请求成功处理逻辑
+          console.log(response.data);
+        })
+        .catch(error => {
+          // 请求失败处理逻辑
+          console.error(error);
+        });
+      }
   },
 };
 </script>
