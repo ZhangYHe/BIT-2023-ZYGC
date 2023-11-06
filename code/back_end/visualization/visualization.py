@@ -4,16 +4,18 @@ from flask import Blueprint, request, jsonify
 from database import db
 from bson import ObjectId
 from utils.logger import logger
+import json
 
 visualization_bp = Blueprint('visualization', __name__)
 paper_collection = db.get_collection('clean_papers')
 user_collection = db.get_collection('users')
 visualize_collection = db.get_collection('visualize')
 authors_collection = db.get_collection('authors')
+search_collection = db.get_collection('inverted_index_collection')
+
 
 @visualization_bp.route('/paper/<paper_id>', methods=['GET'])
 def visualize_paper_stats(paper_id):
-
     if paper_id is None:
         return jsonify({'message': 'Missing paper_id parameter'}), 400
 
@@ -40,7 +42,7 @@ def visualize_paper_stats(paper_id):
             })
         else:
             author_info.append({
-                'paper_count': [0,0,0,0,0,0,0,0],
+                'paper_count': [0, 0, 0, 0, 0, 0, 0, 0],
                 'author_id': str(author_id),
                 'name': 'Unknown'
             })
@@ -53,7 +55,7 @@ def visualize_paper_stats(paper_id):
             'name': 'Unknown'  # 或设置为其他默认值
         })
 
-    logger.debug("/paper/%s : %s" % (paper_id,author_info))
+    logger.debug("/paper/%s : %s" % (paper_id, author_info))
     return jsonify(author_info), 200
 
     # '''
@@ -72,9 +74,9 @@ def visualize_paper_stats(paper_id):
     # visualize_data(data, labels, 'Paper Statistics')
     # '''
 
+
 @visualization_bp.route('/author/<author_id>', methods=['GET'])
 def visualize_author_stats(author_id):
-
     if author_id is None:
         return jsonify({'message': 'Missing author_id parameter'}), 400
 
@@ -97,8 +99,9 @@ def visualize_author_stats(author_id):
             'name': 'Unknown'
         }
 
-    logger.debug("/author/%s : %s" % (author_id,author_info))
+    logger.debug("/author/%s : %s" % (author_id, author_info))
     return jsonify(author_info), 200
+
 
     # '''
     # # 发送图片

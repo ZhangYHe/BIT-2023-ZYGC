@@ -105,6 +105,15 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "import" */ '../views/PaperVisualization.vue'),
             },
             {
+                path: '/search/search_visualization',
+                name: 'SearchResultVisualization',
+                meta: {
+                    title: 'SearchResultVisualization',
+                    permiss: '1',
+                },
+                component: () => import(/* webpackChunkName: "import" */ '../views/SearchResultVisualization.vue'),
+            },
+            {
                 path: '/information/authors/:author_id',
                 name: 'AuthorPage',
                 meta: {
