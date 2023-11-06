@@ -61,9 +61,11 @@ def get_user_collections(user_id):
 @collection_bp.route('/user/collect', methods=['GET'])
 def add_collection_to_user():
     # 获取用户的记录
-    data = request.get_json()
-    username=data['username']
-    collection_id=data['collection_id']
+    username = request.args.get('username')
+    collection_id = request.args.get('collection_id')
+    # data = request.get_json()
+    # username=data['username']
+    # collection_id=data['collection_id']
     user_record = users_collection.find_one({'username': username})
 
     if user_record:

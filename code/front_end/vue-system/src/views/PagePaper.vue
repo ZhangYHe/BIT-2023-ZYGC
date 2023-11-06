@@ -18,12 +18,14 @@
       <button>
         <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
       </button>
+      <p><button @click="sendRequest">收藏</button></p>
     </div>
     <div>
       <transition name="fade">
         <loading v-if="is_loading"></loading>
       </transition>
     </div>
+
   </template>
   
   <script>
@@ -76,6 +78,21 @@
           
 
       },
+      sendRequest() {
+
+        const userId = localStorage.getItem('ms_userid');
+        const collection_id = paperId;
+        const username = userid;
+        axios.get(`http://127.0.0.1:5000/user/collect/${username}/${collection_id}`)
+          .then(response => {
+            // 请求成功处理逻辑
+            console.log(response.data);
+          })
+          .catch(error => {
+            // 请求失败处理逻辑
+            console.error(error);
+          });
+      }
     },
   };
   </script>
