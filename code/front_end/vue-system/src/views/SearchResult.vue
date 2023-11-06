@@ -9,6 +9,11 @@
       <hr>
     </div>
   </div>
+  <div>
+    <button>
+      <router-link :to="`/search/search_visualization`"> Go to Search Result Visualization</router-link>
+    </button>
+  </div>
 </template>
 
 <script>

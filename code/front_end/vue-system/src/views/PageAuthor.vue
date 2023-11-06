@@ -1,16 +1,25 @@
 <template>
   <div class="author-details">
-    <div>
-      {{   }}
-    </div>
     <h2>{{ author.name }}</h2>
     <p v-if="author.affiliation">Affiliation: {{ author.affiliation }}</p>
     <p>First Name: {{ author.first_name }}</p>
     <p>Last Name: {{ author.last_name }}</p>
     <p v-if="author.dblp_key">DBLP Key: {{ author.dblp_key }}</p>
     <p v-if="author.orcid">ORCID: {{ author.orcid }}</p>
-    <router-link :to="`/visualization/author/${author['_id']}`">Go to author Visualization</router-link>
-
+    <h3 v-if="author.publication_periods">
+      paper list:
+    </h3>  
+      <p v-for="(publication,index) in author.publication_periods" :key="index">
+        <p v-for="paper in publication.paper_info">
+          <router-link :to="`/information/papers/${paper.paper_id}`">
+             {{ paper.paper_title }}
+          </router-link>
+        </p>
+      </p>
+    
+    <button>
+      <router-link :to="`/visualization/author/${author['_id']}`">Go to author Visualization</router-link>
+    </button>
 
     <!-- 可根据返回的 JSON 数据中的其他字段添加更多信息 -->
 
@@ -32,6 +41,7 @@ export default {
         last_name: '',
         dblp_key: '',
         orcid: '',
+        publication_periods:[],
       },
     };
   },
@@ -52,6 +62,7 @@ export default {
           // ElMessage.success('失败');
           console.error('Failed to fetch author details:', error);
         });
+      
     },
   },
 };
@@ -69,10 +80,16 @@ export default {
 
 h2 {
   font-size: 24px;
+  margin: 10px 10px;
+}
+
+h3 {
+  font-size: 18px;
+  margin: 10px 20px;
 }
 
 p {
-  margin: 10px 0;
+  margin: 10px 20px;
 }
 </style>
 

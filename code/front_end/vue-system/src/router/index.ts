@@ -47,7 +47,7 @@ const routes: RouteRecordRaw[] = [
                 name: 'GetUserCollections',
                 meta: {
                     title: '收藏',
-                    permiss: '1',
+                    permiss: '2',
                 },
                 component: () => import(/* webpackChunkName: "Diarization" */ '../views/GetUserCollections.vue'),
             },
@@ -103,6 +103,15 @@ const routes: RouteRecordRaw[] = [
                     permiss: '1',
                 },
                 component: () => import(/* webpackChunkName: "import" */ '../views/PaperVisualization.vue'),
+            },
+            {
+                path: '/search/search_visualization',
+                name: 'SearchResultVisualization',
+                meta: {
+                    title: 'SearchResultVisualization',
+                    permiss: '1',
+                },
+                component: () => import(/* webpackChunkName: "import" */ '../views/SearchResultVisualization.vue'),
             },
             {
                 path: '/information/authors/:author_id',

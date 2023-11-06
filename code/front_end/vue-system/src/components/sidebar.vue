@@ -104,7 +104,8 @@ const items = [
     //     permiss: '1',
     // },
     {
-        icon: 'Odometer',
+        //icon: 'Odometer',
+        icon: 'search',
         index: '/SearchEngine',
         title: '搜索',
         permiss: '1',
@@ -113,7 +114,7 @@ const items = [
         icon: 'Star',
         index: '/GetUserCollections',
         title: '收藏',
-        permiss: '1',
+        permiss: '2',
     },
     // {
     //     icon: 'Calendar',
