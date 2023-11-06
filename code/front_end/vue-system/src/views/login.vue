@@ -118,7 +118,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 				else{
 					localStorage.setItem('ms_admintoken','');
 				}
-
+				
 				const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
 				permiss.handleSet(keys);
 				localStorage.setItem('ms_keys', JSON.stringify(keys));

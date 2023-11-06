@@ -51,19 +51,18 @@
       };
     },
     mounted() {
+      this.is_loading = true;
       this.getPaperDetails();
     },
     methods: {
       getPaperDetails() {
         const paperId = this.$route.params.paper_id;
         const url = `http://127.0.0.1:5000/information/papers/${paperId}`;
-        this.is_loading = true;
         axios.get(url)
           .then((response) => {
             //ElMessage.success(paperId);
             this.is_loading = false;
             this.paper = response.data;
-            
           })
           .catch((error) => {
             //ElMessage.success('失败');
@@ -75,11 +74,8 @@
             // 无论请求成功还是失败，都将 is_loading 设置为 false
             this.is_loading = false;
           });
-          
-
       },
       sendRequest() {
-
         const userId = localStorage.getItem('ms_userid');
         const collection_id = paperId;
         const username = userid;

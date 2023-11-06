@@ -69,10 +69,15 @@ onMounted(() => {
 const router = useRouter();
 const handleCommand = (command: string) => {
 	if (command == 'loginout') {
+		localStorage.removeItem('ms_keys');
 		localStorage.removeItem('ms_username');
 		localStorage.removeItem('ms_userid');
 		localStorage.removeItem('ms_admintoken');
-		router.push('/login');
+		if(login_button=='登录')
+			router.push('/login');
+		else{
+			location.reload();
+		}
 	} else if (command == 'user') {
 		router.push('/user');
 	}
