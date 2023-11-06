@@ -1,18 +1,25 @@
 <template>
   <div id="searchEngine">
-  <input type="text" id="text" v-model="query" v-on:input="change">
-  <span id="img_upload"></span>
-  <button v-on:click="submit" id="button">search</button>
+    <input type="text" id="text" v-model="query" v-on:input="change">
+    <span id="img_upload"></span>
+    <button v-on:click="submit" id="button">search</button>
+    <div>
+      <transition name="fade">
+        <loading v-if="is_loading"></loading>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Loading from "../components/Loading.vue"
 export default {
 name: 'searchEngine',
 data () {
   return {
     query: '',
+    is_loading: false,
   };
 },
 methods: {
@@ -20,37 +27,44 @@ methods: {
     this.$emit('childChange',this.query)
   },
   submit: function(){
-
+    
+    
     if (this.query === '') {
-      ElMessage.error('Keyword is required');
+      ElMessage.error('请输入关键词！');
     return;
     }
-    
+    //提交时出现加载动画
+    this.is_loading = true;
     //location.reload() 
     const params = {
       keyword: this.query,
     };
     //ElMessage.error(this.query);
-    axios.get('http://127.0.0.1:5000/search/searchres',{
-      params
-})
-  
-  .then(response => {
-      // 处理响应数据
-      // const keywords = response.data.keyword;
-      //ElMessage.success("matchingRecords");
-      const matchingRecords = response.data;
-      // const authors = response.data.authors;
-      // const papers = response.data.papers;
-      console.log("1");
-      console.log(matchingRecords);
-      this.$router.push({
-      name: 'SearchResult',
-      params: {matchingRecords:JSON.stringify(matchingRecords)}
+    axios.get('http://127.0.0.1:5000/search/searchres',{params})
+    .then(response => {
+        // 处理响应数据
+        // const keywords = response.data.keyword;
+        //ElMessage.success("matchingRecords");
+        const matchingRecords = response.data;
+        // const authors = response.data.authors;
+        // const papers = response.data.papers;
+        console.log("1");
+        console.log(matchingRecords);
+        //后端处理完成，将is_loading改为false
+        this.is_loading = false;
+        this.$router.push({
+        name: 'SearchResult',
+        params: {matchingRecords:JSON.stringify(matchingRecords)}
+      })
     })
-  })
-    .catch(error => {
-    });
+      .catch(error => {
+        ElMessage.error('搜索失败，请检查网络连接');
+        //this.is_loading = false;
+      })
+      .finally(() => {
+        // 无论请求成功还是失败，都将 is_loading 设置为 false
+        this.is_loading = false;
+      });
 }
   }
 }
