@@ -61,9 +61,8 @@ def get_user_collections(user_id):
 @collection_bp.route('/user/collect', methods=['GET'])
 def add_collection_to_user():
     # 获取用户的记录zz
-    data = request.get_json()
     userid = request.args.get('_id')
-    collection_id=data['collection_id']
+    collection_id=request.args.get('collection_id')
     user_record = users_collection.find_one({'_id': ObjectId(userid)})
 
     if user_record:
@@ -87,9 +86,8 @@ def add_collection_to_user():
 @collection_bp.route('/user/delete_collection', methods=['GET'])
 def delete_collection_from_user():
     # 获取用户的记录zz
-    data = request.get_json()
     userid = request.args.get('_id')
-    collection_id=data['collection_id']
+    collection_id=request.args.get('collection_id')
     user_record = users_collection.find_one({'_id': ObjectId(userid)})
 
     if user_record:
