@@ -87,12 +87,15 @@ def add_collection_to_user():
 @collection_bp.route('/user/delete_collection', methods=['GET'])
 def delete_collection_from_user():
     # 获取用户的记录zz
+
     userid = request.args.get('userId')
     collection_id=request.args.get('collection_id')
     user_record = users_collection.find_one({'_id': ObjectId(userid)})
     logger.debug("1")
     logger.debug(userid)
     logger.debug(collection_id)
+    
+
     if user_record:
         # 获取当前的收藏集合
         current_collections = user_record.get('collections', [])

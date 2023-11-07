@@ -31,6 +31,7 @@
   <script>
   import { ref, onMounted } from 'vue';
   import { ElMessage } from 'element-plus';
+  import Loading from "../components/Loading.vue"
   import axios from 'axios';
   
   export default {
@@ -47,11 +48,11 @@
           '*pdf': '',
           '_id':'',
         },
-        is_loading:false,
+        is_loading:true,
       };
     },
     mounted() {
-      this.is_loading = true;
+      // this.is_loading = true;
       this.getPaperDetails();
     },
     methods: {
@@ -61,12 +62,12 @@
         axios.get(url)
           .then((response) => {
             //ElMessage.success(paperId);
-            this.is_loading = false;
+            // this.is_loading = false;
             this.paper = response.data;
           })
           .catch((error) => {
             //ElMessage.success('失败');
-            this.is_loading = false;
+            // this.is_loading = false;
             ElMessage.error('请求失败，请检查网络连接！');
             console.error('Failed to fetch paper details:', error);
           })
