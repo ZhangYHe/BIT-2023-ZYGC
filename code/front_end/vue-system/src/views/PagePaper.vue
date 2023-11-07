@@ -19,13 +19,12 @@
         <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
       </button>
       <p><button @click="sendRequest">收藏</button></p>
+      <div>
+        <transition name="fade">
+          <loading v-if="is_loading"></loading>
+        </transition>
+      </div>
     </div>
-    <div>
-      <transition name="fade">
-        <loading v-if="is_loading"></loading>
-      </transition>
-    </div>
-
   </template>
   
   <script>
