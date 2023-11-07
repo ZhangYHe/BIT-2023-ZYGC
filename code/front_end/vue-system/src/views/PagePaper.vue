@@ -18,12 +18,14 @@
       <button>
         <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
       </button>
+      <p><button @click="sendRequest">收藏</button></p>
     </div>
     <div>
       <transition name="fade">
         <loading v-if="is_loading"></loading>
       </transition>
     </div>
+
   </template>
   
   <script>
@@ -49,19 +51,18 @@
       };
     },
     mounted() {
+      this.is_loading = true;
       this.getPaperDetails();
     },
     methods: {
       getPaperDetails() {
         const paperId = this.$route.params.paper_id;
         const url = `http://127.0.0.1:5000/information/papers/${paperId}`;
-        this.is_loading = true;
         axios.get(url)
           .then((response) => {
             //ElMessage.success(paperId);
             this.is_loading = false;
             this.paper = response.data;
-            
           })
           .catch((error) => {
             //ElMessage.success('失败');
@@ -73,9 +74,21 @@
             // 无论请求成功还是失败，都将 is_loading 设置为 false
             this.is_loading = false;
           });
-          
-
       },
+      sendRequest() {
+        const userId = localStorage.getItem('ms_userid');
+        const collection_id = paperId;
+        const username = userid;
+        axios.get(`http://127.0.0.1:5000/user/collect/${username}/${collection_id}`)
+          .then(response => {
+            // 请求成功处理逻辑
+            console.log(response.data);
+          })
+          .catch(error => {
+            // 请求失败处理逻辑
+            console.error(error);
+          });
+      }
     },
   };
   </script>

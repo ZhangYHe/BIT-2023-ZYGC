@@ -60,11 +60,13 @@ def get_user_collections(user_id):
 
 @collection_bp.route('/user/collect', methods=['GET'])
 def add_collection_to_user():
-    # 获取用户的记录zz
-    data = request.get_json()
-    userid = request.args.get('_id')
-    collection_id=data['collection_id']
-    user_record = users_collection.find_one({'_id': ObjectId(userid)})
+    # 获取用户的记录
+    username = request.args.get('username')
+    collection_id = request.args.get('collection_id')
+    # data = request.get_json()
+    # username=data['username']
+    # collection_id=data['collection_id']
+    user_record = users_collection.find_one({'username': username})
 
     if user_record:
         # 获取当前的收藏集合
