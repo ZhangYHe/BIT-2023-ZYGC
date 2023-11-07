@@ -4,13 +4,13 @@
       <div class="chart-container">
         <canvas id="chart"></canvas>
       </div>
-      
+      <div>
+        <transition name="fade">
+          <loading v-if="is_loading"></loading>
+        </transition>
+      </div>
     </div>
-    <div>
-      <transition name="fade">
-        <loading v-if="is_loading"></loading>
-      </transition>
-    </div>
+    
 </template>
   
 <script>
