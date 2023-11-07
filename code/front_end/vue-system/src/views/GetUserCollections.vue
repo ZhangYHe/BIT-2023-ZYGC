@@ -6,16 +6,16 @@
         <!-- <li v-for="author in authors" :key="author.id">{{ author['name'] }}</li> -->
         <router-link :to="`/information/authors/${author['_id']}`" v-for="author in authors" :key="author.id">
           <div>
-            {{ author['name'] }}
-          </div>
+            {{ author['name'] }} <button @click.prevent="sendRequest_author" v-bind:data-id="author['_id']">取消收藏</button>
+          </div>  
         </router-link>
       </ul>
-      <h2 v-if="!is_loading">Favorite Documents:</h2>
+      <h2 v-if="!is_loading">Favorite Papers:</h2>
       <ul>
         <!-- <li v-for="paper in papers" :key="paper.id">{{ paper['*title'] }}</li> -->
         <router-link :to="`/information/papers/${paper['_id']}`" v-for="paper in papers" :key="paper.id">
           <div>
-            {{ paper['*title'] }}
+            {{ paper['*title'] }}  <button @click.prevent="sendRequest_paper" v-bind:data-id="paper['_id']">取消收藏</button>
           </div>
         </router-link>
       </ul>
@@ -38,7 +38,7 @@ import axios from  'axios';
       return {
         authors: [],
         papers: [],
-        is_loading: false,
+        is_loading: false,  
       };
     },
     mounted() {
@@ -69,6 +69,48 @@ import axios from  'axios';
           this.is_loading = false;
         });
     },
+    methods:{
+      sendRequest_author(event){
+        const id = event.target.getAttribute('data-id');
+        const params = {
+          userId : localStorage.getItem('ms_userid'),
+          collection_id : id,
+        }
+        console.log(params)
+        axios.get(`http://127.0.0.1:5000/collection/user/delete_collection`,{params})
+          .then(response => {
+            // 请求成功处理逻辑
+            console.log(response.data);
+            ElMessage.success(response.data);
+            location.reload();
+          })
+          .catch(error => {
+            // 请求失败处理逻辑
+            console.error(error);
+            ElMessage.error(error);
+          });
+      },
+      sendRequest_paper(event){
+        const id = event.target.getAttribute('data-id');
+        const params = {
+          userId : localStorage.getItem('ms_userid'),
+          collection_id : id,
+        }
+        console.log(params)
+        axios.get(`http://127.0.0.1:5000/collection/user/delete_collection`,{params})
+          .then(response => {
+            // 请求成功处理逻辑
+            console.log(response.data);
+            ElMessage.success(response.data);
+            location.reload();
+          })
+          .catch(error => {
+            // 请求失败处理逻辑
+            console.error(error);
+            ElMessage.error(error);
+          });
+      }
+    }
   };
   </script>
   

@@ -57,17 +57,15 @@ def get_user_collections(user_id):
         'papers': papers
     }), 200
 
-
 @collection_bp.route('/user/collect', methods=['GET'])
 def add_collection_to_user():
-    # 获取用户的记录
-    username = request.args.get('username')
+    # 获取用户的记录zz
+    userid = request.args.get('userId')
     collection_id = request.args.get('collection_id')
-    # data = request.get_json()
-    # username=data['username']
-    # collection_id=data['collection_id']
-    user_record = users_collection.find_one({'username': username})
-
+    user_record = users_collection.find_one({'_id': ObjectId(userid)})
+    logger.debug("1")
+    logger.debug(userid)
+    logger.debug(collection_id)
     if user_record:
         # 获取当前的收藏集合
         current_collections = user_record.get('collections', [])
@@ -89,10 +87,14 @@ def add_collection_to_user():
 @collection_bp.route('/user/delete_collection', methods=['GET'])
 def delete_collection_from_user():
     # 获取用户的记录zz
-    data = request.get_json()
-    userid = request.args.get('_id')
-    collection_id=data['collection_id']
+
+    userid = request.args.get('userId')
+    collection_id=request.args.get('collection_id')
     user_record = users_collection.find_one({'_id': ObjectId(userid)})
+    logger.debug("1")
+    logger.debug(userid)
+    logger.debug(collection_id)
+    
 
     if user_record:
         # 获取当前的收藏集合

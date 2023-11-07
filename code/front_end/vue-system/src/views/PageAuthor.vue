@@ -82,10 +82,12 @@ export default {
       
     },
     sendRequest() {
-      const userId = localStorage.getItem('ms_userid');
-      const collection_id = authorId;
-      const username = userid;
-      axios.get(`http://127.0.0.1:5000/user/collect/${username}/${collection_id}`)
+      const authorId = this.$route.params.author_id;
+      const params = {
+          userId : localStorage.getItem('ms_userid'),
+          collection_id : authorId,
+        };
+        axios.get(`http://127.0.0.1:5000/collection/user/collect`,{params})
         .then(response => {
           // 请求成功处理逻辑
           console.log(response.data);
@@ -94,7 +96,7 @@ export default {
           // 请求失败处理逻辑
           console.error(error);
         });
-      }
+    }
   },
 };
 </script>

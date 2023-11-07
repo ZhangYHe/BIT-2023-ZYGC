@@ -77,10 +77,13 @@
           });
       },
       sendRequest() {
-        const userId = localStorage.getItem('ms_userid');
-        const collection_id = paperId;
-        const username = userid;
-        axios.get(`http://127.0.0.1:5000/user/collect/${username}/${collection_id}`)
+        const paperId = this.$route.params.paper_id;
+        const params = {
+          userId : localStorage.getItem('ms_userid'),
+          collection_id : paperId,
+        };
+        console.log(params);
+        axios.get(`http://127.0.0.1:5000/collection/user/collect`,{params})
           .then(response => {
             // 请求成功处理逻辑
             console.log(response.data);
