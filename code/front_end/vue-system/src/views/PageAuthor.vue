@@ -22,15 +22,13 @@
       <router-link :to="`/visualization/author/${author['_id']}`">Go to author Visualization</router-link>
     </button>
 
-    
-    <!-- 可根据返回的 JSON 数据中的其他字段添加更多信息 -->
-
-  </div>
-  <div>
+    <div>
       <transition name="fade">
         <loading v-if="is_loading"></loading>
       </transition>
     </div>
+    <!-- 可根据返回的 JSON 数据中的其他字段添加更多信息 -->
+  </div>
 </template>
 
 <script>

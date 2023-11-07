@@ -119,6 +119,21 @@ def visualize_author_stats(author_id):
     # visualize_data(data, labels, 'Author Statistics')
     # '''
 
+@visualization_bp.route('/count_records', methods=['GET'])
+def count_records():
+    user_count = user_collection.count_documents({})
+    clean_papers_count = paper_collection.count_documents({})
+    authors_count = authors_collection.count_documents({})
+
+    result = {
+        'user_count': user_count,
+        'papers_count': clean_papers_count,
+        'authors_count': authors_count
+    }
+
+    logger.debug("/count_records : %s" % result)
+    return jsonify(result), 200
+
 # '''
 # def visualize_data(data, labels, title):
 #     # 创建Seaborn的条形图
