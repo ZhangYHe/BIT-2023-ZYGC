@@ -60,11 +60,11 @@ def get_user_collections(user_id):
 
 @collection_bp.route('/user/collect', methods=['GET'])
 def add_collection_to_user():
-    # 获取用户的记录
+    # 获取用户的记录zz
     data = request.get_json()
-    username=data['username']
+    userid = request.args.get('_id')
     collection_id=data['collection_id']
-    user_record = users_collection.find_one({'username': username})
+    user_record = users_collection.find_one({'_id': ObjectId(userid)})
 
     if user_record:
         # 获取当前的收藏集合
@@ -75,10 +75,39 @@ def add_collection_to_user():
 
         # 更新用户记录中的 collections 列
         users_collection.update_one(
-            {'username': username},
+            {'_id': ObjectId(userid)},
             {'$set': {'collections': current_collections}}
         )
 
         return jsonify({'message': 'Collection added to user'}), 200
+    else:
+        return jsonify({'message': 'User not found'}), 404
+
+
+@collection_bp.route('/user/delete_collection', methods=['GET'])
+def delete_collection_from_user():
+    # 获取用户的记录zz
+    data = request.get_json()
+    userid = request.args.get('_id')
+    collection_id=data['collection_id']
+    user_record = users_collection.find_one({'_id': ObjectId(userid)})
+
+    if user_record:
+        # 获取当前的收藏集合
+        current_collections = user_record.get('collections', [])
+
+        # 删除collection_id
+        if collection_id in current_collections:
+            current_collections.remove(collection_id)
+        else :
+            return jsonify({'message': 'Collection is not exist'}), 200
+
+        # 更新用户记录中的 collections 列
+        users_collection.update_one(
+            {'_id': ObjectId(userid)},
+            {'$set': {'collections': current_collections}}
+        )
+
+        return jsonify({'message': 'Collection delete successfully'}), 200
     else:
         return jsonify({'message': 'User not found'}), 404
