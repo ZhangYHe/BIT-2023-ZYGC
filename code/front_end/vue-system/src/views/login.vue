@@ -38,7 +38,11 @@
 			</transition>
 		</div> -->
 	</div>
-	
+	<div>
+      <transition name="fade">
+        <loading v-if="is_loading"></loading>
+      </transition>
+    </div>
 	<!--<register v-if="isRegistrationPageVisible" @goToLoginPage="goToLoginPage" />-->
 </template>
 
@@ -77,6 +81,7 @@ const rules: FormRules = {
 const url = 'http://127.0.0.1:5000';
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
+const is_loading = ref(false);
 //const register = ref<FormInstance>();
 //const is_loading = true;
 const goToRegistrationPage = () => {
@@ -93,7 +98,7 @@ const goToRegistrationPage = () => {
 
 const submitForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
-		
+	is_loading.value = true;
 	formEl.validate((valid: boolean) => {
 
 		if (valid) {
@@ -128,9 +133,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			})
 			.catch((error) => {
 			// 请求失败时的处理
-			console.error('POST请求失败', error);
-			ElMessage.error('登录失败，请检查用户名和密码');
-			});
+				console.error('POST请求失败', error);
+				if(error.response && error.response.status===401)
+					ElMessage.error('登录失败，请检查用户名和密码！');
+				else{
+					ElMessage.error('登录失败，请检查网络连接！');
+				}
+			})
+			.finally(() => {
+          		is_loading.value = false; // 请求完成后设置为 false，隐藏 Loading 动画
+        	});
 		}
 		else {
 			ElMessage.error('请输入用户名和密码');
