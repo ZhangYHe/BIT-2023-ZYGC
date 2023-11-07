@@ -27,7 +27,6 @@
         <loading v-if="is_loading"></loading>
       </transition>
     </div>
-    <!-- 可根据返回的 JSON 数据中的其他字段添加更多信息 -->
   </div>
 </template>
 

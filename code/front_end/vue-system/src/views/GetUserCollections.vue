@@ -1,33 +1,31 @@
 <template>
-    <div>
-      <h1>User Collections</h1>
-      <h2 v-if="!is_loading">Favorite Authors:</h2>
-      <ul>
-        <!-- <li v-for="author in authors" :key="author.id">{{ author['name'] }}</li> -->
-        <router-link :to="`/information/authors/${author['_id']}`" v-for="author in authors" :key="author.id">
-          <div>
-            {{ author['name'] }} <button @click.prevent="sendRequest_author" v-bind:data-id="author['_id']">取消收藏</button>
-          </div>  
-        </router-link>
-      </ul>
-      <h2 v-if="!is_loading">Favorite Papers:</h2>
-      <ul>
-        <!-- <li v-for="paper in papers" :key="paper.id">{{ paper['*title'] }}</li> -->
-        <router-link :to="`/information/papers/${paper['_id']}`" v-for="paper in papers" :key="paper.id">
-          <div>
-            {{ paper['*title'] }}  <button @click.prevent="sendRequest_paper" v-bind:data-id="paper['_id']">取消收藏</button>
-          </div>
-        </router-link>
-      </ul>
-      
-    </div>
+  <div>
+    <h1>User Collections</h1>
+    <h2 v-if="!is_loading">Favorite Authors:</h2>
+    <ul>
+      <!-- <li v-for="author in authors" :key="author.id">{{ author['name'] }}</li> -->
+      <router-link :to="`/information/authors/${author['_id']}`" v-for="author in authors" :key="author.id">
+        <div>
+          {{ author['name'] }} <button @click.prevent="sendRequest_author" v-bind:data-id="author['_id']">取消收藏</button>
+        </div>  
+      </router-link>
+    </ul>
+    <h2 v-if="!is_loading">Favorite Papers:</h2>
+    <ul>
+      <!-- <li v-for="paper in papers" :key="paper.id">{{ paper['*title'] }}</li> -->
+      <router-link :to="`/information/papers/${paper['_id']}`" v-for="paper in papers" :key="paper.id">
+        <div>
+          {{ paper['*title'] }}  <button @click.prevent="sendRequest_paper" v-bind:data-id="paper['_id']">取消收藏</button>
+        </div>
+      </router-link>
+    </ul>
     <div>
       <transition name="fade">
         <loading v-if="is_loading"></loading>
       </transition>
     </div>
-
-  </template>
+  </div>
+</template>
   
 <script>
 import Loading from "../components/Loading.vue";
