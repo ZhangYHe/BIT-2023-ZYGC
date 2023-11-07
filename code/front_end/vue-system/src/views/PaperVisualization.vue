@@ -15,6 +15,7 @@
   
 <script>
 import axios from "axios";
+import Loading from "../components/Loading.vue"
 import { ElMessage } from 'element-plus';
 import Chart from 'chart.js/auto';
   
