@@ -36,6 +36,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
+import Loading from "../components/Loading.vue"
 import axios from 'axios';
 
 export default {
