@@ -10,14 +10,14 @@
 							<div>{{ role }}</div>
 						</div>
 					</div>
-					<div class="user-info-list">
-						上次登录时间：
-						<span>2023-11-6</span>
+					<div class="user-info-list" v-if="already_login">
+						登录时间：
+						<span>{{time}}</span>
 					</div>
-					<div class="user-info-list">
-						上次登录地点：
+					<!-- <div class="user-info-list" v-if="already_login">
+						登录地点：
 						<span>北京</span>
-					</div>
+					</div> -->
 				</el-card>
 				<el-card shadow="hover" style="height: 252px">
 					<template #header>
@@ -130,7 +130,7 @@ const role: string = already_login?(admin_token!=='' ? '超级管理员' : '普�
 const userCount = reactive({ value: 0 });
 const authorsCount = reactive({ value: 0 });
 const papersCount = reactive({ value: 0 });
-
+const time = localStorage.getItem('time');
 // 发送 HTTP 请求并更新数据
 onMounted(async () => {
   try {

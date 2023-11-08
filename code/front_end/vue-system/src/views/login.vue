@@ -114,7 +114,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			// 请求成功时的处理
 				console.log('POST请求成功', response.data);
 				ElMessage.success('登录成功');
-				//ElMessage.success(response.data.user_id);
+				
+				const now = new Date();
+				
+				// ElMessage.success(now.getFullYear().toString());
+				ElMessage.success(now.toLocaleDateString()+" "+now.toLocaleTimeString());
+				// ElMessage.success(now.getDate().toString());
+				localStorage.setItem('time', now.toLocaleDateString()+" "+now.toLocaleTimeString());
 				localStorage.setItem('ms_username', param.username);
 				localStorage.setItem('ms_userid',response.data.user_id);
 				if(response.data.admin_token){
