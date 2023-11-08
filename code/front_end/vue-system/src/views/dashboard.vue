@@ -1,13 +1,5 @@
 <template>
 	<div>
-		<!-- 测试用 
-		<div>
-    		<router-link to="/visualization/author/651288ceeb11a940d8e47974">Go to Author Visualization</router-link>
-  		</div>
-		<div>
-    		<router-link to="/visualization/paper/651288cfeb11a940d8e47976">Go to Paper Visualization</router-link>
-  		</div>
-		 测试用 -->
 		<el-row :gutter="20">
 			<el-col :span="8">
 				<el-card shadow="hover" class="mgb20" style="height: 252px">
@@ -50,8 +42,8 @@
 							<div class="grid-content grid-con-1">
 								<el-icon class="grid-con-icon"><User /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">12</div>
-									<div>用户访问量</div>
+									<div class="grid-num">{{ userCount.value }}</div>
+									<div>用户数量</div>
 								</div>
 							</div>
 						</el-card>
@@ -61,8 +53,8 @@
 							<div class="grid-content grid-con-2">
 								<el-icon class="grid-con-icon"><ChatDotRound /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">2</div>
-									<div>系统消息</div>
+									<div class="grid-num">{{ authorsCount.value }}</div>
+									<div>学者数量</div>
 								</div>
 							</div>
 						</el-card>
@@ -72,8 +64,8 @@
 							<div class="grid-content grid-con-3">
 								<el-icon class="grid-con-icon"><Goods /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">5</div>
-									<div>收藏论文</div>
+									<div class="grid-num">{{ papersCount.value }}</div>
+									<div>论文数量</div>
 								</div>
 							</div>
 						</el-card>
@@ -126,12 +118,32 @@
 
 <script setup lang="ts" name="dashboard">
 import Schart from 'vue-schart';
-import { reactive } from 'vue';
+//import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
+import axios from 'axios';
 import imgurl from '../assets/img/img.jpg'
 const name = localStorage.getItem('ms_username');
 const admin_token = localStorage.getItem('ms_admintoken');
 const already_login: boolean = name === null? false:true;
 const role: string = already_login?(admin_token!=='' ? '超级管理员' : '普通用户'):'未登录';
+// 定义响应式数据
+const userCount = reactive({ value: 0 });
+const authorsCount = reactive({ value: 0 });
+const papersCount = reactive({ value: 0 });
+
+// 发送 HTTP 请求并更新数据
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:5000/visualization/count_records');
+    const data = response.data;
+	console.log(data);
+    userCount.value = data.user_count;
+    authorsCount.value = data.authors_count;
+    papersCount.value = data.papers_count;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+});
 
 const options = {
 	type: 'bar',
