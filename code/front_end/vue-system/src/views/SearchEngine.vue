@@ -58,7 +58,13 @@ methods: {
       })
     })
       .catch(error => {
+        if (error.response && error.response.status === 401) {
+              // 显示收藏文献已存在的提示
+              ElMessage.error("无搜索结果！");
+            }
+        else{
         ElMessage.error('搜索失败，请检查网络连接');
+        }
         //this.is_loading = false;
       })
       .finally(() => {
