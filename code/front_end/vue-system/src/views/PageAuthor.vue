@@ -92,6 +92,10 @@ export default {
         .catch(error => {
           // 请求失败处理逻辑
           console.error(error);
+          if (error.response && error.response.status === 401) {
+              // 显示收藏文献已存在的提示
+              ElMessage.error("该作者已收藏");
+            }
         });
     }
   },
