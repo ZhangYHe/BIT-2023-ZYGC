@@ -2,20 +2,20 @@
   <div>
     <h1>User Collections</h1>
     <h2 v-if="!is_loading">Favorite Authors:</h2>
-    <ul>
-      <!-- <li v-for="author in authors" :key="author.id">{{ author['name'] }}</li> -->
+    <ul class="author-list">
       <router-link :to="`/information/authors/${author['_id']}`" v-for="author in authors" :key="author.id">
-        <div>
-          {{ author['name'] }} <button @click.prevent="sendRequest_author" v-bind:data-id="author['_id']">取消收藏</button>
+        <div class="author-item">
+          <span>{{ author['name'] }}</span>
+          <button class="cancel-button" @click.prevent="sendRequest_author" v-bind:data-id="author['_id']">取消收藏</button>
         </div>  
       </router-link>
     </ul>
     <h2 v-if="!is_loading">Favorite Papers:</h2>
-    <ul>
-      <!-- <li v-for="paper in papers" :key="paper.id">{{ paper['*title'] }}</li> -->
+    <ul class="paper-list">
       <router-link :to="`/information/papers/${paper['_id']}`" v-for="paper in papers" :key="paper.id">
-        <div>
-          {{ paper['*title'] }}  <button @click.prevent="sendRequest_paper" v-bind:data-id="paper['_id']">取消收藏</button>
+        <div class="paper-item">
+          <span>{{ paper['*title'] }}</span>
+          <button class="cancel-button" @click.prevent="sendRequest_paper" v-bind:data-id="paper['_id']">取消收藏</button>
         </div>
       </router-link>
     </ul>
@@ -26,6 +26,38 @@
     </div>
   </div>
 </template>
+
+<style>
+.author-list,
+.paper-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.author-item,
+.paper-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.cancel-button {
+  border: none;
+  background-color: transparent;
+  color: #3498db;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  text-decoration: underline;
+}
+</style>
+
   
 <script>
 import Loading from "../components/Loading.vue";
