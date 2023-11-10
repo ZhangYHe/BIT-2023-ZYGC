@@ -18,7 +18,7 @@
       <button>
         <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
       </button>
-      <p><button @click="sendRequest">收藏</button></p>
+      <p><button @click="sendRequest" v-if="already_login">收藏</button></p>
       <div>
         <transition name="fade">
           <loading v-if="is_loading"></loading>
@@ -48,6 +48,7 @@
           '_id':'',
         },
         is_loading:true,
+        already_login:false,
       };
     },
     mounted() {
@@ -57,6 +58,7 @@
     methods: {
       getPaperDetails() {
         const paperId = this.$route.params.paper_id;
+        this.already_login=localStorage.getItem('ms_admintoken')==null?false:true;
         const url = `http://127.0.0.1:5000/information/papers/${paperId}`;
         axios.get(url)
           .then((response) => {

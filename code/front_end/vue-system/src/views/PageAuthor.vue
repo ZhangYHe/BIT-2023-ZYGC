@@ -6,7 +6,7 @@
     <p v-if="author.last_name">Last Name: {{ author.last_name }}</p>
     <p v-if="author.dblp_key">DBLP Key: {{ author.dblp_key }}</p>
     <p v-if="author.orcid">ORCID: {{ author.orcid }}</p>
-    <p><button @click="sendRequest">收藏</button></p>
+    <p><button @click="sendRequest" v-if="already_login">收藏</button></p>
     <h3 v-if="author.publication_periods[0]">
       paper list:
     </h3>  
@@ -49,6 +49,7 @@ export default {
         publication_periods:[],
       },
       is_loading:false,
+      already_login:false,
     };
   },
   mounted() {
@@ -57,6 +58,7 @@ export default {
   methods: {
     getAuthorDetails() {
       const authorId = this.$route.params.author_id;
+      this.already_login=localStorage.getItem('ms_admintoken')==null?false:true;
       const url = `http://127.0.0.1:5000/information/authors/${authorId}`;
       this.is_loading=true;
       axios
