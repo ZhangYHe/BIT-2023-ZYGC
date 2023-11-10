@@ -1,12 +1,16 @@
 <template>
   <div class="author-details">
     <h2>{{ author.name }}</h2>
+    <div class="button-container">
+      <button @click="sendRequest" v-if="already_login" class="favorite-button">
+        <img src="src/assets/img/star.png" alt="Favorite" class="star-icon">
+      </button>
+    </div>
     <p v-if="author.affiliation">Affiliation: {{ author.affiliation }}</p>
     <p v-if="author.first_name">First Name: {{ author.first_name }}</p>
     <p v-if="author.last_name">Last Name: {{ author.last_name }}</p>
     <p v-if="author.dblp_key">DBLP Key: {{ author.dblp_key }}</p>
     <p v-if="author.orcid">ORCID: {{ author.orcid }}</p>
-    <p><button @click="sendRequest" v-if="already_login">收藏</button></p>
     <h3 v-if="author.publication_periods[0]">
       paper list:
     </h3>  
@@ -90,6 +94,7 @@ export default {
         .then(response => {
           // 请求成功处理逻辑
           console.log(response.data);
+          ElMessage.success("已收藏");
         })
         .catch(error => {
           // 请求失败处理逻辑
@@ -98,6 +103,9 @@ export default {
               // 显示收藏文献已存在的提示
               ElMessage.error("该作者已收藏");
             }
+            else{
+              ElMessage.error("收藏失败，请检查网络");
+            }
         });
     }
   },
@@ -105,7 +113,8 @@ export default {
 </script>
 
 <style scoped>
-.author-details {
+
+ .author-details {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -127,86 +136,21 @@ h3 {
 p {
   margin: 10px 20px;
 }
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0px;
+}
+
+.favorite-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 5%;
+}
+.star-icon {
+  width: 30px;
+  height: 30px;
+}
 </style>
 
-<!-- <template>
-    <div class="author-details">
-      <h2>{{ author['name'] }}</h2>
-
-    </div>
-
-  </template>
-  
-  <script>
-  import { ref, onMounted } from 'vue';
-  import { ElMessage } from 'element-plus';
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        author: {
-            // "_id": "",
-            // "affiliation": "",
-            // "dblp_key": "",
-            // "first_name": "",
-            // "last_name": "",
-            
-            '_id':'',
-            'name': '',
-
-            // "name_index": "",
-            // "orcid": "",
-            // "other_affiliation": [],
-            // "other_names": [],
-            // "profiles": [],
-        },
-      };
-    },
-    mounted() {
-      this.getAuthorDetails();
-    },
-    methods: {
-      getAuthoretails() {
-        const authorId = this.$route.params.author_id;
-        const url = `http://127.0.0.1:5000/information/authors/651288cfeb11a940d8e47976`;
-        axios.get(url)
-          .then((response) => {
-            //ElMessage.success(authorId);
-            this.author = response.data;
-          })
-          .catch((error) => {
-            //ElMessage.success('失败');
-            console.error('Failed to fetch author details:', error);
-          });
-      },
-      // formatAuthors() {
-      //   return 0;
-      // },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .author-details {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  /* h2 {
-    font-size: 24px;
-  }
-  
-  p {
-    margin: 10px 0;
-  }
-  
-  .abstract {
-    white-space: pre-line;
-  } */
-  </style>
-   -->
