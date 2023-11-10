@@ -6,6 +6,7 @@
     <p v-if="author.last_name">Last Name: {{ author.last_name }}</p>
     <p v-if="author.dblp_key">DBLP Key: {{ author.dblp_key }}</p>
     <p v-if="author.orcid">ORCID: {{ author.orcid }}</p>
+    <p><button @click="sendRequest">收藏</button></p>
     <h3 v-if="author.publication_periods[0]">
       paper list:
     </h3>  
@@ -21,20 +22,18 @@
       <router-link :to="`/visualization/author/${author['_id']}`">Go to author Visualization</router-link>
     </button>
 
-    
-    <!-- 可根据返回的 JSON 数据中的其他字段添加更多信息 -->
-
-  </div>
-  <div>
+    <div>
       <transition name="fade">
         <loading v-if="is_loading"></loading>
       </transition>
     </div>
+  </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
+import Loading from "../components/Loading.vue"
 import axios from 'axios';
 
 export default {
@@ -79,6 +78,26 @@ export default {
         });
       
     },
+    sendRequest() {
+      const authorId = this.$route.params.author_id;
+      const params = {
+          userId : localStorage.getItem('ms_userid'),
+          collection_id : authorId,
+        };
+        axios.get(`http://127.0.0.1:5000/collection/user/collect`,{params})
+        .then(response => {
+          // 请求成功处理逻辑
+          console.log(response.data);
+        })
+        .catch(error => {
+          // 请求失败处理逻辑
+          console.error(error);
+          if (error.response && error.response.status === 401) {
+              // 显示收藏文献已存在的提示
+              ElMessage.error("该作者已收藏");
+            }
+        });
+    }
   },
 };
 </script>

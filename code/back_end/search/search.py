@@ -26,6 +26,12 @@ def search():
     # # 示例：使用 MongoDB 的基本搜索
     results_paper = index_collection.find_one({'keyword': keyword})
     results_author = visualization_collection.find_one({'name': keyword})
+
+    # 检查搜索结果是否为空
+    if not results_paper and not results_author:
+        logger.debug("/search/searchres get [ %s ] : No results found for the given query" % keyword)
+        return jsonify({'message': 'No results found for the given query'}), 401
+    
     # # 将结果中的文档 ID 收集到一个列表
     document_ids = []
     if results_paper:

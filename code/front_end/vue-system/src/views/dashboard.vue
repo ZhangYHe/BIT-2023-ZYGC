@@ -1,13 +1,6 @@
 <template>
 	<div>
-		<!-- 测试用 
-		<div>
-    		<router-link to="/visualization/author/651288ceeb11a940d8e47974">Go to Author Visualization</router-link>
-  		</div>
-		<div>
-    		<router-link to="/visualization/paper/651288cfeb11a940d8e47976">Go to Paper Visualization</router-link>
-  		</div>
-		 测试用 -->
+		<searchEngine></searchEngine>
 		<el-row :gutter="20">
 			<el-col :span="8">
 				<el-card shadow="hover" class="mgb20" style="height: 252px">
@@ -18,29 +11,14 @@
 							<div>{{ role }}</div>
 						</div>
 					</div>
-					<div class="user-info-list">
-						上次登录时间：
-						<span>2023-10-31</span>
+					<div class="user-info-list" v-if="already_login">
+						登录时间：
+						<span>{{time}}</span>
 					</div>
-					<div class="user-info-list">
-						上次登录地点：
+					<!-- <div class="user-info-list" v-if="already_login">
+						登录地点：
 						<span>北京</span>
-					</div>
-				</el-card>
-				<el-card shadow="hover" style="height: 252px">
-					<template #header>
-						<div class="clearfix">
-							<span>语言详情</span>
-						</div>
-					</template>
-					Vue
-					<el-progress :percentage="79.4" color="#42b983"></el-progress>
-					TypeScript
-					<el-progress :percentage="14" color="#f1e05a"></el-progress>
-					CSS
-					<el-progress :percentage="5.6"></el-progress>
-					HTML
-					<el-progress :percentage="1" color="#f56c6c"></el-progress>
+					</div> -->
 				</el-card>
 			</el-col>
 			<el-col :span="16">
@@ -50,8 +28,8 @@
 							<div class="grid-content grid-con-1">
 								<el-icon class="grid-con-icon"><User /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">12</div>
-									<div>用户访问量</div>
+									<div class="grid-num">{{ userCount.value }}</div>
+									<div>用户数量</div>
 								</div>
 							</div>
 						</el-card>
@@ -61,8 +39,8 @@
 							<div class="grid-content grid-con-2">
 								<el-icon class="grid-con-icon"><ChatDotRound /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">2</div>
-									<div>系统消息</div>
+									<div class="grid-num">{{ authorsCount.value }}</div>
+									<div>学者数量</div>
 								</div>
 							</div>
 						</el-card>
@@ -72,53 +50,13 @@
 							<div class="grid-content grid-con-3">
 								<el-icon class="grid-con-icon"><Goods /></el-icon>
 								<div class="grid-cont-right">
-									<div class="grid-num">5</div>
-									<div>收藏论文</div>
+									<div class="grid-num">{{ papersCount.value }}</div>
+									<div>论文数量</div>
 								</div>
 							</div>
 						</el-card>
 					</el-col>
 				</el-row>
-				<el-card shadow="hover" style="height: 403px">
-					<template #header>
-						<div class="clearfix">
-							<span>待办事项</span>
-							<el-button style="float: right; padding: 3px 0" text>添加</el-button>
-						</div>
-					</template>
-
-					<el-table :show-header="false" :data="todoList" style="width: 100%">
-						<el-table-column width="40">
-							<template #default="scope">
-								<el-checkbox v-model="scope.row.status"></el-checkbox>
-							</template>
-						</el-table-column>
-						<el-table-column>
-							<template #default="scope">
-								<div
-									class="todo-item"
-									:class="{
-										'todo-item-del': scope.row.status
-									}"
-								>
-									{{ scope.row.title }}
-								</div>
-							</template>
-						</el-table-column>
-					</el-table>
-				</el-card>
-			</el-col>
-		</el-row>
-		<el-row :gutter="20">
-			<el-col :span="12">
-				<el-card shadow="hover">
-					<schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
-				</el-card>
-			</el-col>
-			<el-col :span="12">
-				<el-card shadow="hover">
-					<schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
-				</el-card>
 			</el-col>
 		</el-row>
 	</div>
@@ -126,83 +64,35 @@
 
 <script setup lang="ts" name="dashboard">
 import Schart from 'vue-schart';
-import { reactive } from 'vue';
+//import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
+import axios from 'axios';
 import imgurl from '../assets/img/img.jpg'
+import searchEngine from "../components/searchEngine.vue"
+
 const name = localStorage.getItem('ms_username');
 const admin_token = localStorage.getItem('ms_admintoken');
 const already_login: boolean = name === null? false:true;
 const role: string = already_login?(admin_token!=='' ? '超级管理员' : '普通用户'):'未登录';
+// 定义响应式数据
+const userCount = reactive({ value: 0 });
+const authorsCount = reactive({ value: 0 });
+const papersCount = reactive({ value: 0 });
+const time = localStorage.getItem('time');
+// 发送 HTTP 请求并更新数据
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:5000/visualization/count_records');
+    const data = response.data;
+	console.log(data);
+    userCount.value = data.user_count;
+    authorsCount.value = data.authors_count;
+    papersCount.value = data.papers_count;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+});
 
-const options = {
-	type: 'bar',
-	title: {
-		text: '最近一周各品类销售图'
-	},
-	xRorate: 25,
-	labels: ['周一', '周二', '周三', '周四', '周五'],
-	datasets: [
-		{
-			label: '家电',
-			data: [234, 278, 270, 190, 230]
-		},
-		{
-			label: '百货',
-			data: [164, 178, 190, 135, 160]
-		},
-		{
-			label: '食品',
-			data: [144, 198, 150, 235, 120]
-		}
-	]
-};
-const options2 = {
-	type: 'line',
-	title: {
-		text: '最近几个月各品类销售趋势图'
-	},
-	labels: ['6月', '7月', '8月', '9月', '10月'],
-	datasets: [
-		{
-			label: '家电',
-			data: [234, 278, 270, 190, 230]
-		},
-		{
-			label: '百货',
-			data: [164, 178, 150, 135, 160]
-		},
-		{
-			label: '食品',
-			data: [74, 118, 200, 235, 90]
-		}
-	]
-};
-const todoList = reactive([
-	{
-		title: '完成需求分析文档',
-		status: true
-	},
-	{
-		title: '完成登录注册页面前段设计',
-		status: true
-	},
-	{
-		title: '实现登录注册功能后端实现',
-		status: true
-	},
-	{
-		title: '初步实现搜索页面界面设计',
-		status: true
-	},
-	{
-		title: '完成搜索引擎后端逻辑设计',
-		status: true
-	},
-	{
-		title: '今天要修复100个bug',
-		status: false
-	}
-	
-]);
 </script>
 
 <style scoped>

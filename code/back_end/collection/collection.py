@@ -15,9 +15,7 @@ users_collection = db.get_collection('users')
 # 路由用于获取用户收藏的作者和文献
 @collection_bp.route('/collections/<user_id>', methods=['GET'])
 def get_user_collections(user_id):
-    # 常规代码，测试时需要注释
 
-    logger.debug("/collections/<user_id> is Not Debugging")
     # 查询 users 集合，找到用户的收藏信息
     user_data = users_collection.find_one({'_id': ObjectId(user_id)})
 
@@ -57,18 +55,25 @@ def get_user_collections(user_id):
         'papers': papers
     }), 200
 
-
 @collection_bp.route('/user/collect', methods=['GET'])
 def add_collection_to_user():
     # 获取用户的记录zz
-    userid = request.args.get('_id')
-    collection_id=request.args.get('collection_id')
-    user_record = users_collection.find_one({'_id': ObjectId(userid)})
 
+    userid = request.args.get('userId')
+    collection_id = request.args.get('collection_id')
+    user_record = users_collection.find_one({'_id': ObjectId(userid)})
+    # logger.debug("1")
+    # logger.debug(userid)
+    # logger.debug(collection_id)
     if user_record:
         # 获取当前的收藏集合
         current_collections = user_record.get('collections', [])
 
+        # 检查 collection_id 是否已经在收藏集合中
+        if collection_id in current_collections:
+            logger.debug("/collection/user/collect : %s already added to user" % (collection_id))
+            return jsonify({'message': 'Collection already added to user'}), 401
+        
         # 将新的 collection_id 添加到收藏集合
         current_collections.append(collection_id)
 
@@ -86,9 +91,14 @@ def add_collection_to_user():
 @collection_bp.route('/user/delete_collection', methods=['GET'])
 def delete_collection_from_user():
     # 获取用户的记录zz
-    userid = request.args.get('_id')
+
+    userid = request.args.get('userId')
     collection_id=request.args.get('collection_id')
     user_record = users_collection.find_one({'_id': ObjectId(userid)})
+    logger.debug("1")
+    logger.debug(userid)
+    logger.debug(collection_id)
+    
 
     if user_record:
         # 获取当前的收藏集合

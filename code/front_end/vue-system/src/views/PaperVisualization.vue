@@ -4,17 +4,18 @@
       <div class="chart-container">
         <canvas id="chart"></canvas>
       </div>
-      
+      <div>
+        <transition name="fade">
+          <loading v-if="is_loading"></loading>
+        </transition>
+      </div>
     </div>
-    <div>
-      <transition name="fade">
-        <loading v-if="is_loading"></loading>
-      </transition>
-    </div>
+    
 </template>
   
 <script>
 import axios from "axios";
+import Loading from "../components/Loading.vue"
 import { ElMessage } from 'element-plus';
 import Chart from 'chart.js/auto';
   

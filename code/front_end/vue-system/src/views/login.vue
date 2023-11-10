@@ -38,7 +38,11 @@
 			</transition>
 		</div> -->
 	</div>
-	
+	<div>
+      <transition name="fade">
+        <loading v-if="is_loading"></loading>
+      </transition>
+    </div>
 	<!--<register v-if="isRegistrationPageVisible" @goToLoginPage="goToLoginPage" />-->
 </template>
 
@@ -77,6 +81,7 @@ const rules: FormRules = {
 const url = 'http://127.0.0.1:5000';
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
+const is_loading = ref(false);
 //const register = ref<FormInstance>();
 //const is_loading = true;
 const goToRegistrationPage = () => {
@@ -93,7 +98,7 @@ const goToRegistrationPage = () => {
 
 const submitForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
-		
+	is_loading.value = true;
 	formEl.validate((valid: boolean) => {
 
 		if (valid) {
@@ -109,7 +114,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			// 请求成功时的处理
 				console.log('POST请求成功', response.data);
 				ElMessage.success('登录成功');
-				//ElMessage.success(response.data.user_id);
+				
+				const now = new Date();
+				
+				// ElMessage.success(now.getFullYear().toString());
+				ElMessage.success(now.toLocaleDateString()+" "+now.toLocaleTimeString());
+				// ElMessage.success(now.getDate().toString());
+				localStorage.setItem('time', now.toLocaleDateString()+" "+now.toLocaleTimeString());
 				localStorage.setItem('ms_username', param.username);
 				localStorage.setItem('ms_userid',response.data.user_id);
 				if(response.data.admin_token){
@@ -118,7 +129,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 				else{
 					localStorage.setItem('ms_admintoken','');
 				}
-
+				
 				const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
 				permiss.handleSet(keys);
 				localStorage.setItem('ms_keys', JSON.stringify(keys));
@@ -128,9 +139,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			})
 			.catch((error) => {
 			// 请求失败时的处理
-			console.error('POST请求失败', error);
-			ElMessage.error('登录失败，请检查用户名和密码');
-			});
+				console.error('POST请求失败', error);
+				if(error.response && error.response.status===401)
+					ElMessage.error('登录失败，请检查用户名和密码！');
+				else{
+					ElMessage.error('登录失败，请检查网络连接！');
+				}
+			})
+			.finally(() => {
+          		is_loading.value = false; // 请求完成后设置为 false，隐藏 Loading 动画
+        	});
 		}
 		else {
 			ElMessage.error('请输入用户名和密码');

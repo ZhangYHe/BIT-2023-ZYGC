@@ -1,33 +1,63 @@
 <template>
-    <div>
-      <h1>User Collections</h1>
-      <h2 v-if="!is_loading">Favorite Authors:</h2>
-      <ul>
-        <!-- <li v-for="author in authors" :key="author.id">{{ author['name'] }}</li> -->
-        <router-link :to="`/information/authors/${author['_id']}`" v-for="author in authors" :key="author.id">
-          <div>
-            {{ author['name'] }}
-          </div>
-        </router-link>
-      </ul>
-      <h2 v-if="!is_loading">Favorite Documents:</h2>
-      <ul>
-        <!-- <li v-for="paper in papers" :key="paper.id">{{ paper['*title'] }}</li> -->
-        <router-link :to="`/information/papers/${paper['_id']}`" v-for="paper in papers" :key="paper.id">
-          <div>
-            {{ paper['*title'] }}
-          </div>
-        </router-link>
-      </ul>
-      
-    </div>
+  <div>
+    <h1>User Collections</h1>
+    <h2 v-if="!is_loading">Favorite Authors:</h2>
+    <ul class="author-list">
+      <router-link :to="`/information/authors/${author['_id']}`" v-for="author in authors" :key="author.id">
+        <div class="author-item">
+          <span>{{ author['name'] }}</span>
+          <button class="cancel-button" @click.prevent="sendRequest_author" v-bind:data-id="author['_id']">取消收藏</button>
+        </div>  
+      </router-link>
+    </ul>
+    <h2 v-if="!is_loading">Favorite Papers:</h2>
+    <ul class="paper-list">
+      <router-link :to="`/information/papers/${paper['_id']}`" v-for="paper in papers" :key="paper.id">
+        <div class="paper-item">
+          <span>{{ paper['*title'] }}</span>
+          <button class="cancel-button" @click.prevent="sendRequest_paper" v-bind:data-id="paper['_id']">取消收藏</button>
+        </div>
+      </router-link>
+    </ul>
     <div>
       <transition name="fade">
         <loading v-if="is_loading"></loading>
       </transition>
     </div>
+  </div>
+</template>
 
-  </template>
+<style>
+.author-list,
+.paper-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.author-item,
+.paper-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.cancel-button {
+  border: none;
+  background-color: transparent;
+  color: #3498db;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  text-decoration: underline;
+}
+</style>
+
   
 <script>
 import Loading from "../components/Loading.vue";
@@ -38,7 +68,7 @@ import axios from  'axios';
       return {
         authors: [],
         papers: [],
-        is_loading: false,
+        is_loading: false,  
       };
     },
     mounted() {
@@ -69,6 +99,48 @@ import axios from  'axios';
           this.is_loading = false;
         });
     },
+    methods:{
+      sendRequest_author(event){
+        const id = event.target.getAttribute('data-id');
+        const params = {
+          userId : localStorage.getItem('ms_userid'),
+          collection_id : id,
+        }
+        console.log(params)
+        axios.get(`http://127.0.0.1:5000/collection/user/delete_collection`,{params})
+          .then(response => {
+            // 请求成功处理逻辑
+            console.log(response.data);
+            ElMessage.success(response.data);
+            location.reload();
+          })
+          .catch(error => {
+            // 请求失败处理逻辑
+            console.error(error);
+            ElMessage.error(error);
+          });
+      },
+      sendRequest_paper(event){
+        const id = event.target.getAttribute('data-id');
+        const params = {
+          userId : localStorage.getItem('ms_userid'),
+          collection_id : id,
+        }
+        console.log(params)
+        axios.get(`http://127.0.0.1:5000/collection/user/delete_collection`,{params})
+          .then(response => {
+            // 请求成功处理逻辑
+            console.log(response.data);
+            ElMessage.success(response.data);
+            location.reload();
+          })
+          .catch(error => {
+            // 请求失败处理逻辑
+            console.error(error);
+            ElMessage.error(error);
+          });
+      }
+    }
   };
   </script>
   
