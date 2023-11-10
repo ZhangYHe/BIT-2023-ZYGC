@@ -1,6 +1,11 @@
 <template>
     <div class="paper-details">
       <h2>{{ paper['*title'] }}</h2>
+      <div class="button-container">
+      <button @click="sendRequest" v-if="already_login" class="favorite-button">
+        <img src="src/assets/img/star.png" alt="Favorite" class="star-icon">
+      </button>
+    </div>
       <p>Authors: 
         <span v-for="(author, index) in paper['*authors']" :key="index">
           <router-link :to="`/information/authors/${author.id}`">
@@ -18,7 +23,6 @@
       <button>
         <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
       </button>
-      <p><button @click="sendRequest" v-if="already_login">收藏</button></p>
       <div>
         <transition name="fade">
           <loading v-if="is_loading"></loading>
@@ -87,6 +91,7 @@
         axios.get(`http://127.0.0.1:5000/collection/user/collect`,{params})
           .then(response => {
             // 请求成功处理逻辑
+            ElMessage.success("已收藏");
             console.log(response.data);
           })
           .catch(error => {
@@ -95,6 +100,9 @@
             if (error.response && error.response.status === 401) {
               // 显示收藏文献已存在的提示
               ElMessage.error("该文献已收藏");
+            }
+            else{
+              ElMessage.error("收藏失败，请检查网络");
             }
             
           });
@@ -124,5 +132,22 @@
   .abstract {
     white-space: pre-line;
   }
+  .button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0px;
+}
+
+.favorite-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 5%;
+}
+.star-icon {
+  width: 30px;
+  height: 30px;
+}
+
   </style>
   

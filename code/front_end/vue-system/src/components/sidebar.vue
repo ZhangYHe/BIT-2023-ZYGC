@@ -59,9 +59,9 @@ import { useRoute } from 'vue-router';
 
 const items = [
     {
-        icon: 'Edit',
+        icon: 'Search',
         index: '/dashboard',
-        title: '系统首页',
+        title: '搜索',
         permiss: '1',
     },
     // {
