@@ -7,7 +7,7 @@ search_bp = Blueprint('search', __name__)
 clean_papers_collection = db.get_collection('clean_papers')
 authors_collection = db.get_collection('authors')
 index_collection = db.get_collection('inverted_index_collection')
-visualization_collection = db.get_collection('visualize')
+authors_inverted_collection = db.get_collection('authors_inverted_index_collection')
 visualization_data = {}
 
 
@@ -15,7 +15,7 @@ visualization_data = {}
 @search_bp.route('/searchres', methods=['GET'])
 def search():
     visualization_data.clear()
-    related_authors=0
+    related_authors = 0
     year_data = [0, 0, 0, 0, 0, 0, 0, 0]
     keyword = request.args.get('keyword')
     logger.debug("/search/searchres get [ %s ]" % keyword)
@@ -25,13 +25,12 @@ def search():
     #
     # # 示例：使用 MongoDB 的基本搜索
     results_paper = index_collection.find_one({'keyword': keyword})
-    results_author = visualization_collection.find_one({'name': keyword})
-
+    results_author = authors_inverted_collection.find_one({'author_keyword': keyword})
     # 检查搜索结果是否为空
     if not results_paper and not results_author:
         logger.debug("/search/searchres get [ %s ] : No results found for the given query" % keyword)
         return jsonify({'message': 'No results found for the given query'}), 401
-    
+
     # # 将结果中的文档 ID 收集到一个列表
     document_ids = []
     if results_paper:
@@ -39,12 +38,11 @@ def search():
             document_ids.append(str(i))
     # 查询visualization中的author
     if results_author:
-        document_ids.append(str(results_author['author_id']))
-        publication_periods = results_author['publication_periods']
+        for i in results_author['document_ids']:
+            document_ids.append(str(i))
         author_info = {
-            'paper_count': [period['paper_count'] for period in publication_periods],
-            'author_id': str(results_author['author_id']),
-            'name': results_author['name']
+            'author_id': str(results_author['document_ids']),
+            'name': results_author['author_keyword']
         }
         author_dict = {key: value for key, value in author_info.items()}
         visualization_data.update(author_dict)
@@ -57,7 +55,7 @@ def search():
         index_doc = clean_papers_collection.find_one({'_id': ObjectId(doc_id)})
         if index_doc:
             papernum += 1
-            related_authors+=len(index_doc['*authors'])
+            related_authors += len(index_doc['*authors'])
             index_doc['_id'] = str(index_doc['_id'])
             for i in index_doc['*authors']:
                 i['id'] = str(i['id'])
