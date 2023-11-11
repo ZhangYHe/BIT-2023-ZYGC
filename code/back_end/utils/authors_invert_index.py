@@ -25,7 +25,7 @@ db = Database("mongodb://admin:202309@64.176.214.218:27017/?authMechanism=DEFAUL
 
 
 # 获取集合
-index_collection = db.get_collection('clean_papers')
+index_collection = db.get_collection('authors')
 
 # 下载停用词
 nltk.download('stopwords')
@@ -38,11 +38,11 @@ stop_words = set(stopwords.words('english'))
 inverted_index = defaultdict(list)
 
 # 获取文档内容并进行分词
-documents = list(index_collection.find({}, {'*title': 1}))
+documents = list(index_collection.find({}, {'name': 1}))
 for doc in documents:
-    if '*title' in doc:
+    if 'name' in doc:
         document_id = doc['_id']
-        text = doc['*title']
+        text = doc['name']
         words = nltk.word_tokenize(text)
 
         # 去除停用词
@@ -54,14 +54,17 @@ for doc in documents:
             inverted_index[term].append(document_id)
 
 # 将倒排索引存储回MongoDB
-inverted_index_collection = db.get_collection('inverted_index_collection')
+inverted_index_collection = db.get_collection('authors_inverted_index_collection')
 print(inverted_index)
 for keyword in inverted_index.keys():
     # print(inverted_index[keyword])
     t=list(inverted_index[keyword])
-    inverted_index_collection.insert_one({'keyword': keyword, 'document_ids': t})
+    inverted_index_collection.insert_one({'author_keyword': keyword, 'document_ids': t})
 
-inverted_index_collection.insert_one({'inverted_index': dict(inverted_index)})
+# inverted_index_collection.insert_one({'inverted_index': dict(inverted_index)})
+
+
+
 # from back_end.database import db
 # from collections import defaultdict
 #
