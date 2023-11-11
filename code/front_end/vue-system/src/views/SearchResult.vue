@@ -6,6 +6,11 @@
         <router-link class="link" :to="`/information/papers/${record['_id']}`">Title: {{ record['*title' ]}}</router-link>
       </div>
       <p>DOI: <a class="link" :href="record['*doi' ]" target="_blank">{{ record['*doi' ] }}</a></p>
+      <p>
+        Authors: <span v-for="(author, index) in record['*authors']"><router-link :to="`/information/authors/${author.id}`">
+          {{ author['name'] }}{{ index !== record['*authors'].length - 1 ? ', ' : '' }}</router-link>
+        </span>
+      </p>
       <hr>
     </div>
     <div>

@@ -59,9 +59,9 @@ import { useRoute } from 'vue-router';
 
 const items = [
     {
-        icon: 'Edit',
+        icon: 'Search',
         index: '/dashboard',
-        title: '系统首页',
+        title: '搜索',
         permiss: '1',
     },
     // {
@@ -103,13 +103,13 @@ const items = [
     //     title: '可视化',
     //     permiss: '1',
     // },
-    {
-        //icon: 'Odometer',
-        icon: 'search',
-        index: '/SearchEngine',
-        title: '搜索',
-        permiss: '1',
-    },
+    // {
+    //     //icon: 'Odometer',
+    //     icon: 'search',
+    //     index: '/SearchEngine',
+    //     title: '搜索',
+    //     permiss: '1',
+    // },
     {
         icon: 'Star',
         index: '/GetUserCollections',
