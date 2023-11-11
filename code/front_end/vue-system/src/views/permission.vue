@@ -1,11 +1,13 @@
 <template>
 	<div>
-		<div class="button-container">
+		<!-- <div class="button-container">
 			<input v-model="userData" placeholder="User Data" />
 			<button @click="UserManagement">管理用户</button>
-		</div>
+		</div> -->
 		<div class="button-container">
-			<input v-model="dataData" placeholder="Data Data" />
+			<input v-model="dataData.operation_type" placeholder="Operation" />
+			<input v-model="dataData.collection" placeholder="collection" />
+			<!-- <input v-model="dataData.jsondata" placeholder="data(JSON form)" /> -->
 			<button @click="DataManagement">管理数据</button>
 		</div>
 		<div class="button-container">
@@ -38,7 +40,10 @@ export default {
     	return {
       		is_loading: false,
       		userData: '', // 用户数据输入
-      		dataData: '', // 数据数据输入
+      		dataData: {
+				operation_type: '',
+				collection:'',
+			}, // 数据数据输入
       		crawlerData: {
         		name: '',
         		target_url: '',
@@ -48,49 +53,198 @@ export default {
     };
   },
 	methods: {
-		async UserManagement() {
-			this.is_loading = true;
-			const headers = {
-				Authorization: adminToken,
-			};
-			const data = {
-				mongo_command: 'dbstats',
-				userData: this.userData // 使用用户输入的数据
-			};
+		// async UserManagement() {
+		// 	this.is_loading = true;
+		// 	const headers = {
+		// 		Authorization: adminToken,
+		// 	};
+		// 	const data = {
+		// 		mongo_command: 'dbstats',
+		// 		userData: this.userData // 使用用户输入的数据
+		// 	};
 
-			try {
-				const response = await axios.post(`${url}/admin/user-management/${username}`, data, { headers });
-				if (response.status === 200) {
-					ElMessage.success('处理成功');
-				}
-				else {
-					ElMessage.error('未知错误');
-				}
-			}
-			catch (error) {
-				if (error.response && error.response.status === 400) {
-					ElMessage.error('JSON格式错误');
-				}
-				else if(error.response && error.response.status === 401) {
-					ElMessage.error('无权限');
-				}
-				else {
-					ElMessage.error('请检查网络连接！');
-				}
-			}
-			finally {
-        		this.is_loading = false;
-      		}
-		},
+		// 	try {
+		// 		const response = await axios.post(`${url}/admin/user-management/${username}`, data, { headers });
+		// 		if (response.status === 200) {
+		// 			ElMessage.success('处理成功');
+		// 		}
+		// 		else {
+		// 			ElMessage.error('未知错误');
+		// 		}
+		// 	}
+		// 	catch (error) {
+		// 		if (error.response && error.response.status === 400) {
+		// 			ElMessage.error('JSON格式错误');
+		// 		}
+		// 		else if(error.response && error.response.status === 401) {
+		// 			ElMessage.error('无权限');
+		// 		}
+		// 		else {
+		// 			ElMessage.error('请检查网络连接！');
+		// 		}
+		// 	}
+		// 	finally {
+        // 		this.is_loading = false;
+      	// 	}
+		// },
 		async DataManagement() {
 			this.is_loading = true;
 			const headers = {
 				Authorization: adminToken,
 			};
-			const data = {
-				mongo_command: 'dbstats',
-				dataData: this.dataData // 使用数据输入的数据
+
+			let data = {};
+
+			switch (this.dataData.operation_type) {
+				case 'modify':
+					data = {
+						mongo_command: {
+							operation_type: 'modify',
+							modify: 
+							{	
+								collection: this.dataData.collection,
+								query: {
+									username: 'new_user',
+								},
+								update: {
+								$set: {
+									is_admin: true,
+								},
+								},
+							},
+							
+						},
+					};
+				break;
+
+				case 'insert':
+					data = {
+						mongo_command: {
+						operation_type: 'insert',
+						insert: {
+							collection: this.dataData.collection,
+							documents: [
+							{
+								username: 'new_user',
+								password: 'hashed_password',
+								is_admin: false,
+							},
+							],
+						},
+						},
+					};
+				break;
+
+				case 'delete':
+					data = {
+						mongo_command: {
+							operation_type: 'delete',
+							delete: {
+								collection: this.dataData.collection,
+								//object_id: '65372fcd88499f21637ab0ae',
+								object_id:'654fbc9c07a142f63ddfbd3f',
+							},
+						},
+					};
+				break;
+
+				default:
+					data = {
+						mongo_command:"dbstats",
+					}
+				// Handle other cases or provide a default value
+				break;
+			}
+
+			try {
+				const response = await axios.post(
+					`${url}/admin/data-management/${username}`,
+					data,
+					{ headers }
+				);
+				if (response.status === 200) {
+					ElMessage.success('处理成功');
+				} else {
+					ElMessage.error('未知错误');
+				}
+			}
+			catch (error) {
+				ElMessage.error('处理错误');
+				// Handle errors
+			}
+			finally {
+				this.is_loading = false;
+			}
+		},
+		async DataManagement1() {
+			this.is_loading = true;
+			const headers = {
+				Authorization: adminToken,
 			};
+			const data = {
+					"mongo_command": {
+						"operation_type": "delete",
+						"delete": {
+						"collection": "users",
+						"object_id": "65372fcd88499f21637ab0ae"
+						}
+					}
+				};
+			//const mode = this.dataData.mode;
+			// if(this.dataData.mode==='modify'){
+			// 	const data = 
+			// 	{
+			// 		"mongo_command": {
+			// 			"operation_type": "modify",
+			// 			"modify": {
+			// 				"collection": "users",
+			// 				"query": {
+			// 					"username": "new_user"
+			// 				},
+			// 				"update": {
+			// 					"$set": {
+			// 					"is_admin": true
+			// 					}
+			// 				}
+			// 			}
+			// 		}
+			// 	};
+			// }
+			// else if(this.dataData.mode==='insert'){
+			// 	const data =
+			// 	{
+			// 		"mongo_command": {
+			// 			"operation_type": "insert",
+			// 			"insert": {
+			// 				"collection": "users",
+			// 				"documents": [
+			// 					{
+			// 					"username": "new_user",
+			// 					"password": "hashed_password",
+			// 					"is_admin": false
+			// 					}
+			// 				]
+			// 			}
+			// 		}
+			// 	};
+			// }
+			// else if(this.dataData.mode==='delete'){
+			// 	const data = {
+			// 		"mongo_command": {
+			// 			"operation_type": "delete",
+			// 			"delete": {
+			// 			"collection": "users",
+			// 			"object_id": "65372fcd88499f21637ab0ae"
+			// 			}
+			// 		}
+			// 	};
+			// }
+			// else{
+			// 	const data = {
+			// 		mongo_command: 'dbstats',
+			// 		dataData: this.dataData // 使用数据输入的数据
+			// 	};
+			// }
 
 			try {
 				const response = await axios.post(`${url}/admin/data-management/${username}`, data, { headers });
