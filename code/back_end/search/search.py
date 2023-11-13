@@ -19,6 +19,7 @@ def search():
     related_authors = 0
     year_data = [0, 0, 0, 0, 0, 0, 0, 0]
     keyword = request.args.get('keyword')
+    keyword=keyword.lower()
     logger.debug("/search/searchres get [ %s ]" % keyword)
 
     # # 在数据库中执行关键词搜索操作
