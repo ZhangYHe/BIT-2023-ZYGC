@@ -209,12 +209,21 @@ export default {
 				);
 				if (response.status === 200) {
 					ElMessage.success('处理成功');
-				} else {
-					ElMessage.error('未知错误');
+				}
+				else{
+					ElMessage.error('处理错误，请检查网络连接');
 				}
 			}
 			catch (error) {
-				ElMessage.error('处理错误');
+				if(error.response.status === 400){
+					ElMessage.error('请检查JSON格式');
+				}
+				else if(error.response.status === 500){
+					ElMessage.error('请正确填写信息');
+				}
+				else{
+					ElMessage.error('处理错误，请检查网络连接');
+				}
 				// Handle errors
 			}
 			finally {

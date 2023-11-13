@@ -2,7 +2,7 @@
   <div class="author-details">
     <h2>{{ author.name }}</h2>
     <div class="button-container">
-      <button @click="sendRequest" v-if="already_login" class="favorite-button">
+      <button @click="sendRequest" v-if="already_login&&author.name" class="favorite-button">
         <img src="src/assets/img/star.png" alt="Favorite" class="star-icon">
       </button>
     </div>
@@ -22,7 +22,7 @@
         </p>
       </p>
     
-    <button v-if="author.name">
+    <button v-if="author.name&&author.publication_periods[0]" class="button1">
       <router-link :to="`/visualization/author/${author['_id']}`">Go to author Visualization</router-link>
     </button>
 
@@ -152,5 +152,18 @@ p {
   width: 30px;
   height: 30px;
 }
+.button1 {
+  background-color: #00aeffd0;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
 </style>
 
