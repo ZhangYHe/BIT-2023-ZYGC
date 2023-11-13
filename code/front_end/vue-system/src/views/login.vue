@@ -118,7 +118,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 				const now = new Date();
 				
 				// ElMessage.success(now.getFullYear().toString());
-				ElMessage.success(now.toLocaleDateString()+" "+now.toLocaleTimeString());
+				//ElMessage.success(now.toLocaleDateString()+" "+now.toLocaleTimeString());
 				// ElMessage.success(now.getDate().toString());
 				localStorage.setItem('time', now.toLocaleDateString()+" "+now.toLocaleTimeString());
 				localStorage.setItem('ms_username', param.username);

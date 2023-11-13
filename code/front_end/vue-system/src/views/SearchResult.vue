@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">Authors:</h1>
+    <h1 class="title">Matching Records:</h1>
     <div class="record" v-for="(record, index) in matchingRecords" :key="index">
       <div v-if="isAuthor(record)">
         <p>
