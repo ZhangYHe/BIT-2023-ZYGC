@@ -42,7 +42,11 @@
             <el-button type="primary" @click="goToLoginPage">返回登录</el-button>
           </div>-->
         </el-form>
-        
+        <div>
+          <transition name="fade">
+            <loading v-if="is_loading"></loading>
+          </transition>
+        </div>
       </div>
     </div>
   </template>
@@ -71,6 +75,7 @@
     confirmPassword: ''
   });
   
+  const is_loading = ref(false);
   const registrationRules: FormRules = {
     username: [
       {
@@ -118,11 +123,12 @@
   
   const submitForm = (formType: 'register') => {
     const formEl = register.value;
-  
+    
     if (!formEl) return;
-  
+    
     formEl.validate((valid: boolean) => {
       if (valid) {
+        is_loading.value=true;
         const requestData = {
           username: registerParam.username,
           email: registerParam.email,
@@ -141,8 +147,16 @@
             router.push('/login');
           })
           .catch((error) => {
+            if(error.response.status===400){
             console.error('POST请求失败', error);
             ElMessage.error('注册失败，用户名已存在');
+            }
+            else{
+              ElMessage.error('请检查网络连接！');
+            }
+          })
+          .finally(() =>{
+            is_loading.value=false;
           });
       }
       else {

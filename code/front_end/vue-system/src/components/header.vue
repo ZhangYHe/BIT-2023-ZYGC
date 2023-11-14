@@ -73,6 +73,8 @@ const handleCommand = (command: string) => {
 		localStorage.removeItem('ms_username');
 		localStorage.removeItem('ms_userid');
 		localStorage.removeItem('ms_admintoken');
+		localStorage.removeItem('ms_email');
+		localStorage.removeItem('ms_intro');
 		if(login_button=='登录')
 			router.push('/login');
 		else{

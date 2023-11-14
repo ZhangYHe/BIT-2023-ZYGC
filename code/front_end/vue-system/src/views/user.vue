@@ -16,7 +16,7 @@
 							</span>
 						</div>
 						<div class="info-name">{{ name }}</div>
-						<div class="info-desc">不可能！我的代码怎么可能会有bug！</div>
+						<div class="info-desc">{{form.desc}}</div>
 					</div>
 				</el-card>
 			</el-col>
@@ -29,11 +29,15 @@
 					</template>
 					<el-form label-width="90px">
 						<el-form-item label="用户名："> {{ name }} </el-form-item>
-						<el-form-item label="旧密码：">
+						<el-form-item label="旧密码：" v-if="form.new">
 							<el-input type="password" v-model="form.old"></el-input>
 						</el-form-item>
-						<el-form-item label="新密码：">
+						<el-form-item label="修改密码：">
 							<el-input type="password" v-model="form.new"></el-input>
+						</el-form-item>
+						
+						<el-form-item label="个人邮箱：">
+							<el-input v-model="form.email"></el-input>
 						</el-form-item>
 						<el-form-item label="个人简介：">
 							<el-input v-model="form.desc"></el-input>
@@ -65,6 +69,11 @@
 				</span>
 			</template>
 		</el-dialog>
+		<div>
+		<transition name="fade">
+		  <loading v-if="is_loading"></loading>
+		</transition>
+	  </div>
 	</div>
 </template>
 
@@ -72,22 +81,124 @@
 import { reactive, ref } from 'vue';
 import VueCropper from 'vue-cropperjs';
 import 'cropperjs/dist/cropper.css';
+import axios from 'axios'; 
 import avatar from '../assets/img/img.jpg';
+import { ElMessage } from 'element-plus';
+import Loading from "../components/Loading.vue"
 
 const name = localStorage.getItem('ms_username');
+const email1 = localStorage.getItem('ms_email');
+const intro = localStorage.getItem('ms_intro');
 const form = reactive({
 	old: '',
 	new: '',
-	desc: '不可能！我的代码怎么可能会有bug！'
+	email:email1,
+	desc: intro
 });
-const onSubmit = () => {};
 
+const is_loading = ref(false);
+//const onSubmit = () => {};
+const onSubmit = async () => {
+  is_loading.value = true;
+
+  try {
+    const response = await axios.post('http://127.0.0.1:5000/auth/password', {
+      username: name,
+      password: form.old,
+      newpassword: form.new,
+      email: form.email,
+      intro: form.desc
+    });
+
+    if (response.status === 200) {
+      const message = response.data.message;
+      if (message === 'Password changed successfully') {
+        ElMessage.success("密码修改成功！");
+      } else {
+        ElMessage.success("信息修改成功！");
+      }
+    }
+  } catch (error) {
+    handleErrorResponse(error);
+  } finally {
+    is_loading.value = false;
+  }
+};
+
+const handleErrorResponse = (error:unknown) => {
+  if ((error as any).response) {
+    const status = (error as any).response.status;
+    const data = (error as any).response.data;
+
+    if (status === 401) {
+      ElMessage.error("密码错误，请检查旧密码！");
+    }
+	else if (status === 400) {
+      ElMessage.error("若需要修改密码，请输入旧密码！");
+    }
+	else if (status === 402) {
+      ElMessage.error("用户未登录，请登录！");
+    }
+	else {
+      ElMessage.error(`请求失败：${status} - ${data.message}`);
+    }
+  } else if ((error as any).request) {
+    ElMessage.error("未收到响应，请检查网络连接！");
+  } else {
+    ElMessage.error("未知错误，请检查网络连接！");
+  }
+};
+// const onSubmit = async () => {
+//   try {
+// 	is_loading.value = true;
+//     const response = await axios.post('http://127.0.0.1:5000/auth/password', {
+//       username: name,
+//       password: form.old,
+//       newpassword: form.new,
+// 	  email: email,
+// 	  intro: form.desc
+//     });
+//     if (response.status === 200) {
+//       // 请求成功，处理相应的逻辑
+// 	  ElMessage.success("修改成功！");
+//       console.log(response.data.message);
+
+//     }
+//   }
+//   catch (error) {
+//     // // 处理异常情况
+//     // if (error.response) {
+//     //   // 请求发出去了，收到了响应，但状态码超出了2xx的范围
+//     //   const status = error.response.status;
+//     //   const data = error.response.data;
+      
+//     //   if (status === 401) {
+//     //     ElMessage.error("密码错误，请检查旧密码！");
+//     //   } else if (status === 400) {
+//     //     ElMessage.error("请求参数有误，请检查输入！");
+//     //   } else {
+//     //     ElMessage.error(`请求失败：${status} - ${data.message}`);
+//     //   }
+//     // } else if (error.request) {
+//     //   // 请求发出去了，但没有收到响应
+//     //   ElMessage.error("未收到响应，请检查网络连接！");
+//     // } else {
+//     //   // 在设置请求时发生了一些事情，触发了一个错误
+//     //   ElMessage.error("请求发送失败，请检查网络连接！");
+//     // }
+//     //console.error('An error occurred:', error);
+	
+//   	}
+
+//   finally{
+// 	is_loading.value = false;
+//   }
+// };
 const avatarImg = ref(avatar);
 const imgSrc = ref('');
 const cropImg = ref('');
 const dialogVisible = ref(false);
 const cropper: any = ref();
-
 const showDialog = () => {
 	dialogVisible.value = true;
 	imgSrc.value = avatarImg.value;
