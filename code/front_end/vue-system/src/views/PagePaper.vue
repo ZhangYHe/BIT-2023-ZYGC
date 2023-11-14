@@ -2,25 +2,28 @@
     <div class="paper-details">
       <h2>{{ paper['*title'] }}</h2>
       <div class="button-container">
-      <button @click="sendRequest" v-if="already_login" class="favorite-button">
-        <img src="src/assets/img/star.png" alt="Favorite" class="star-icon">
-      </button>
-    </div>
-      <p>Authors: 
-        <span v-for="(author, index) in paper['*authors']" :key="index">
+        <button @click="sendRequest" v-if="already_login&&paper['*title']" class="favorite-button">
+          <img src="src/assets/img/star.png" alt="Favorite" class="star-icon">
+        </button>
+      </div>
+      
+      <p v-if="paper['*authors'][0]">
+        <h3>Authors: </h3> 
+        <span class="authors" v-for="(author, index) in paper['*authors']" :key="index">
           <router-link :to="`/information/authors/${author.id}`">
             {{ author['name'] }}{{ index < paper['*authors'].length - 1 ? ', ' : '' }}
           </router-link>
         </span>
       </p>
       
-      <p>Abstract:</p>
-      <p class="abstract">{{ paper['*abstract'] }}</p>
-      <p>Publication Date: {{ paper['*date'] }} {{ paper['*year'] }}</p>
-      <p>DOI: <a :href="paper['*doi']" target="_blank">{{ paper['*doi'] }}</a></p>
-      <p>Venue: {{ paper['*venue'] }}</p>
-      <p>PDF: <a :href="paper['*pdf']" target="_blank">Download PDF</a></p>
-      <button>
+      <p>
+         <h3 v-if="paper['*abstract']">Abstract:</h3></p>
+      <p class="abstract1">{{ paper['*abstract'] }}</p>
+      <p v-if="paper['*year']"><h3>Publication Date: </h3>{{ paper['*date'] }} {{ paper['*year'] }}</p>
+      <p v-if="paper['*doi']"><h3>DOI: </h3><a :href="paper['*doi']" target="_blank">{{ paper['*doi'] }}</a></p>
+      <p v-if="paper['*venue']"><h3>Venue: </h3>{{ paper['*venue'] }}</p>
+      <p v-if="paper['*pdf']"><h3>PDF: </h3><a :href="paper['*pdf']" target="_blank">Download PDF</a></p>
+      <button class="button1" v-if="paper['*authors'][0]">
         <router-link :to="`/visualization/paper/${paper['_id']}`">Go to Paper Visualization</router-link>
       </button>
       <div>
@@ -126,11 +129,16 @@
   }
   
   p {
-    margin: 10px 0;
+    margin: 10px 10px;
   }
-  
-  .abstract {
+  h3, .abstract{
+  font-weight: bold;
+  display: inline;
+}
+  .abstract1 {
     white-space: pre-line;
+    margin-left: 20px; 
+    margin-right: 20px;
   }
   .button-container {
   display: flex;
@@ -147,6 +155,19 @@
 .star-icon {
   width: 30px;
   height: 30px;
+}
+
+.button1 {
+  background-color: #00aeffd0;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
   </style>

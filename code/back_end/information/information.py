@@ -44,6 +44,9 @@ def get_author_details(author_id):
                 period['paper_info'] = paper_info_list
 
         author_data['publication_periods'] = visualize_data['publication_periods']
+    else:
+        author_data['publication_periods'] = []
+        logger.debug("information/authors/%s : 'publication_periods' is empty" % (author_id))
 
     logger.debug("information/authors/%s : %s" % (author_id,author_data))
     # 返回学者的信息

@@ -2,15 +2,21 @@
   <div class="container">
     <h1 class="title">Matching Records:</h1>
     <div class="record" v-for="(record, index) in matchingRecords" :key="index">
-      <div>
-        <router-link class="link" :to="`/information/papers/${record['_id']}`">Title: {{ record['*title' ]}}</router-link>
+      <div v-if="isAuthor(record)">
+        <p>
+          Author: <router-link :to="`/information/authors/${record['_id']}`">{{ record['name'] }}</router-link>
+        </p>
       </div>
-      <p>DOI: <a class="link" :href="record['*doi' ]" target="_blank">{{ record['*doi' ] }}</a></p>
+      <div v-else> 
+        Title: <router-link class="link" :to="`/information/papers/${record['_id']}`">{{ record['*title' ]}}</router-link>
+      
+      <!-- <p>DOI: <a class="link" :href="record['*doi' ]" target="_blank">{{ record['*doi' ] }}</a></p> -->
       <p>
         Authors: <span v-for="(author, index) in record['*authors']"><router-link :to="`/information/authors/${author.id}`">
           {{ author['name'] }}{{ index !== record['*authors'].length - 1 ? ', ' : '' }}</router-link>
         </span>
       </p>
+    </div>
       <hr>
     </div>
     <div>
@@ -34,7 +40,12 @@ export default {
     const matching_Records = JSON.parse(this.$route.params.matchingRecords);
     this.matchingRecords = matching_Records;
     console.log(this.matchingRecords);
-  }
+  },
+  methods: {
+    isAuthor(record) {
+      return record.hasOwnProperty('name'); // 检查记录是否是作者
+    },
+  },
 };
 </script>
 

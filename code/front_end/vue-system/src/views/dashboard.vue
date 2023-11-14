@@ -12,8 +12,10 @@
 						</div>
 					</div>
 					<div class="user-info-list" v-if="already_login">
-						登录时间：
-						<span>{{time}}</span>
+						登录时间：{{time}}
+					</div>
+					<div class="user-info-list" v-if="!already_login">
+						立即登录，体验更多功能！
 					</div>
 					<!-- <div class="user-info-list" v-if="already_login">
 						登录地点：
@@ -175,6 +177,7 @@ onMounted(async () => {
 	font-size: 14px;
 	color: #999;
 	line-height: 25px;
+	text-align: center;
 }
 
 .user-info-list span {

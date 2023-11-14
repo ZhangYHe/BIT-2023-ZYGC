@@ -2,6 +2,7 @@ from bson import ObjectId
 from flask import Blueprint, request, jsonify
 from database import db
 from utils.logger import logger
+import re
 
 search_bp = Blueprint('search', __name__)
 clean_papers_collection = db.get_collection('clean_papers')
@@ -18,34 +19,44 @@ def search():
     related_authors = 0
     year_data = [0, 0, 0, 0, 0, 0, 0, 0]
     keyword = request.args.get('keyword')
+    keyword=keyword.lower()
     logger.debug("/search/searchres get [ %s ]" % keyword)
 
     # # 在数据库中执行关键词搜索操作
     # # 你需要实现具体的搜索逻辑，使用 MongoDB 的查询或其他搜索引擎
     #
     # # 示例：使用 MongoDB 的基本搜索
-    results_paper = index_collection.find_one({'keyword': keyword})
-    results_author = authors_inverted_collection.find_one({'author_keyword': keyword})
+    keyword_pattern = re.escape(keyword) + '.*'
+    results_paper_cursor = index_collection.find({'keyword': {'$regex': keyword_pattern}}).limit(5)
+    results_author_cursor = authors_inverted_collection.find({'author_keyword': {'$regex': keyword_pattern}}).limit(5)
+
+    results_paper_list = list(results_paper_cursor)
+    results_author_list = list(results_author_cursor)
+
+    # results_paper = index_collection.find_one({'keyword': keyword})
+    # results_author = authors_inverted_collection.find_one({'author_keyword': keyword})
     # 检查搜索结果是否为空
-    if not results_paper and not results_author:
+    if not results_paper_list and not results_author_list:
         logger.debug("/search/searchres get [ %s ] : No results found for the given query" % keyword)
         return jsonify({'message': 'No results found for the given query'}), 401
 
     # # 将结果中的文档 ID 收集到一个列表
     document_ids = []
-    if results_paper:
-        for i in results_paper['document_ids']:
-            document_ids.append(str(i))
+    for results_paper in results_paper_list:
+        if results_paper:
+            for i in results_paper['document_ids'][:30]:
+                document_ids.append(str(i))
     # 查询visualization中的author
-    if results_author:
-        for i in results_author['document_ids']:
-            document_ids.append(str(i))
-        author_info = {
-            'author_id': str(results_author['document_ids']),
-            'name': results_author['author_keyword']
-        }
-        author_dict = {key: value for key, value in author_info.items()}
-        visualization_data.update(author_dict)
+    for results_author in results_author_list:
+        if results_author:
+            for i in results_author['document_ids']:
+                document_ids.append(str(i))
+            author_info = {
+                'author_id': str(results_author['document_ids']),
+                'name': results_author['author_keyword']
+            }
+            author_dict = {key: value for key, value in author_info.items()}
+            visualization_data.update(author_dict)
     # 查询 index 集合以找到对应记录
     matching_records = []
     papernum = 0
@@ -56,10 +67,19 @@ def search():
         if index_doc:
             papernum += 1
             related_authors += len(index_doc['*authors'])
-            index_doc['_id'] = str(index_doc['_id'])
-            for i in index_doc['*authors']:
-                i['id'] = str(i['id'])
-            date = int(index_doc['*year'])
+            if index_doc['_id'] != '':
+                index_doc['_id'] = str(index_doc['_id'])
+            else:
+                index_doc['_id'] = ''
+            if index_doc['*authors']:
+                for i in index_doc['*authors']:
+                    if i:
+                        i['id'] = str(i['id'])
+            date = 0
+            try:
+                date = int(index_doc['*year'])
+            except ValueError:
+                date = 0
             if date < 1990:
                 year_data[0] += 1
             elif 1990 <= date < 1995:
