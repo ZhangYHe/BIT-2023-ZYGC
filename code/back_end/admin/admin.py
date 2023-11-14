@@ -163,7 +163,7 @@ def update_users_collections(deleted_object_id):
     # 删除users表中收藏的记录
     users_collection.update_many(
         {"collections": deleted_object_id},
-        {"$pull": {"collections": deleted_object_id}}
+        {"$pull": {"collections": deleted_object_id}}   
     )
 
 def handle_insert_command(command):
