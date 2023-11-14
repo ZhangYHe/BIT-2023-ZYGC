@@ -14,7 +14,7 @@ BIT 2023 卓越工程综合训练 小组作业
 - MongoDB
 - MondoDB: Compass
 - Username: admin
-- Password: 12345678
+- Password: 202309
 - Database: Scholar
 - Roles: readWrite
 - 公网uri
