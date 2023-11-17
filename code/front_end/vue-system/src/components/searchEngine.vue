@@ -57,10 +57,15 @@
           params: {matchingRecords:JSON.stringify(matchingRecords)}
         })
       })
-        .catch(error => {
-          ElMessage.error('搜索失败，请检查网络连接');
-          //this.is_loading = false;
-        })
+      .catch(error => {
+        if (error.response && error.response.status === 401) {
+              ElMessage.error("无搜索结果！");
+            }
+        else{
+        ElMessage.error('搜索失败，请检查网络！');
+        }
+        //this.is_loading = false;
+      })
         .finally(() => {
           // 无论请求成功还是失败，都将 is_loading 设置为 false
           this.is_loading = false;
