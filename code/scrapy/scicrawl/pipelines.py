@@ -90,22 +90,6 @@ class ScicrawlPipeline:
 
             return item
 
-        elif isinstance(item, SciHubPaperItem): # 更新mongodb数据库中 doi对应的file name
-            # 查询是否已存在相同的 DOI 记录
-            existing_record = self.clean_papers_tb.find_one({"*doi": item["doi"]})
-
-            if existing_record:
-                # 如果已存在，则更新文件名
-                self.clean_papers_tb.update_one({"*doi": item["doi"]}, {"$set": {"filename": item['file_name']}})
-                logger.info(f"Update DOI: {item['doi']}，文件名: {item['file_name']}")
-            else:
-                # 如果不存在，则插入新记录
-                self.clean_papers_tb.insert_one({"*doi": item["doi"], "filename": item['file_name']})
-                logger.info(f"Insert new record ，DOI: {item['doi']}，文件名: {item['file_name']}")
-
-
-        elif isinstance(item, ACMPaperItem):  # TODO
-            logger.error("IN PIPLINES ACM")
 
     def update_item(self, item, papers):
         for paper in papers:
@@ -163,51 +147,3 @@ class ScicrawlPipeline:
         self.f.close()
         self.client.close()
 
-
-class MyFilesPipeline(FilesPipeline):
-    def file_path(self, request, response=None, info=None, *, item=None):
-        # 1
-        '''自定义保存路径,以的url保存,重写前是url经过MD5编码后存储'''
-        # file_path = "".join(re.findall("https://matplotlib.org/([\w\W]+)", request.url)) #TODO
-        # return f'file_dir/{file_path}'
-
-        # 2
-        # filename = request.meta['name']  # 获取视频文件名
-        # return filename  # 返回下载的视频文件名
-
-        # 3
-        # image_url_hash = hashlib.shake_256(request.url.encode()).hexdigest(5)
-        # image_perspective = request.url.split("/")[-2]
-        # image_filename = f"{image_url_hash}_{image_perspective}.jpg"
-        #
-        # return image_filename
-
-        # 4 原始文件名
-        # https://example.com/a/b/c/foo.pngfilesfiles/foo.png
-        #return "files/" + PurePosixPath(urlparse(request.url).path).name
-
-        # 5
-        # 设置保存的文件名
-        find_name = re.compile(r"/(.*?)?download=true")
-        file_name = re.findall(find_name, request.url)[0]
-        file_name = file_name.split('/')[-1]
-        file_name = file_name[0:len(file_name) - 1]
-        item["file_name"] = file_name
-        logger.info('Downloading %s ' % item["file_name"])
-        return file_name
-
-    def item_completed(self, results, item, info): #TODO 是否要加？ 官方文档
-        return item
-
-    # 此方法FilesPipeline和ImagesPipeline内部已经执行, 可以省略不重写 TODO 可以重写添加请求头
-    # def get_media_requests(self, item, info):
-    #     for file_url in item['file_urls']:
-    #         yield Request(file_url)
-
-    # 此方法FilesPipeline和ImagesPipeline内部已经执行, 可以省略不重写 TODO 可以重写添加请求头
-    # def item_completed(self, results, item, info):
-    #     file_paths = [x['path'] for ok, x in results if ok]
-    #     if not file_paths:
-    #         raise DropItem("Item contains no files")
-    #     item['file_paths'] = file_paths
-    #     return item
