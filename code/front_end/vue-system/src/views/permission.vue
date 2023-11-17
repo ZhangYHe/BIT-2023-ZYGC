@@ -284,7 +284,7 @@ export default {
 	  </div>
   
 	  <!-- SetCrawler Section -->
-	  <h2>管理数据</h2>
+	  <h2>管理爬虫</h2>
 	  <div class="button-container">
 		<input v-model="crawlerData.name" placeholder="Name" />
 		<input v-model="crawlerData.target_url" placeholder="Target URL" />

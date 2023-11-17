@@ -108,7 +108,7 @@ def delete_collection_from_user():
         if collection_id in current_collections:
             current_collections.remove(collection_id)
         else :
-            return jsonify({'message': 'Collection is not exist'}), 200
+            return jsonify({'message': 'Collection is not exist'}), 401
 
         # 更新用户记录中的 collections 列
         users_collection.update_one(
