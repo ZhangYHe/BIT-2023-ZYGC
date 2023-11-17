@@ -171,16 +171,3 @@ class ProcessAllExceptionMiddleware(object):
             return response
         # 其他状态码不处理
         return response
-
-    # def process_exception(self, request, exception, spider):
-    #     # 捕获几乎所有的异常
-    #     if isinstance(exception, self.ALL_EXCEPTIONS):
-    #         # 在日志中打印异常类型
-    #         logger.error('Got exception: %s' % (exception))
-    #         # TODO sendemail
-    #         # # 随意封装一个response，返回给spider
-    #         # response = HtmlResponse(url='exception')
-    #         #return response
-    #     # 打印出未捕获到的异常
-    #     logger.error('not contained exception: %s' % exception)
-    #     # TODO sendemail
