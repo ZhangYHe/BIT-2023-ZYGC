@@ -18,29 +18,10 @@ const routes: RouteRecordRaw[] = [
                 path: '/dashboard',
                 name: 'dashboard',
                 meta: {
-                    title: '搜索',
-                    permiss: '1',
-                },
-                component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
-            },
-            
-            {
-                path: '/generate',
-                name: 'generate',
-                meta: {
                     title: '主页',
                     permiss: '1',
                 },
-                component: () => import(/* webpackChunkName: "Generate" */ '../views/Generate.vue'),
-            },
-            {
-                path: '/Diarization',
-                name: 'Diarization',
-                meta: {
-                    title: '可视化',
-                    permiss: '1',
-                },
-                component: () => import(/* webpackChunkName: "Diarization" */ '../views/Diarization.vue'),
+                component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard.vue'),
             },
             {
                 path: '/GetUserCollections',
@@ -148,15 +129,6 @@ const routes: RouteRecordRaw[] = [
             title: '注册',
         },
         component: () => import(/* webpackChunkName: "register" */ '../views/register.vue'),
-    },
-
-    {
-        path: '/403',
-        name: '403',
-        meta: {
-            title: '没有权限',
-        },
-        component: () => import(/* webpackChunkName: "403" */ '../views/403.vue'),
     },
 ];
 

@@ -9,6 +9,7 @@
           <button class="cancel-button" @click.prevent="sendRequest_author" v-bind:data-id="author['_id']">取消收藏</button>
         </div>  
       </router-link>
+      <div v-if="!authors.length&&!is_loading" class="empty-message">暂时还没有作者收藏记录~</div>
     </ul>
     <h2 v-if="!is_loading">Favorite Papers:</h2>
     <ul class="paper-list">
@@ -18,6 +19,7 @@
           <button class="cancel-button" @click.prevent="sendRequest_paper" v-bind:data-id="paper['_id']">取消收藏</button>
         </div>
       </router-link>
+      <div v-if="!papers.length&&!is_loading" class="empty-message">暂时还没有文献收藏记录~</div>
     </ul>
     <div>
       <transition name="fade">
@@ -56,6 +58,11 @@
 .cancel-button:hover {
   text-decoration: underline;
 }
+.empty-message {
+    margin-top: 10px;
+    font-style: italic;
+    color: gray;
+  }
 </style>
 
   
