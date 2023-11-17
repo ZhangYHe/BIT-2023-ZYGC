@@ -437,7 +437,42 @@ export default {
 		}
 	  },
   
-	  // ... (existing code)
+	  async SetCrawler() {
+			this.is_loading = true;
+			const headers = {
+				Authorization: adminToken,
+			};
+			const data = {
+				name: this.crawlerData.name, // 使用爬虫数据输入的数据
+				target_url: this.crawlerData.target_url,
+				schedule: this.crawlerData.schedule,
+				crawl_rules: this.crawlerData.crawl_rules
+			};
+
+			try {
+				const response = await axios.post(`${url}/admin/set-crawler/${username}`, data, { headers });
+				if (response.status === 200) {
+					ElMessage.success('处理成功! '+' Task ID: '+ response.data.task_id);
+				}
+				else {
+					ElMessage.error('未知错误');
+				}
+			}
+			catch (error) {
+				if (error.response && error.response.status === 400) {
+					ElMessage.error('JSON格式错误');
+				}
+				else if(error.response && error.response.status === 401) {
+					ElMessage.error('无权限');
+				}
+				else {
+					ElMessage.error('请检查网络连接！');
+				}
+			}
+			finally {
+        		this.is_loading = false;
+      		}
+		},
   
 	},
 	computed: {
