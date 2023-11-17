@@ -103,20 +103,24 @@ const onSubmit = async () => {
 
   try {
     const response = await axios.post('http://127.0.0.1:5000/auth/password', {
-      username: name,
-      password: form.old,
-      newpassword: form.new,
-      email: form.email,
-      intro: form.desc
+		username: name,
+		password: form.old,
+		newpassword: form.new,
+		email: form.email,
+		intro: form.desc
     });
 
     if (response.status === 200) {
-      const message = response.data.message;
-      if (message === 'Password changed successfully') {
-        ElMessage.success("密码修改成功！");
-      } else {
-        ElMessage.success("信息修改成功！");
-      }
+		const message = response.data.message;
+		if (message === 'Password changed successfully') {
+			ElMessage.success("密码修改成功！");
+			
+		}
+		else {
+			ElMessage.success("信息修改成功！");
+		}
+		localStorage.setItem('ms_intro',(form.desc===null)?'':form.desc.toString());
+		localStorage.setItem('ms_email',(form.email===null)?'':form.email.toString());
     }
   } catch (error) {
     handleErrorResponse(error);
