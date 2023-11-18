@@ -249,50 +249,56 @@ export default {
 <template>
 	<div>
 	  <!-- DataManagement Section -->
-	  <h2>管理数据</h2>
+	  <h2>管理数据/用户</h2>
 	  <div class="button-container">
-		<select v-model="dataData.operationCollection" @change="handleOperationCollectionChange">
+		<select v-model="dataData.operationCollection" @change="handleOperationCollectionChange" class="select1">
 		  <option value="" disabled>请选择操作</option>
 		  <option value="userManagement">用户管理</option>
 		  <option value="dataManagement">数据管理</option>
 		</select>
-		<select v-model="dataData.collection" >
+		<select v-model="dataData.collection" class="select1">
 		  <option value="" disabled>请选择表</option>
 		  <option value="clean_papers" v-if="dataData.operationCollection === 'dataManagement'">clean_papers</option>
 		  <option value="authors" v-if="dataData.operationCollection === 'dataManagement'">authors</option>
 		  <option value="users" v-if="dataData.operationCollection === 'userManagement'">users</option>
 		</select>
-		<select v-model="dataData.operation_type" @change="handleOperationChange">
+		<select v-model="dataData.operation_type" @change="handleOperationChange" class="select1">
 		  <option value="" disabled>请选择操作类型</option>
 		  <option value="modify">Modify</option>
 		  <option value="insert">Insert</option>
 		  <option value="delete">Delete</option>
 		</select>
-		<div v-if="dataData.operation_type === 'modify'">
-		  <input v-model="dataData.modifyQueryObject" placeholder="QueryObject(ex:username)" />
-		  <input v-model="dataData.modifyQueryValue" placeholder="QueryValue(ex:new_user)" />
-		  <input v-model="dataData.modifyUpdateObject" placeholder="UpdateObject(ex:is_admin)" />
-		  <input v-model="dataData.modifyUpdateValue" placeholder="UpdateValue(ex:true)" />
-		</div>
-		<div v-if="dataData.operation_type === 'insert'">
-		  <input v-model="dataData.insertDocuments" class="input1" placeholder='Documents(example:[{"username": "new_user1", "password": "hashed_password1", "is_admin": false},{"username": "new_user2", "password": "hashed_password2", "is_admin": true}])' />
-		</div>
-		<div v-if="dataData.operation_type === 'delete'">
-		  <input v-model="dataData.deleteObjectId" placeholder="Object ID" />
-		</div>
+		<!-- <div v-if="dataData.operation_type === 'modify'" class="body1"> -->
+		  <input v-model="dataData.modifyQueryObject" v-if="dataData.operation_type === 'modify'" class="input1" placeholder="请输入查询属性 (例:username)" />
+		  <input v-model="dataData.modifyQueryValue" v-if="dataData.operation_type === 'modify'" class="input1" placeholder="请输入查询的值 (例:new_user)" />
+		  <input v-model="dataData.modifyUpdateObject" v-if="dataData.operation_type === 'modify'" class="input1" placeholder="请输入修改属性 (例:is_admin)" />
+		  <input v-model="dataData.modifyUpdateValue" v-if="dataData.operation_type === 'modify'" class="input1" placeholder="请输入修改的值 (例:true)" />
+		<!-- </div> -->
+		<!-- <div v-if="dataData.operation_type === 'insert'" class="body1"> -->
+			
+			<!-- <textarea v-model="dataData.insertDocuments" v-if="dataData.operation_type === 'insert'" class="textarea2" placeholder='请输入要插入内容的JSON格式(example:[{"username": "new_user1", "password": "hashed_password1", "is_admin": false},{"username": "new_user2", "password": "hashed_password2", "is_admin": true}])'></textarea> -->
+
+		  <el-input v-model="dataData.insertDocuments" type="textarea" rows="4" v-if="dataData.operation_type === 'insert'" class="input2" placeholder='请输入要插入内容的JSON格式，例如：
+[{"username": "new_user1", "password": "password1", "is_admin": false},
+ {"username": "new_user2", "password": "password2", "is_admin": true}]' />
+		
+		  <!-- </div> -->
+		<!-- <div v-if="dataData.operation_type === 'delete'" class="body1"> -->
+		  <input v-model="dataData.deleteObjectId" v-if="dataData.operation_type === 'delete'" class="input3" placeholder="请输入要删除内容的Object ID" />
+		<!-- </div> -->
 		<button @click="DataManagement" :disabled="!isDataManagementButtonEnabled">确认修改</button>
 	  </div>
   
 	  <!-- SetCrawler Section -->
-	  <h2>管理数据</h2>
+	  <h2>管理爬虫</h2>
 	  <div class="button-container">
-		<input v-model="crawlerData.name" placeholder="Name" />
-		<input v-model="crawlerData.target_url" placeholder="Target URL" />
-		<input v-model="crawlerData.schedule" placeholder="Schedule" />
-		<input v-model="crawlerData.crawl_rules" placeholder="Crawl Rules" />
-		<div>
+		<input v-model="crawlerData.name" class="input4" placeholder="Name" />
+		<input v-model="crawlerData.target_url" class="input4" placeholder="Target URL" />
+		<input v-model="crawlerData.schedule" class="input4" placeholder="Schedule" />
+		<input v-model="crawlerData.crawl_rules" class="input4" placeholder="Crawl Rules" />
+		<!-- <div> -->
 		  <button @click="SetCrawler" :disabled="!isSetCrawlerButtonEnabled">确认修改</button>
-		</div>
+		<!-- </div> -->
 	  </div>
   
 	  <div>
@@ -507,36 +513,96 @@ export default {
 	},
   };
   </script>
-  
-<style scoped>
-.button-container {
-  margin: 20px;
-}
-select{
-	
-	margin-right: 10px;
-  margin-bottom: 10px
-}
-input{
-	margin-right: 10px;
-  margin-bottom: 10px;
-}
 
-.input1{
-	width: 100%;
-	margin-right: 10px;
+
+ <style>
+  body {
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+   background-color: #f4f4f4;
+ } 
+
+ .button-container {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   align-items: center;
+   max-width: 800px; /* Adjust the maximum width as needed */
+   margin: 0 auto;
+ }
+
+ .select1 {
+   width: calc(33.33% - 10px); /* Adjust the width as needed */
+   margin-bottom: 10px;
+   height: 30px;
+   font-size: large;
+   text-align: center;
+ }
+
+ .input1 {
+   width: calc(50% - 10px); /* Adjust the width as needed */
+   margin-bottom: 10px;
+   height: 30px;
+   font-size: large;
+   text-align: center;
+ }
+
+ .input2 {
+   width: 100%;
+   margin-bottom: 15px;
+   height: 100px;
+   font-size: medium;
+   resize: vertical;
+ 	 text-align: left; 
+ }
+ /* .textarea2 {
+  width: 100%;
   margin-bottom: 10px;
-}
-button {
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-h2 {
-    font-size: 24px;
-	margin-top: 20px;
-	margin-left: 20px;
-  }
-</style>
+  height: 80px;
+  font-size: large;
+  resize: vertical; 
+  text-align: left; 
+} */
+
+ .input3 {
+   width: 100%;
+   margin-bottom: 10px;
+   height: 30px;
+   font-size: large;
+   text-align: center;
+ }
+
+ .input4 {
+   width: calc(50% - 10px); /* Adjust the width as needed */
+   margin-bottom: 10px;
+   height: 30px;
+   font-size: large;
+   height: 30px;
+   font-size: large;
+   text-align: center;
+ }
+
+ button {
+   width: 100%;
+   /* margin-left:33%; */
+   padding: 10px;
+   box-sizing: border-box;
+   margin-bottom: 20px;
+   font-size: large;
+ }
+
+ h2 {
+   text-align: center;
+   margin-top: 20px;
+   margin-bottom: 20px;
+ }
+
+ /* Add any additional styling as needed */
+</style> 
 
 <!-- <template>
 	<div>
