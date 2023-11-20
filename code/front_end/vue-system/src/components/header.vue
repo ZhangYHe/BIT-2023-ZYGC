@@ -60,6 +60,7 @@ const collapseChage = () => {
 };
 
 onMounted(() => {
+	
 	if (document.body.clientWidth < 1500) {
 		collapseChage();
 	}
@@ -75,10 +76,12 @@ const handleCommand = (command: string) => {
 		localStorage.removeItem('ms_admintoken');
 		localStorage.removeItem('ms_email');
 		localStorage.removeItem('ms_intro');
+		
 		if(login_button=='登录')
 			router.push('/login');
 		else{
-			location.reload();
+			router.push('/dashboard');
+			router.go(0);
 		}
 	} else if (command == 'user') {
 		router.push('/user');
