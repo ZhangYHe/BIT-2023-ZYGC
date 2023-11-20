@@ -98,10 +98,11 @@ const goToRegistrationPage = () => {
 
 const submitForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
-	is_loading.value = true;
 	formEl.validate((valid: boolean) => {
 
 		if (valid) {
+			
+		is_loading.value = true;
 		// 构建要发送的数据对象
 		const requestData = {
 			username: param.username,

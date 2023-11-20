@@ -32,15 +32,15 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "Diarization" */ '../views/GetUserCollections.vue'),
             },
-            {
-                path: '/SearchEngine',
-                name: 'SearchEngine',
-                meta: {
-                    title: '搜索',
-                    permiss: '1',
-                },
-                component: () => import(/* webpackChunkName: "Search" */ '../views/SearchEngine.vue'),
-            },
+            // {
+            //     path: '/SearchEngine',
+            //     name: 'SearchEngine',
+            //     meta: {
+            //         title: '搜索',
+            //         permiss: '1',
+            //     },
+            //     component: () => import(/* webpackChunkName: "Search" */ '../views/SearchEngine.vue'),
+            // },
             {
                 path: '/SearchResult',
                 name: 'SearchResult',
