@@ -9,7 +9,9 @@ BIT 2023 卓越工程综合训练 小组作业
 
 #### 3.安装教程
 
-##### 3.1 Database Config
+##### 3.1 Database
+  
+使用MongoDBCompass进行数据库可视化，管理数据库的数据
 
 - MongoDB
 - MondoDB: Compass
@@ -22,7 +24,7 @@ BIT 2023 卓越工程综合训练 小组作业
   mongodb://admin:202309@64.176.214.218:27017/?authMechanism=DEFAULT
   ```
 
-##### 3.2 vue config
+##### 3.2 front_end config
 
 1.  Project setup
     ```
@@ -43,7 +45,7 @@ BIT 2023 卓越工程综合训练 小组作业
     npm run lint
     ```
 
-##### 3.3 backend config
+##### 3.3 back_end config
 
 1.  Project setup
     ```
@@ -56,6 +58,19 @@ BIT 2023 卓越工程综合训练 小组作业
 2.  
     ```
     python python app.py
+    ```
+
+#### 3.4 scrapy config
+
+1.  Project setup
+    ```
+    cd .\code\scrapy\scicrawl
+    conda activate scrapy_env
+    ```
+2.  Run spider
+    ```
+    scrapy crawl arxivspider                    
+    scrapy crawl aclspider                           
     ```
 
 #### 参与贡献
