@@ -35,22 +35,14 @@
       }
       //提交时出现加载动画
       this.is_loading = true;
-      //location.reload() 
       const params = {
         keyword: this.query,
       };
-      //ElMessage.error(this.query);
       axios.get('http://127.0.0.1:5000/search/searchres',{params})
       .then(response => {
-          // 处理响应数据
-          // const keywords = response.data.keyword;
-          //ElMessage.success("matchingRecords");
           const matchingRecords = response.data;
-          // const authors = response.data.authors;
-          // const papers = response.data.papers;
           console.log("1");
           console.log(matchingRecords);
-          //后端处理完成，将is_loading改为false
           this.is_loading = false;
           this.$router.push({
           name: 'SearchResult',
@@ -64,10 +56,8 @@
         else{
         ElMessage.error('搜索失败，请检查网络！');
         }
-        //this.is_loading = false;
       })
         .finally(() => {
-          // 无论请求成功还是失败，都将 is_loading 设置为 false
           this.is_loading = false;
         });
   }
@@ -75,7 +65,6 @@
   }
   </script>
   
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
   #searchEngine{
     left: 25%;

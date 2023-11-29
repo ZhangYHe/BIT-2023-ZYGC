@@ -30,14 +30,14 @@ export default {
         labels: [],
         datasets: [],
       },
-      authorId: null, // 使用 authorId 替代 paperId
+      authorId: null,
       is_loading: false,
     };
   },
   mounted() {
-    this.authorId = this.$route.params.author_id; // 获取 author_id 参数
+    this.authorId = this.$route.params.author_id;
     this.is_loading=true;
-    axios.get(`http://127.0.0.1:5000/visualization/author/${this.authorId}`) // 使用 author_id 发送请求
+    axios.get(`http://127.0.0.1:5000/visualization/author/${this.authorId}`)
       .then(response => {
         this.is_loading=false;
         const data = response.data;
@@ -49,7 +49,6 @@ export default {
         console.error("Error fetching data:", error);
       })
       .finally(() => {
-        // 无论请求成功还是失败，都将 is_loading 设置为 false
         this.is_loading = false;
       });;
   },
@@ -58,7 +57,6 @@ export default {
       const labels = ["0-1990", "1990-1995", "1995-2000", "2000-2005", "2005-2010", "2010-2015", "2015-2019", "2020-2024"];
       const datasets = [];
 
-      // 可能需要适配后端数据格式
       datasets.push({
         label: data.name,
         data: data.paper_count,
@@ -87,7 +85,7 @@ export default {
           scales: {
             y: {
               min: 0,
-              max: Math.max(...data.paper_count) + 1, // 设置纵轴最大值
+              max: Math.max(...data.paper_count) + 1,
               ticks: {
                 stepSize: 10,
               },

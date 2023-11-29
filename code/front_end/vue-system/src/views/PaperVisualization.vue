@@ -1,6 +1,5 @@
 <template>
     <div>
-      <!-- <h1>debug</h1> -->
       <div class="chart-container">
         <canvas id="chart"></canvas>
       </div>
@@ -89,16 +88,6 @@ import Chart from 'chart.js/auto';
                 text: '本文作者发表论文数量趋势',
               },
             },
-            // 纵轴的最小值为 0，最大值为 100，每个刻度之间的距离为 10
-            // scales: {
-            // y: {
-            //   min: 0,
-            //   max: 100,
-            //   ticks: {
-            //     stepSize: 10
-            //   }
-            // }
-            // }
           },
         });
       },
@@ -114,7 +103,6 @@ import Chart from 'chart.js/auto';
   }
   
   .chart-container {
-    /* width: 100%; //设置容器宽度，根据需要调整 */
     width: 1500px; /* 设置容器宽度 */
     height: 500px; /* 设置容器高度 */
     margin: 0 auto;

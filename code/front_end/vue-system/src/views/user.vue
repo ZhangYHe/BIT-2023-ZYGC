@@ -152,52 +152,7 @@ const handleErrorResponse = (error:unknown) => {
     ElMessage.error("未知错误，请检查网络连接！");
   }
 };
-// const onSubmit = async () => {
-//   try {
-// 	is_loading.value = true;
-//     const response = await axios.post('http://127.0.0.1:5000/auth/password', {
-//       username: name,
-//       password: form.old,
-//       newpassword: form.new,
-// 	  email: email,
-// 	  intro: form.desc
-//     });
-//     if (response.status === 200) {
-//       // 请求成功，处理相应的逻辑
-// 	  ElMessage.success("修改成功！");
-//       console.log(response.data.message);
 
-//     }
-//   }
-//   catch (error) {
-//     // // 处理异常情况
-//     // if (error.response) {
-//     //   // 请求发出去了，收到了响应，但状态码超出了2xx的范围
-//     //   const status = error.response.status;
-//     //   const data = error.response.data;
-      
-//     //   if (status === 401) {
-//     //     ElMessage.error("密码错误，请检查旧密码！");
-//     //   } else if (status === 400) {
-//     //     ElMessage.error("请求参数有误，请检查输入！");
-//     //   } else {
-//     //     ElMessage.error(`请求失败：${status} - ${data.message}`);
-//     //   }
-//     // } else if (error.request) {
-//     //   // 请求发出去了，但没有收到响应
-//     //   ElMessage.error("未收到响应，请检查网络连接！");
-//     // } else {
-//     //   // 在设置请求时发生了一些事情，触发了一个错误
-//     //   ElMessage.error("请求发送失败，请检查网络连接！");
-//     // }
-//     //console.error('An error occurred:', error);
-	
-//   	}
-
-//   finally{
-// 	is_loading.value = false;
-//   }
-// };
 const avatarImg = ref(avatar);
 const imgSrc = ref('');
 const cropImg = ref('');

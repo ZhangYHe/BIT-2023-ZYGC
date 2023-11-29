@@ -5,8 +5,6 @@ import Home from '../views/home.vue';
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        //修改开始页面为首页
-        //TODO 需要改为搜索界面
         redirect: '/dashboard',
     },
     {
@@ -32,15 +30,6 @@ const routes: RouteRecordRaw[] = [
                 },
                 component: () => import(/* webpackChunkName: "Diarization" */ '../views/GetUserCollections.vue'),
             },
-            // {
-            //     path: '/SearchEngine',
-            //     name: 'SearchEngine',
-            //     meta: {
-            //         title: '搜索',
-            //         permiss: '1',
-            //     },
-            //     component: () => import(/* webpackChunkName: "Search" */ '../views/SearchEngine.vue'),
-            // },
             {
                 path: '/SearchResult',
                 name: 'SearchResult',
@@ -142,18 +131,7 @@ router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | vue-manage-system`;
     const role = localStorage.getItem('ms_username');
     const permiss = usePermissStore();
-    // if (!role && to.path !== '/login') {
-    //     next('/login');
-    // } else if (to.meta.permiss && !permiss.key.includes(to.meta.permiss)) {
-    //     // 如果没有权限，则进入403
-    //     next('/403');
-    // } 
-    // else if(!role){
-    //     next('/register');
-    // }
-    //else{
-        next();
-    //}
+    next();
 });
 
 export default router;

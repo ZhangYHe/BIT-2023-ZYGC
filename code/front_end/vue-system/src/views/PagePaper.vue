@@ -59,7 +59,6 @@
       };
     },
     mounted() {
-      // this.is_loading = true;
       this.getPaperDetails();
     },
     methods: {
@@ -69,13 +68,9 @@
         const url = `http://127.0.0.1:5000/information/papers/${paperId}`;
         axios.get(url)
           .then((response) => {
-            //ElMessage.success(paperId);
-            // this.is_loading = false;
             this.paper = response.data;
           })
           .catch((error) => {
-            //ElMessage.success('失败');
-            // this.is_loading = false;
             ElMessage.error('请求失败，请检查网络连接！');
             console.error('Failed to fetch paper details:', error);
           })

@@ -38,9 +38,6 @@
           <div class="register-btn">
             <el-button type="primary" @click="submitForm('register')">确认注册</el-button>
           </div>
-          <!--<div class="back-btn">
-            <el-button type="primary" @click="goToLoginPage">返回登录</el-button>
-          </div>-->
         </el-form>
         <div>
           <transition name="fade">
@@ -135,10 +132,6 @@
           password: registerParam.password,
           confirmPassword: registerParam.confirmPassword
         };
-        //test
-        //router.push('/login');
-        //ElMessage.success('注册成功，请登录');
-        //
         axios
           .post(url + '/auth/register', requestData)
           .then((response) => {
@@ -164,9 +157,6 @@
       }
     });
   };
-//   const goToLoginPage = () => {
-//   emit('goToLoginPage'); // 发送自定义事件，通知登录页面切换回登录表单
-// };
   const goToLoginPage = () => {
     router.push('/login');
   };

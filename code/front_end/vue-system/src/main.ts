@@ -12,11 +12,9 @@ app.use(createPinia());
 app.use(router);
 app.config.globalProperties.backendurl = 'http://127.0.0.1:5000';
 
-// 注册elementplus图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component);
 }
-// 自定义权限指令
 const permiss = usePermissStore();
 app.directive('permiss', {
     mounted(el, binding) {

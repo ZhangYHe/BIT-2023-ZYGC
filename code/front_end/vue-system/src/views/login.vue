@@ -32,18 +32,12 @@
         		</div>
 			</el-form>
 		</div>
-		<!-- <div>
-			<transition name="fade">
-				<loading v-if="is_loading"></loading>
-			</transition>
-		</div> -->
 	</div>
 	<div>
       <transition name="fade">
         <loading v-if="is_loading"></loading>
       </transition>
     </div>
-	<!--<register v-if="isRegistrationPageVisible" @goToLoginPage="goToLoginPage" />-->
 </template>
 
 <script setup lang="ts">
@@ -62,7 +56,6 @@ interface LoginInfo {
 }
 
 const router = useRouter();
-//const isRegistrationPageVisible = ref(false);
 const param = reactive<LoginInfo>({
 	username: '',
 	password: ''
@@ -82,19 +75,9 @@ const url = 'http://127.0.0.1:5000';
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
 const is_loading = ref(false);
-//const register = ref<FormInstance>();
-//const is_loading = true;
 const goToRegistrationPage = () => {
-	//
 	router.push('/register');
-	//router.push('/dashboard');
-	//ElMessage.error('注册');
-	//location.reload()
-  	//isRegistrationPageVisible.value = true;
 };
-// const goToLoginPage = () => {
-//   isRegistrationPageVisible.value = false;
-// };
 
 const submitForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
@@ -115,12 +98,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			// 请求成功时的处理
 				console.log('POST请求成功', response.data);
 				ElMessage.success('登录成功');
-				//ElMessage.success(response.data.email);
 				const now = new Date();
-				
-				// ElMessage.success(now.getFullYear().toString());
-				//ElMessage.success(now.toLocaleDateString()+" "+now.toLocaleTimeString());
-				// ElMessage.success(now.getDate().toString());
 				localStorage.setItem('time', now.toLocaleDateString()+" "+now.toLocaleTimeString());
 				localStorage.setItem('ms_username', param.username);
 				localStorage.setItem('ms_userid',response.data.user_id);
@@ -134,10 +112,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
 				}
 				const admin_token = localStorage.getItem('ms_admintoken');
 				const keys = permiss.defaultList[admin_token !== '' ? 'admin' : 'user'];
-				//const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
 				permiss.handleSet(keys);
 				localStorage.setItem('ms_keys', JSON.stringify(keys));
-				//router.push('/register');
 			//登陆成功，跳转到主页面
 				router.push('/dashboard');
 			})

@@ -10,7 +10,6 @@
       <div v-else> 
         Title: <router-link class="link" :to="`/information/papers/${record['_id']}`">{{ record['*title' ]}}</router-link>
       
-      <!-- <p>DOI: <a class="link" :href="record['*doi' ]" target="_blank">{{ record['*doi' ] }}</a></p> -->
       <p>
         Authors: <span v-for="(author, index) in record['*authors']"><router-link :to="`/information/authors/${author.id}`">
           {{ author['name'] }}{{ index !== record['*authors'].length - 1 ? ', ' : '' }}</router-link>
@@ -36,7 +35,6 @@ export default {
   },
   created() {
     console.log("2");
-    //console.log(JSON.parse(this.$route.params.matchingRecords));
     const matching_Records = JSON.parse(this.$route.params.matchingRecords);
     this.matchingRecords = matching_Records;
     console.log(this.matchingRecords);

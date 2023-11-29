@@ -69,12 +69,10 @@ export default {
         .get(url)
         .then((response) => {
           this.is_loading=false;
-          // ElMessage.success(authorId);
           this.author = response.data;
         })
         .catch((error) => {
           this.is_loading=false;
-          // ElMessage.success('失败');
           ElMessage.error('请求失败，请检查网络连接！');
           console.error('Failed to fetch author details:', error);
         })

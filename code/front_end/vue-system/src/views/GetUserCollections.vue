@@ -80,7 +80,6 @@ import axios from  'axios';
     },
     mounted() {
       
-      //const userId = '<user_id>'; // 替换为实际的 user_id
       const userId = localStorage.getItem('ms_userid');
       const url = this.backendurl;
       this.is_loading = true;
