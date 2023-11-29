@@ -17,10 +17,6 @@
 					<div class="user-info-list" v-if="!already_login">
 						立即登录，体验更多功能！
 					</div>
-					<!-- <div class="user-info-list" v-if="already_login">
-						登录地点：
-						<span>北京</span>
-					</div> -->
 				</el-card>
 			</el-col>
 			<el-col :span="16">
@@ -66,7 +62,6 @@
 
 <script setup lang="ts" name="dashboard">
 import Schart from 'vue-schart';
-//import { reactive } from 'vue';
 import { reactive, onMounted } from 'vue';
 import axios from 'axios';
 import imgurl from '../assets/img/img.jpg'
@@ -76,12 +71,10 @@ const name = localStorage.getItem('ms_username');
 const admin_token = localStorage.getItem('ms_admintoken');
 const already_login: boolean = name === null? false:true;
 const role: string = already_login?(admin_token!=='' ? '超级管理员' : '普通用户'):'未登录';
-// 定义响应式数据
 const userCount = reactive({ value: 0 });
 const authorsCount = reactive({ value: 0 });
 const papersCount = reactive({ value: 0 });
 const time = localStorage.getItem('time');
-// 发送 HTTP 请求并更新数据
 onMounted(async () => {
   try {
     const response = await axios.get('http://127.0.0.1:5000/visualization/count_records');
