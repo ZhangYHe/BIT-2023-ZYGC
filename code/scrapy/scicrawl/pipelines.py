@@ -136,7 +136,7 @@ class ScicrawlPipeline:
             self.clean_papers_tb.update_many(query, {'$set':item})
 
         else:
-            query = {'title': title, 'year': year}
+            query = {'title': title, 'year': year}PP
             del item['venue']
             self.clean_papers_tb.update_many(query, {'$set':item})
 
